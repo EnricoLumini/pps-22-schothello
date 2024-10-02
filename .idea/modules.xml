@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pps-22-scothello.iml" filepath="$PROJECT_DIR$/.idea/pps-22-scothello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Scothello.iml" filepath="$PROJECT_DIR$/.idea/modules/Scothello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Scothello-build.iml" filepath="$PROJECT_DIR$/.idea/modules/Scothello-build.iml" />
     </modules>
   </component>
 </project>
