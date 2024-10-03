@@ -1,0 +1,61 @@
+name: Generate ScalaDoc and update Jekyll site
+
+# Trigger workflow only after the "Run Tests" workflow has completed successfully
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
+
+jobs:
+  generate-doc:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Ensure it only runs if tests succeed
+    runs-on: ubuntu-latest
+    env:
+      SCALA_TARGET: ./target/scala-3.3.1
+
+    steps:
+      # Step 1: Checkout the main branch
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0  # Fetch full history to allow branch switching
+
+      # Step 2: Set up Scala environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache SBT
+        uses: actions/cache@v3
+        with:
+          path: ~/.ivy2/cache
+          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+
+      # Step 3: Generate ScalaDoc
+      - name: Run sbt doc to generate ScalaDoc
+        run: sbt doc
+
+      # Step 4: Checkout the doc branch to add the ScalaDoc
+      - name: Checkout doc branch
+        uses: actions/checkout@v3
+        with:
+          ref: doc
+
+      # Step 5: Copy the generated ScalaDoc to the Jekyll site
+      - name: Copy ScalaDoc to Jekyll site
+        run: |
+          mkdir -p ./scaladoc
+          cp -r ${SCALA_TARGET}/api ./scaladoc
+
+      # Step 6: Commit and push the updated ScalaDoc to the doc branch
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
+          git add .
+          git commit -m "Update ScalaDoc on Jekyll site"
+          git push origin doc
