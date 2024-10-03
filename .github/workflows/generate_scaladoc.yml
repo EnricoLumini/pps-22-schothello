@@ -59,6 +59,8 @@ jobs:
 
       # Step 7: Commit and push the updated ScalaDoc to the doc branch
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}  # Use the PAT stored in secrets
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
