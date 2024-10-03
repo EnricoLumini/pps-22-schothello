@@ -66,4 +66,4 @@ jobs:
           git config --local user.email "action@github.com"
           git add .
           git commit -m "Update ScalaDoc on Jekyll site"
-          git push origin doc
+          git push https://${{ secrets.ACTIONS_TOKEN }}@github.com/EnricoLumini/pps-22-scothello.git HEAD:doc
