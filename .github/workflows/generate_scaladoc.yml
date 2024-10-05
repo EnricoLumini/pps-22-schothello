@@ -65,5 +65,12 @@ jobs:
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
           git add .
-          git commit -m "Update ScalaDoc on Jekyll site"
+          
+          # Try to commit; if no changes, skip the push without failing
+          git commit -m "Update ScalaDoc on Jekyll site" || {
+            echo "No changes to commit. Skipping push.";
+            exit 0;
+          }
+          
+          # Push only if commit succeeds
           git push https://${{ secrets.ACTIONS_TOKEN }}@github.com/EnricoLumini/pps-22-scothello.git HEAD:doc
