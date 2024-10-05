@@ -43,7 +43,7 @@ jobs:
       - name: Move ScalaDoc to temporary directory
         run: |
           mkdir -p /tmp/scaladoc
-          cp -r ${SCALA_TARGET}/api /tmp/scaladoc
+          cp -r ${SCALA_TARGET}/api/* /tmp/scaladoc
 
       # Step 5: Checkout the doc branch to add the ScalaDoc
       - name: Checkout doc branch
@@ -55,7 +55,7 @@ jobs:
       - name: Copy ScalaDoc to Jekyll site
         run: |
           mkdir -p ./scaladoc
-          cp -r /tmp/scaladoc ./scaladoc
+          cp -r /tmp/scaladoc/* ./scaladoc
 
       # Step 7: Commit and push the updated ScalaDoc to the doc branch
       - name: Commit and push changes
