@@ -1,6 +1,6 @@
 package scothello
 
-@main def hello(): Unit =
+@main def main(): Unit =
   println("Hello world!")
 
 def dummyFunction(): Int = 1
