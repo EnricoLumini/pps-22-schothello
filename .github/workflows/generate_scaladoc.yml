@@ -1,4 +1,4 @@
-name: Generate ScalaDoc and update Jekyll site
+name: Generate ScalaDoc
 
 # Trigger workflow only after the "Run Tests" workflow has completed successfully
 on:
