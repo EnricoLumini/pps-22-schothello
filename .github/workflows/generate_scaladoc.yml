@@ -77,5 +77,5 @@ jobs:
       - name: Push changes to the doc branch
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.ACTIONS_TOKEN }}
+          github_token: ${{ secrets.SCOTHELLO_WORKFLOW_TOKEN }}
           branch: doc
