@@ -4,5 +4,3 @@ package scothello
   println("Hello world!")
 
 def dummyFunction(): Int = 1
-
-def dummyFunction2(): String = "test"
