@@ -19,9 +19,16 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Scothello
+email: enrico.lumini@studio.unibo.it
+description: Schothello project documentation
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username:
+github_username:
 
 # Build settings
 theme: just-the-docs
+
 
 nav_external_links:
   - title: Scaladoc
