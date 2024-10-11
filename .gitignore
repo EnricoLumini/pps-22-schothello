@@ -40,3 +40,8 @@ project/plugins/project/
 
 ### SBT Patch ###
 .bsp/
+
+.DS_Store
+Gemfile.lock
+_site/
+docs/
