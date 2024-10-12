@@ -5,8 +5,11 @@ ThisBuild / scalaVersion := "3.3.1"
 lazy val root = (project in file("."))
   .settings(
     name := "Scothello",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % Test,
-    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31",
+    scalaVersion := "3.3.0",
+    libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "3.3.0-SNAP4" % Test,
+      "org.scalafx" %% "scalafx" % "20.0.0-R31"
+    ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
       lazy val osName = System.getProperty("os.name") match {
