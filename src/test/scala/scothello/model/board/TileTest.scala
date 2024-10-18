@@ -1,9 +1,8 @@
 package scothello.model.board
 
 import scothello.BaseTest
-import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class TileTest extends BaseTest with ScalaCheckPropertyChecks:
+class TileTest extends BaseTest with BoardTestsRanges:
 
   "A Tile" should "have 2 coordinates" in {
     assertCompiles("Tile(0, 0)")
@@ -12,9 +11,14 @@ class TileTest extends BaseTest with ScalaCheckPropertyChecks:
   }
 
   it should "be equals based on its coordinates" in {
-    forAll { (r: Int, c: Int) =>
+    combinations foreach { (r: Int, c: Int) =>
       val tile1 = Tile(r, c)
       val tile2 = Tile(r, c)
       tile1 shouldBe tile2
     }
+  }
+
+  it should "not allow negative coordinates" in {
+    an[IllegalArgumentException] should be thrownBy Tile(-1, 2)
+    an[IllegalArgumentException] should be thrownBy Tile(0, -1)
   }
