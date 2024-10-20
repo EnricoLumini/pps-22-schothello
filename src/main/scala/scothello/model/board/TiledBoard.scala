@@ -1,5 +1,12 @@
 package scothello.model.board
 
+/** A tiled board.
+  *
+  * @param rows
+  *   The number of rows in the board.
+  * @param cols
+  *   The number of columns in the board.
+  */
 class TiledBoard(
     val rows: Int,
     val cols: Int

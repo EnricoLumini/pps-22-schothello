@@ -6,8 +6,8 @@ class TileTest extends BaseTest with BoardTestsRanges:
 
   "A Tile" should "have 2 coordinates" in {
     assertCompiles("Tile(0, 0)")
-    assertDoesNotCompile("Tile()") // Missing coordinates
-    assertDoesNotCompile("Tile(0)") // Few coordinates
+    assertDoesNotCompile("Tile()")
+    assertDoesNotCompile("Tile(0)")
   }
 
   it should "be equals based on its coordinates" in {

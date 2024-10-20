@@ -14,14 +14,14 @@ class TiledBoardTest extends BaseTest with BoardTestsRanges:
     }
   }
 
-  "A TiledBoard" should "initialize the correct number of tiles" in {
+  it should "initialize the correct number of tiles" in {
     combinations foreach { (row: Int, col: Int) =>
       val board = TiledBoard(row, col)
       board.tiles.size shouldEqual (row * col)
     }
   }
 
-  "A TileBoard" should "have unique tiles based on their coordinates" in {
+  it should "have unique tiles based on their coordinates" in {
     combinations foreach { (row: Int, col: Int) =>
       val board = TiledBoard(row, col)
       val tileCoordinates = board.tiles.map(tile => (tile.row, tile.col))
@@ -29,12 +29,12 @@ class TiledBoardTest extends BaseTest with BoardTestsRanges:
     }
   }
 
-  "A TileBoard" should "handle a large board" in {
+  it should "handle a large board" in {
     val board = TiledBoard(bigBoardDim._1, bigBoardDim._2)
     board.tiles.size shouldEqual (bigBoardDim._1 * bigBoardDim._2)
   }
 
-  "A TiledBoard" should "throw an exception for invalid dimensions" in {
+  it should "throw an exception for invalid dimensions" in {
     an[IllegalArgumentException] should be thrownBy TiledBoard(0, 8)
     an[IllegalArgumentException] should be thrownBy TiledBoard(8, -1)
   }
