@@ -6,8 +6,11 @@ import scothello.model.game.config.Player
 import scothello.model.components.Scores
 import scothello.utils.Pair
 
+import scala.annotation.tailrec
+
 /** The state of a game of Scothello.
-  *
+  * @param players
+  *   The players of the game.
   * @param board
   *   The board of the game.
   * @param turn
@@ -20,6 +23,7 @@ import scothello.utils.Pair
   *   The winner of the game.
   */
 final case class GameState(
+    players: Option[Pair[Player]],
     board: Board,
     turn: Turn,
     playerScores: Scores,
@@ -28,18 +32,13 @@ final case class GameState(
 )
 
 object GameState:
-  /** Create a new game state.
-    *
-    * @param players
-    *   The players of the game.
-    * @return
-    *   A new game state.
-    */
-  def apply(players: Pair[Player]): GameState =
+
+  def apply(): GameState =
     GameState(
+      players = Option.empty,
       board = Board(),
-      turn = Turn.initial(players._1),
-      playerScores = Scores.empty(players),
+      turn = Turn.empty,
+      playerScores = Scores.empty,
       isOver = false,
       winner = Option.empty
     )

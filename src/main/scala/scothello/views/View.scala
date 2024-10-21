@@ -39,6 +39,9 @@ object View:
   trait Provider[V <: View]:
     def view: V
 
+//trait NavigatorView extends View:
+//def navigateTo()
+
 /** Represents a base view.
   * @param requirements
   *   The requirements of the view.

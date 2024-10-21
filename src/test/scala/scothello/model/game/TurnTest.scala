@@ -1,6 +1,7 @@
 package scothello.model.game
 
 import scothello.BaseTest
+import scothello.model.game.Turn.EmptyTurn
 import scothello.model.game.config.Player
 
 class TurnTest extends BaseTest:
@@ -25,4 +26,11 @@ class TurnTest extends BaseTest:
     val turn = Turn.initial(player)
     turn.number shouldBe 1
     turn.player shouldBe player
+  }
+
+  it should "represent an empty turn" in {
+    val emptyTurn = Turn.empty
+    emptyTurn shouldBe a[EmptyTurn.type]
+    emptyTurn.number shouldBe 0
+    emptyTurn.player shouldBe Player.empty
   }

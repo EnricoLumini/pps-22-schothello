@@ -1,40 +1,36 @@
 package scothello.model.game.state
 
-import scothello.{BaseTest, PlayerProvider}
+import scothello.BaseTest
 import scothello.model.board.Board
+import scothello.model.game.Turn.EmptyTurn
 
-class GameStateTest extends BaseTest with PlayerProvider:
+class GameStateTest extends BaseTest:
 
   "A State" should "exists" in {
-    val gameState = GameState(twoPlayers)
+    val gameState = GameState()
   }
 
   it should "have a board" in {
-    val gameState = GameState(twoPlayers)
+    val gameState = GameState()
     gameState.board should be(Board())
   }
 
-  it should "have turn one on creation" in {
-    val gameState = GameState(twoPlayers)
-    gameState.turn.number shouldBe 1
+  it should "have an empty turn on creation" in {
+    val gameState = GameState()
+    gameState.turn shouldBe EmptyTurn
   }
 
-  it should "have player one as the first player on creation" in {
-    val gameState = GameState(twoPlayers)
-    gameState.turn.player shouldBe twoPlayers._1
-  }
-
-  it should "have 0 score for both players on creation" in {
-    val gameState = GameState(twoPlayers)
-    gameState.playerScores shouldBe Map(twoPlayers._1 -> 0, twoPlayers._2 -> 0)
+  it should "have empty scores on creation" in {
+    val gameState = GameState()
+    gameState.playerScores shouldBe Map.empty
   }
 
   it should "not be over on creation" in {
-    val gameState = GameState(twoPlayers)
+    val gameState = GameState()
     gameState.isOver shouldBe false
   }
 
   it should "not have a winner on creation" in {
-    val gameState = GameState(twoPlayers)
+    val gameState = GameState()
     gameState.winner shouldBe None
   }

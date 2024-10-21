@@ -4,7 +4,7 @@ import scothello.model.game.config.Player
 
 /** Represents a turn in a game.
   */
-trait Turn:
+sealed trait Turn:
 
   /** The turn number.
     * @return
@@ -28,7 +28,7 @@ object Turn:
     * @return
     *   A new turn.
     */
-  def apply(number: Int, player: Player): Turn = TurnImpl(number, player)
+  def apply(number: Int, player: Player): Turn = ValidTurn(number, player)
 
   /** Create a new turn with turn number 1.
     *
@@ -37,7 +37,20 @@ object Turn:
     * @return
     *   A new turn.
     */
-  def initial(player: Player): Turn = Turn(1, player)
+  def initial(player: Player): Turn = ValidTurn(1, player)
 
-private final case class TurnImpl(number: Int, player: Player) extends Turn:
-  require(number > 0, "Turn number must be non-negative")
+  /** Create an empty turn.
+    *
+    * @return
+    *   An empty turn.
+    */
+  def empty: Turn = EmptyTurn
+
+  sealed trait Empty extends Turn:
+    def number: Int = 0 // Placeholder value, as no turn has occurred
+    def player: Player = Player.empty
+
+  private final case class ValidTurn(number: Int, player: Player) extends Turn:
+    require(number > 0, "Turn number must be non-negative")
+
+  case object EmptyTurn extends Empty

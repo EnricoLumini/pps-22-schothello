@@ -10,10 +10,17 @@ type Scores = Map[Player, Int]
 object Scores:
   /** Creates a new empty score map.
     *
-    * @param players
-    *   The players to create the score map for.
     * @return
     *   The empty score map.
     */
-  def empty(players: Pair[Player]): Scores =
+  def empty: Scores = Map.empty
+
+  /** Creates a new score map with the given players.
+    *
+    * @param players
+    *   The players.
+    * @return
+    *   The score map.
+    */
+  def initialize(players: Pair[Player]): Scores =
     players.map(_ -> 0).toMap

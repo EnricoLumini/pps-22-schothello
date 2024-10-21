@@ -11,5 +11,10 @@ class PlayerTest extends BaseTest:
 
   it should "have a name" in {
     val player = Player("name")
-    player.name should be("name")
+    player.name shouldBe "name"
+  }
+
+  it should "be created empty" in {
+    val player = Player.empty
+    player.name shouldBe empty
   }
