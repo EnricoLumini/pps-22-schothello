@@ -9,18 +9,25 @@ object ScothelloGameManager:
   private var _game: Option[ScothelloGame] = Option.empty
 
   def startGame(): Unit =
-    _game = Some(ScothelloGame())
     ScothelloFXApp.main(Array.empty)
+    _game = Some(
+      ScothelloGame(
+        Pages.values.map(page => page -> page.pageFactory).toMap
+      )
+    )
+    navigateTo(Pages.Home)
 
-  def navigateTo(): Unit =
-    ScothelloFXApp.navigateTo()
+  def navigateTo(page: Pages): Unit =
+    _game match
+      case Some(game) => game.pages(page).view.show()
+      case None       => throw new IllegalStateException("Game not started")
 
 object ScothelloFXApp extends JFXApp3:
+
+  lazy val rootScene: Scene = new Scene:
+    root = new Pane()
 
   override def start(): Unit =
     stage = new JFXApp3.PrimaryStage:
       title = "Scothello"
-      scene = new Scene:
-        root = new Pane()
-
-  def navigateTo(): Unit = ???
+      scene = rootScene
