@@ -117,6 +117,7 @@ pages = [{"l":"index.html#","e":false,"i":"","n":"Scothello","t":"Scothello","d"
 {"l":"scothello/Pages.html#Home-0","e":false,"i":"","n":"Home","t":"Home extends Pages","d":"scothello.Pages","k":"case","x":""},
 {"l":"scothello/ScothelloApp$.html#","e":false,"i":"","n":"ScothelloApp","t":"ScothelloApp extends JFXApp3","d":"scothello","k":"object","x":""},
 {"l":"scothello/ScothelloFXApp$.html#","e":false,"i":"","n":"ScothelloFXApp","t":"ScothelloFXApp extends JFXApp3","d":"scothello","k":"object","x":""},
+{"l":"scothello/ScothelloFXApp$.html#postInitAction-0","e":false,"i":"","n":"postInitAction","t":"postInitAction: () => Unit","d":"scothello.ScothelloFXApp","k":"var","x":""},
 {"l":"scothello/ScothelloFXApp$.html#rootScene-0","e":false,"i":"","n":"rootScene","t":"rootScene: Scene","d":"scothello.ScothelloFXApp","k":"val","x":""},
 {"l":"scothello/ScothelloGame.html#","e":false,"i":"","n":"ScothelloGame","t":"ScothelloGame","d":"scothello","k":"trait","x":""},
 {"l":"scothello/ScothelloGame.html#model-0","e":false,"i":"","n":"model","t":"model: Model","d":"scothello.ScothelloGame","k":"val","x":""},
