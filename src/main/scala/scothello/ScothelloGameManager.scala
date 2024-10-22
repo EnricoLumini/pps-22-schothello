@@ -1,21 +1,22 @@
 package scothello
 
-import scalafx.application.JFXApp3
+import scalafx.application.{JFXApp3, Platform}
 import scalafx.scene.Scene
 import scalafx.scene.layout.Pane
 
 object ScothelloGameManager:
 
   private var _game: Option[ScothelloGame] = Option.empty
-
   def startGame(): Unit =
-    ScothelloFXApp.main(Array.empty)
-    _game = Some(
-      ScothelloGame(
-        Pages.values.map(page => page -> page.pageFactory).toMap
+    ScothelloFXApp.postInitAction = () =>
+      _game = Some(
+        ScothelloGame(
+          Pages.values.map(page => page -> page.pageFactory).toMap
+        )
       )
-    )
-    navigateTo(Pages.Home)
+      navigateTo(Pages.Home)
+
+    ScothelloFXApp.main(Array.empty)
 
   def navigateTo(page: Pages): Unit =
     _game match
@@ -24,6 +25,8 @@ object ScothelloGameManager:
 
 object ScothelloFXApp extends JFXApp3:
 
+  var postInitAction: () => Unit = () => ()
+
   lazy val rootScene: Scene = new Scene:
     root = new Pane()
 
@@ -31,3 +34,5 @@ object ScothelloFXApp extends JFXApp3:
     stage = new JFXApp3.PrimaryStage:
       title = "Scothello"
       scene = rootScene
+
+    postInitAction()
