@@ -6,7 +6,7 @@ permalink: /
 ---
 
 # Introduzione
-![Logo](./docs/img/scothello-icon.png)
+![Logo](./docs/img/scothello-logo.png)
 
 L'obiettivo del progetto è la realizzazione di un clone del gioco Othello, un gioco da tavolo strategico per 2 giocatori. 
 
