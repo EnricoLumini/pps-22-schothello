@@ -1,8 +1,8 @@
-package scothello.controllers
+package scothello.controller
 
 import scothello.model.Model
 import scothello.model.game.state.GameState
-import scothello.views.View
+import scothello.view.View
 
 /** Represents a controller of the game.
   */

@@ -1,9 +1,9 @@
-package scothello
+package scothello.game.pages
 
 import scalafx.scene.Scene
-import scothello.controllers.home.HomeController
-import scothello.views.home.HomeView
-import scothello.views.{PageFactory, ScalaFXPageFactory}
+import scothello.controller.home.HomeController
+import scothello.game.manager.ScothelloFXApp
+import scothello.view.home.HomeView
 
 given rootScene: Scene = ScothelloFXApp.rootScene
 

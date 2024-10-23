@@ -1,8 +1,9 @@
-package scothello.views
+package scothello.view
 
-import scothello.{Pages, ScothelloGameManager}
 import scothello.model.game.state.GameState
-import scothello.controllers.Controller
+import scothello.controller.Controller
+import scothello.game.manager.ScothelloGameManager
+import scothello.game.pages.Pages
 
 /** Represents a view of the game.
   */

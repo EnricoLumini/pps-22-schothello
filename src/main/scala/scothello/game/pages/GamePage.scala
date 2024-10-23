@@ -1,7 +1,8 @@
-package scothello.views
+package scothello.game.pages
 
-import scothello.controllers.Controller
+import scothello.controller.Controller
 import scothello.model.Model
+import scothello.view.View
 
 /** Represents a game page.
   *

@@ -1,9 +1,9 @@
-package scothello.views
+package scothello.view
 
 import scalafx.beans.property.ObjectProperty
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.Pane
-import scothello.controllers.Controller
+import scothello.controller.Controller
 import scothello.model.game.state.GameState
 
 /** Represents a ScalaFX view.

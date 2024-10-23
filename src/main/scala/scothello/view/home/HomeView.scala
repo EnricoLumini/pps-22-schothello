@@ -1,14 +1,13 @@
-package scothello.views.home
+package scothello.view.home
 
-import scalafx.geometry.Pos.{BottomCenter, Center, CenterRight, TopCenter, TopLeft}
+import scalafx.geometry.Pos.{Center, TopCenter}
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.control.Button
-import scalafx.scene.control.ContentDisplay.Bottom
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.VBox
-import scothello.Pages
-import scothello.controllers.home.HomeController
-import scothello.views.{BaseScalaFXView, View}
+import scothello.controller.home.HomeController
+import scothello.game.pages.Pages
+import scothello.view.{BaseScalaFXView, View}
 
 trait HomeView extends View
 

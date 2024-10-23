@@ -1,7 +1,7 @@
-package scothello.controllers.home
+package scothello.controller.home
 
-import scothello.controllers.{Controller, EmptyController}
-import scothello.views.home.HomeView
+import scothello.controller.{Controller, EmptyController}
+import scothello.view.home.HomeView
 
 /** Controller for the home page */
 trait HomeController extends Controller

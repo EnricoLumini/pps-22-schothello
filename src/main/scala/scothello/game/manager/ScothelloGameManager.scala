@@ -1,9 +1,11 @@
-package scothello
+package scothello.game.manager
 
 import javafx.application.Platform
 import scalafx.application.JFXApp3
 import scalafx.scene.Scene
 import scalafx.scene.layout.Pane
+import scothello.game.ScothelloGame
+import scothello.game.pages.Pages
 
 object ScothelloGameManager:
 

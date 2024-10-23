@@ -1,8 +1,8 @@
-package scothello
+package scothello.game
 
+import scothello.game.pages.{GamePage, PageFactory, Pages}
 import scothello.model.Model
 import scothello.model.game.state.GameState
-import scothello.views.{GamePage, PageFactory}
 
 trait ScothelloGame:
   val model: Model
