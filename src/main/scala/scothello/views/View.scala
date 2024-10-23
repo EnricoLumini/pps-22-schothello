@@ -1,5 +1,6 @@
 package scothello.views
 
+import scothello.{Pages, ScothelloGameManager}
 import scothello.model.game.state.GameState
 import scothello.controllers.Controller
 
@@ -39,8 +40,10 @@ object View:
   trait Provider[V <: View]:
     def view: V
 
-//trait NavigatorView extends View:
-//def navigateTo()
+/** Represents a navigator view.
+  */
+trait NavigatorView extends View:
+  def navigateTo(page: Pages): Unit = ScothelloGameManager.navigateTo(page)
 
 /** Represents a base view.
   * @param requirements
@@ -51,6 +54,7 @@ object View:
 abstract class BaseView[C <: Controller](
     val requirements: View.Requirements[C]
 ) extends View
+    with NavigatorView
     with View.Dependencies(requirements):
 
   override def state: GameState = _state

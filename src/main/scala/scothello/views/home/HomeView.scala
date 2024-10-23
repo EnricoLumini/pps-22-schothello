@@ -2,7 +2,8 @@ package scothello.views.home
 
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.control.Button
-import scalafx.scene.layout.{Pane, VBox}
+import scalafx.scene.layout.VBox
+import scothello.Pages
 import scothello.controllers.home.HomeController
 import scothello.views.{BaseScalaFXView, View}
 
@@ -26,5 +27,9 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
     spacing = 10
 
     children += new Button:
-      text = "Start Game"
-      onAction = _ => print("Start Game")
+      text = "Start"
+      onAction = _ => navigateToHome()
+
+  // TODO: Find how to get this inside onAction
+  private def navigateToHome(): Unit =
+    this.navigateTo(Pages.Home)

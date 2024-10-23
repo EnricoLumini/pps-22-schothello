@@ -7,5 +7,6 @@ import scothello.views.home.HomeView
 trait HomeController extends Controller
 
 object HomeController:
+
   def apply(requirements: Controller.Requirements[HomeView]): HomeController =
     new EmptyController(requirements) with HomeController
