@@ -22,14 +22,14 @@ object ScothelloFXApp extends JFXApp3:
 
   lazy val rootScene: Scene = new Scene:
     root = new Pane()
+    stylesheets = List("file:style.css")
 
   override def start(): Unit =
     stage = new JFXApp3.PrimaryStage:
       title = "Scothello"
       scene = rootScene
-      width = 800
-      height = 600
-
+      width = 1000
+      height = 1000
     postInitAction()
 
   private def postInitAction(): Unit =

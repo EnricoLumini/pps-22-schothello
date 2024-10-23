@@ -1,7 +1,10 @@
 package scothello.views.home
 
+import scalafx.geometry.Pos.{BottomCenter, Center, CenterRight, TopCenter, TopLeft}
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.control.Button
+import scalafx.scene.control.ContentDisplay.Bottom
+import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.VBox
 import scothello.Pages
 import scothello.controllers.home.HomeController
@@ -24,11 +27,22 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
     with HomeView:
 
   override def parent: Parent = new VBox:
-    spacing = 10
+    spacing = 170
 
-    children += new Button:
+    val logo: ImageView = new ImageView(new Image("file:res/img/appname-no-background.png")):
+      preserveRatio = true
+      alignment = TopCenter
+
+    val button: Button = new Button("Start"):
+      id = "startButton"
       text = "Start"
+      alignment = Center
       onAction = _ => navigateToHome()
+
+    logo.fitWidthProperty().bind(width)
+    logo.fitHeightProperty().bind(height)
+
+    children += logo += button
 
   // TODO: Find how to get this inside onAction
   private def navigateToHome(): Unit =

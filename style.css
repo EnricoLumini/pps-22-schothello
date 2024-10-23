@@ -1,0 +1,17 @@
+.root {
+  -fx-background-image: url("res/img/blurred-background.png");
+-fx-background-size: 100% 100%;
+  -fx-background-position: center center;
+}
+
+#startButton {
+    -fx-font-size: 24px;
+    -fx-padding: 20px 40px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 60px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: white;
+}
