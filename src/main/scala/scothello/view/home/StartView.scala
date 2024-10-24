@@ -47,12 +47,37 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
       text = "Start"
       alignment = Center
       onAction = _ =>
-        // TODO: Check if empty
-        val players: Pair[Player] = (
-          Player(player1Field.text.value.trim),
-          Player(player2Field.text.value.trim)
-        )
+        val player1Name = player1Field.text.value.trim
+        val player2Name = player2Field.text.value.trim
 
-        controller.startGame(players)
+        var validInput = true
+        if player1Name.isEmpty then
+          markFieldInvalid(player1Field)
+          validInput = false
 
+        if player2Name.isEmpty then
+          markFieldInvalid(player2Field)
+          validInput = false
+
+        if validInput then
+          val players: Pair[Player] = (
+            Player(player1Name),
+            Player(player2Name)
+          )
+
+          controller.startGame(players)
     children += button
+
+    private def resetFieldStyle(field: TextField): Unit =
+      field.setStyle("")
+
+    private def markFieldInvalid(field: TextField): Unit =
+      field.setStyle("-fx-border-color: red;")
+
+    private def addTextFieldListener(field: TextField): Unit =
+      field.text.onChange { (_, _, newValue) =>
+        if newValue.trim.nonEmpty then resetFieldStyle(field)
+      }
+
+    addTextFieldListener(player1Field)
+    addTextFieldListener(player2Field)
