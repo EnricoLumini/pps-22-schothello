@@ -1,0 +1,32 @@
+.button {
+    -fx-font-size: 24px;
+    -fx-padding: 20px 40px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 60px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: white;
+}
+
+.label {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 20px;
+    -fx-text-fill: #ff0d0d;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+.text-field {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-max-width: 350px;
+    -fx-max-height: 50px;
+}

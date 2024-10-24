@@ -1,0 +1,5 @@
+.root {
+  -fx-background-image: url("file:res/img/blurred-background-startpage.png");
+  -fx-background-size: 100% 100%;
+  -fx-background-position: center center;
+}
