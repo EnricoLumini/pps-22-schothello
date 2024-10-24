@@ -33,17 +33,15 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
     stylesheets = List("file:style/startpage.css")
 
     val player1Label = new Label("Player 1:")
-    val player1Field: TextField = new TextField {
+    val player1Field: TextField = new TextField:
       promptText = "Enter Player 1 name"
-    }
     children += player1Label += player1Field
 
     val player2Label = new Label("Player 2:")
-    val player2Field: TextField = new TextField {
+    val player2Field: TextField = new TextField:
       promptText = "Enter Player 2 name"
-    }
     children += player2Label += player2Field
-    
+
     val button: Button = new Button("Start game"):
       id = "startButton"
       text = "Start"
@@ -51,10 +49,10 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
       onAction = _ =>
         // TODO: Check if empty
         val players: Pair[Player] = (
-          Player(player1Field.text.value.trim), 
+          Player(player1Field.text.value.trim),
           Player(player2Field.text.value.trim)
         )
 
         controller.startGame(players)
-    
+
     children += button
