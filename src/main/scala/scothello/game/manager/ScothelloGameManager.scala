@@ -24,7 +24,7 @@ object ScothelloFXApp extends JFXApp3:
 
   lazy val rootScene: Scene = new Scene:
     root = new Pane()
-    stylesheets = List("file:style.css")
+    stylesheets = List("file:style/style.css")
 
   override def start(): Unit =
     stage = new JFXApp3.PrimaryStage:

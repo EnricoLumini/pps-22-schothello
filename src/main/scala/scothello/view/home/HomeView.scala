@@ -27,6 +27,7 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
 
   override def parent: Parent = new VBox:
     spacing = 170
+    stylesheets = List("file:style/homepage.css")
 
     val logo: ImageView = new ImageView(new Image("file:res/img/appname-no-background.png")):
       preserveRatio = true

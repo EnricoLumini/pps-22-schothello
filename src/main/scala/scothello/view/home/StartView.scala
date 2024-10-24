@@ -1,10 +1,10 @@
 package scothello.view.home
 
-import scalafx.geometry.Pos.{Center, TopCenter}
+import scalafx.geometry.Pos.{Center, CenterRight, TopCenter}
 import scalafx.scene.{Node, Parent, Scene}
-import scalafx.scene.control.{Button, TextField}
+import scalafx.scene.control.{Button, Label, TextField}
 import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.VBox
+import scalafx.scene.layout.{Background, VBox}
 import scothello.controller.home.{HomeController, StartController}
 import scothello.game.pages.Pages
 import scothello.model.game.config.Player
@@ -28,27 +28,33 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
     with StartView:
 
   override def parent: Parent = new VBox:
-    spacing = 170
+    spacing = 30
+    alignment = Center
+    stylesheets = List("file:style/startpage.css")
 
-    val textFields: List[TextField] = List("Player 1", "Player 2").map { player =>
-      new TextField:
-        promptText = s"$player name: "
-        alignment = Center
+    val player1Label = new Label("Player 1:")
+    val player1Field: TextField = new TextField {
+      promptText = "Enter Player 1 name"
     }
+    children += player1Label += player1Field
 
-    val vbox: VBox = new VBox:
-      alignment = Center
-      children ++= textFields.map(_.delegate)
-
+    val player2Label = new Label("Player 2:")
+    val player2Field: TextField = new TextField {
+      promptText = "Enter Player 2 name"
+    }
+    children += player2Label += player2Field
+    
     val button: Button = new Button("Start game"):
       id = "startButton"
       text = "Start"
       alignment = Center
       onAction = _ =>
         // TODO: Check if empty
-        val players: Pair[Player] = textFields.map(tf => Player(tf.text.value)) match
-          case List(p1, p2) => Pair(p1, p2)
-        controller.startGame(players)
+        val players: Pair[Player] = (
+          Player(player1Field.text.value.trim), 
+          Player(player2Field.text.value.trim)
+        )
 
-    vbox.children += button
-    children += vbox
+        controller.startGame(players)
+    
+    children += button

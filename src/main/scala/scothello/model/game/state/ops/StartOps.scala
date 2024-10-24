@@ -6,7 +6,7 @@ import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
 import scothello.utils.Pair
 
-/** Operations for on [[GameState]] related to starting the game */
+/** Operations on [[GameState]] related to the start of the game */
 object StartOps:
 
   extension (state: GameState)
