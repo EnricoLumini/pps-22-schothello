@@ -18,9 +18,9 @@ nav_order: 3
 
 Gli obiettivi di questo Sprint sono stati:
 
-* Definizione del processo adottato
-* Definizione dei requisiti del progetto
-* Analisi e selezione dell'architettura dell'applicazione
+* Implementazione dei componenti Model, View e controller
+* Integrazione della struttura MVC con ScalaFX per la futura creazione dell'interfaccia grafica
+* Rifinitura della struttura MVC con aggiunte e modifiche per aumentarne l'efficacia
 
 ## Deadline
 
@@ -28,10 +28,11 @@ Gli obiettivi di questo Sprint sono stati:
 
 ## Sprint review
 
-Lo Sprint goal è stato raggiunto nei tempi previsti.
-La documentazione del dominio e dei requisiti è stata completata, così come l'analisi e la selezione dell'architettura principale.
+La struttura Model-View-Controller è stata creata ed ultimata in modo da ottenere il collegamento dinamico tra i vari componenti.
+Il numero di ore effettivo è di 4 ore più alto rispetto a quello che ci si era prefissato.
 
 ## Sprint retrospective
 
-Durante questo sprint, il focus è stato più sulla scrittura della documentazione iniziale e sulla selezione dell'architettura.
-La documentazione è stata realizzata senza intoppi, ma il contributo di uno dei due componenti del team è stato limitato poiché era impegnato nella preparazione di un esame universitario. Questo ha rallentato in parte il lavoro di gruppo, ma non ha compromesso il raggiungimento degli obiettivi dello sprint.
+Il team ha completato con successo tutte le attività relative alla struttura MVC.
+La collaborazione è stata efficace, soprattutto nelle attività 3.5 e 3.6, dove il team ha lavorato insieme per integrare e perfezionare la struttura MVC.
+Lumini ha gestito bene i task assegnati, rispettando le stime di tempo.
