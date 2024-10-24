@@ -36,7 +36,7 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
       id = "startButton"
       text = "Start"
       alignment = Center
-      onAction = _ => navigateToHome()
+      onAction = _ => navigateToStart()
 
     logo.fitWidthProperty().bind(width)
     logo.fitHeightProperty().bind(height)
@@ -44,5 +44,5 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
     children += logo += button
 
   // TODO: Find how to get this inside onAction
-  private def navigateToHome(): Unit =
-    this.navigateTo(Pages.Home)
+  private def navigateToStart(): Unit =
+    this.navigateTo(Pages.Start)
