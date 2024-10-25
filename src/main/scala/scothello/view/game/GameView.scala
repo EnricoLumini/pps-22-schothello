@@ -1,0 +1,1 @@
+package scothello.view.game
