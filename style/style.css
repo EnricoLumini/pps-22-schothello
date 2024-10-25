@@ -8,6 +8,7 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
     -fx-border-color: white;
+    -fx-cursor: hand;
 }
 
 .label {
