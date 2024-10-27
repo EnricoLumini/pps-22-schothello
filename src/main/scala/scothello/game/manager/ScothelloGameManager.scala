@@ -32,6 +32,7 @@ object ScothelloFXApp extends JFXApp3:
       scene = rootScene
       width = 1000
       height = 1000
+      resizable = false
     postInitAction()
 
   private def postInitAction(): Unit =
