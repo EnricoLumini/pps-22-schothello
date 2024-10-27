@@ -17,14 +17,12 @@ lazy val root = (project in file("."))
       "org.scalatestplus" %% "scalacheck-1-17" % "3.2.18.0" % Test
     ),
     libraryDependencies ++= {
-      // Determine OS version of JavaFX binaries
-      lazy val osName = System.getProperty("os.name") match {
-        case n if n.startsWith("Linux")   => "linux"
-        case n if n.startsWith("Mac")     => "mac"
-        case n if n.startsWith("Windows") => "win"
-        case _                            => throw new Exception("Unknown platform!")
-      }
-      Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "16" classifier osName)
+      val platforms = Seq("linux", "mac", "win")
+      val modules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
+
+      for {
+        platform <- platforms
+        module <- modules
+      } yield "org.openjfx" % s"javafx-$module" % "16" classifier platform
     }
   )
