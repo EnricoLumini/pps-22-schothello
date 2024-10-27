@@ -1,15 +1,20 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.3.1"
-
 lazy val root = (project in file("."))
   .settings(
     name := "Scothello",
     scalaVersion := "3.3.0",
+    assembly / mainClass := Some("scothello.main"),
+    assembly / assemblyJarName := "scothello.jar",
+    assembly / assemblyMergeStrategy := {
+      case "reference.conf"         => MergeStrategy.concat
+      case PathList("META-INF", _*) => MergeStrategy.discard
+      case _                        => MergeStrategy.first
+    },
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.3.0-SNAP4" % Test,
       "org.scalafx" %% "scalafx" % "20.0.0-R31",
-      "org.scalatestplus" %% "scalacheck-1-17" % "3.2.18.0" % Test,
+      "org.scalatestplus" %% "scalacheck-1-17" % "3.2.18.0" % Test
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
