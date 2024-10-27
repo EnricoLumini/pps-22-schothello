@@ -1,26 +1,25 @@
 package scothello.controller.home
 
-import scothello.controller.{Controller, EmptyController}
-import scothello.model.components.Scores
-import scothello.model.game.Turn
-import scothello.model.game.config.Player
+import scothello.controller.{BaseController, Controller}
 import scothello.utils.Pair
 import scothello.view.home.StartView
 import scothello.model.game.state.ops.StartOps.startGame
-import scothello.model.ModelOps.{updateState, onError}
+import scothello.model.ModelOps.updateState
 
 /** Controller for the home page */
 trait StartController extends Controller:
 
   /** Starts the game */
-  def startGame(players: Pair[Player]): Unit
+  def startGame(usernames: Pair[String]): Unit
 
 object StartController:
 
   def apply(requirements: Controller.Requirements[StartView]): StartController =
-    new EmptyController(requirements) with StartController:
-      override def startGame(players: Pair[Player]): Unit =
-        // TODO: Show popup on view if error
-        this.model
-          .updateState(_.startGame(players))
-          .onError(println(s"Error starting game"))
+    StartControllerImpl(requirements)
+
+private class StartControllerImpl(requirements: Controller.Requirements[StartView])
+    extends BaseController(requirements)
+    with StartController:
+
+  override def startGame(usernames: Pair[String]): Unit =
+    this.model.updateState(_.startGame(usernames))

@@ -15,6 +15,11 @@ class GameStateTest extends BaseTest:
     gameState.board should be(Board())
   }
 
+  it should "have no pawn assigned on creation" in {
+    val gameState = GameState()
+    gameState.assignedPawns shouldBe Map.empty
+  }
+
   it should "have an empty turn on creation" in {
     val gameState = GameState()
     gameState.turn shouldBe EmptyTurn

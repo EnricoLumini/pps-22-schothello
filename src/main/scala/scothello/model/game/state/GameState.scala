@@ -3,7 +3,7 @@ package scothello.model.game.state
 import scothello.model.board.*
 import scothello.model.game.Turn
 import scothello.model.game.config.Player
-import scothello.model.components.Scores
+import scothello.model.components.{AssignedPawns, Scores}
 import scothello.utils.Pair
 
 import scala.annotation.tailrec
@@ -13,6 +13,8 @@ import scala.annotation.tailrec
   *   The players of the game.
   * @param board
   *   The board of the game.
+  * @param assignedPawns
+  *   The pawns assigned to the tiles.
   * @param turn
   *   The current turn.
   * @param playerScores
@@ -23,8 +25,9 @@ import scala.annotation.tailrec
   *   The winner of the game.
   */
 final case class GameState(
-    players: Option[Pair[Player]],
+    players: Pair[Player],
     board: Board,
+    assignedPawns: AssignedPawns,
     turn: Turn,
     playerScores: Scores,
     isOver: Boolean,
@@ -35,8 +38,9 @@ object GameState:
 
   def apply(): GameState =
     GameState(
-      players = Option.empty,
+      players = (Player.empty, Player.empty),
       board = Board(),
+      assignedPawns = AssignedPawns.empty,
       turn = Turn.empty,
       playerScores = Scores.empty,
       isOver = false,

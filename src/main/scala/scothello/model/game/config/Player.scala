@@ -4,9 +4,11 @@ package scothello.model.game.config
   */
 trait Player:
   def name: String
+  def color: PlayerColor
 
 object Player:
-  def apply(name: String): Player = PlayerImpl(name)
-  val empty: Player = PlayerImpl("")
+  def apply(name: String, color: PlayerColor): Player = PlayerImpl(name, color)
+  def apply(name: String): Player = Player(name, PlayerColor.NoColor)
+  val empty: Player = Player("")
 
-private final case class PlayerImpl(name: String) extends Player
+private final case class PlayerImpl(name: String, color: PlayerColor) extends Player

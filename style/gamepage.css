@@ -1,0 +1,10 @@
+#playerLabel, #clockLabel {
+  -fx-text-fill: #000000;
+  -fx-font-size: 25px;
+  -fx-font-weight: bold;
+}
+
+#scoreLabel, #timeLabel {
+  -fx-text-fill: #000000;
+  -fx-font-size: 22px;
+}

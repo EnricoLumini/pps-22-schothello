@@ -1,13 +1,11 @@
 package scothello.view.home
 
-import scalafx.geometry.Pos.{Center, CenterRight, TopCenter}
+import scalafx.geometry.Pos.Center
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.control.{Button, Label, TextField}
-import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.{Background, VBox}
-import scothello.controller.home.{HomeController, StartController}
+import scalafx.scene.layout.VBox
+import scothello.controller.home.StartController
 import scothello.game.pages.Pages
-import scothello.model.game.config.Player
 import scothello.utils.Pair
 import scothello.view.{BaseScalaFXView, View}
 
@@ -60,12 +58,9 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
           validInput = false
 
         if validInput then
-          val players: Pair[Player] = (
-            Player(player1Name),
-            Player(player2Name)
-          )
+          controller.startGame((player1Name, player2Name))
+          navigateToGamePage()
 
-          controller.startGame(players)
     children += button
 
     private def resetFieldStyle(field: TextField): Unit =
@@ -81,3 +76,6 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
 
     addTextFieldListener(player1Field)
     addTextFieldListener(player2Field)
+
+  private def navigateToGamePage(): Unit =
+    this.navigateTo(Pages.Game)

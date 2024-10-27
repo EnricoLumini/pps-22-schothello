@@ -39,11 +39,7 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
       alignment = Center
       onAction = _ => navigateToStart()
 
-    logo.fitWidthProperty().bind(width)
-    logo.fitHeightProperty().bind(height)
-
     children += logo += button
 
-  // TODO: Find how to get this inside onAction
   private def navigateToStart(): Unit =
     this.navigateTo(Pages.Start)

@@ -3,3 +3,9 @@
   -fx-background-size: 100% 100%;
   -fx-background-position: center center;
 }
+
+.label {
+  -fx-text-fill: #ff0000;
+  -fx-font-size: 20px;
+  -fx-fond-weight: bold;
+}

@@ -13,9 +13,6 @@
 
 .label {
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-font-size: 20px;
-    -fx-text-fill: #ff0d0d;
-    -fx-font-weight: bold;
     -fx-padding: 5px;
 }
 
