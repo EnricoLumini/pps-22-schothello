@@ -27,9 +27,11 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
 
   override def parent: Parent = new VBox:
     spacing = 170
-    stylesheets = List("file:style/homepage.css")
+    stylesheets = List(getClass.getResource("/styles/homepage.css").toExternalForm)
 
-    val logo: ImageView = new ImageView(new Image("file:res/img/appname-no-background.png")):
+    val logo: ImageView = new ImageView(
+      new Image(getClass.getResource("/imgs/appname-no-background.png").toExternalForm)
+    ):
       preserveRatio = true
       alignment = TopCenter
 

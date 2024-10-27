@@ -28,7 +28,7 @@ private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements
   override def parent: Parent = new VBox:
     spacing = 30
     alignment = Center
-    stylesheets = List("file:style/startpage.css")
+    stylesheets = List(getClass.getResource("/styles/startpage.css").toExternalForm)
 
     val player1Label = new Label("Player 1:")
     val player1Field: TextField = new TextField:

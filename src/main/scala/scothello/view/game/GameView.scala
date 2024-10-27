@@ -25,7 +25,7 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
     with GameView:
 
   override def parent: Parent = new VBox:
-    stylesheets = List("file:style/gamepage.css")
+    stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)
 
     val headerHBox: HBox = new HBox:
       prefHeight = mainScene.height.value / 8
