@@ -21,8 +21,8 @@ object AssignedPawns:
   def empty: AssignedPawns = Map.empty[Tile, Pawn]
 
   def initial(players: Pair[Player], centralTiles: CentralTiles): AssignedPawns = Map(
-    centralTiles.upperLeft -> Pawn(players._1),
-    centralTiles.lowerRight -> Pawn(players._1),
-    centralTiles.upperRight -> Pawn(players._2),
-    centralTiles.lowerLeft -> Pawn(players._2)
+    centralTiles.upperLeft -> Pawn(players._2),
+    centralTiles.lowerRight -> Pawn(players._2),
+    centralTiles.upperRight -> Pawn(players._1),
+    centralTiles.lowerLeft -> Pawn(players._1)
   )
