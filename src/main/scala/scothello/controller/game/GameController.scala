@@ -1,11 +1,24 @@
 package scothello.controller.game
 
-import scothello.controller.{Controller, EmptyController}
+import scothello.controller.{BaseController, Controller, EmptyController}
 import scothello.view.game.GameView
+import scothello.model.ModelOps.updateState
+import scothello.model.game.state.ops.GameOps.nextTurn
 
-trait GameController extends Controller
+/** Controller for the game page */
+trait GameController extends Controller:
+
+  /** Increases the turn */
+  def nextTurn(): Unit
 
 object GameController:
 
   def apply(requirements: Controller.Requirements[GameView]): GameController =
-    new EmptyController(requirements) with GameController
+    new GameControllerImpl(requirements)
+
+private class GameControllerImpl(requirements: Controller.Requirements[GameView])
+    extends BaseController(requirements)
+    with GameController:
+
+  override def nextTurn(): Unit =
+    this.model.updateState(_.nextTurn())

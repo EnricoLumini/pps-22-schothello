@@ -13,6 +13,7 @@ import scothello.model.game.config.{Player, PlayerColor}
 import scalafx.Includes.jfxObservableValue2sfx
 import scalafx.collections.ObservableBuffer
 import scothello.model.components.AssignedPawns
+import scothello.model.game.TurnManager
 
 trait GameView extends View
 

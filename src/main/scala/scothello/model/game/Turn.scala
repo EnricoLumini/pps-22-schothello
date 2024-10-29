@@ -50,7 +50,7 @@ object Turn:
     def number: Int = 0 // Placeholder value, as no turn has occurred
     def player: Player = Player.empty
 
-  private final case class ValidTurn(number: Int, player: Player) extends Turn:
+  final case class ValidTurn(number: Int, player: Player) extends Turn:
     require(number > 0, "Turn number must be non-negative")
 
   case object EmptyTurn extends Empty

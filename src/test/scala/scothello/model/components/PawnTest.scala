@@ -23,8 +23,8 @@ class AssignedPawnsTest extends BaseTest with PlayerProvider:
     val centralTiles: CentralTiles = Board().centralTiles
     val assignedPawns = AssignedPawns.initial(twoPlayers, centralTiles)
     assignedPawns should have size 4
-    assignedPawns(centralTiles.upperLeft).player shouldBe twoPlayers._1
-    assignedPawns(centralTiles.lowerRight).player shouldBe twoPlayers._1
-    assignedPawns(centralTiles.upperRight).player shouldBe twoPlayers._2
-    assignedPawns(centralTiles.lowerLeft).player shouldBe twoPlayers._2
+    assignedPawns(centralTiles.upperLeft).player shouldBe twoPlayers._2
+    assignedPawns(centralTiles.lowerRight).player shouldBe twoPlayers._2
+    assignedPawns(centralTiles.upperRight).player shouldBe twoPlayers._1
+    assignedPawns(centralTiles.lowerLeft).player shouldBe twoPlayers._1
   }
