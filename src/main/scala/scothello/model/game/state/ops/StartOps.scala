@@ -1,5 +1,6 @@
 package scothello.model.game.state.ops
 
+import scothello.model.board.AllowedTiles
 import scothello.model.components.{AssignedPawns, Scores}
 import scothello.model.game.{Turn, TurnManager}
 import scothello.model.game.config.{Player, PlayerColor}
@@ -22,6 +23,7 @@ object StartOps:
         state.copy(
           players = players,
           assignedPawns = AssignedPawns.initial(players, state.board.centralTiles),
+          allowedTiles = AllowedTiles.calculate(players._1, AssignedPawns.initial(players, state.board.centralTiles)),
           turn = TurnManager.initialTurn,
           playerScores = Scores.initialize(players)
         )
