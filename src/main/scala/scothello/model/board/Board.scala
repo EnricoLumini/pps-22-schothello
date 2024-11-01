@@ -4,6 +4,8 @@ import scothello.model.game.config.Player
 import scothello.model.components.AssignedPawns
 
 import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 /** A board for Schothello.
   *
@@ -41,6 +43,9 @@ case class CentralTiles(upperLeft: Tile, upperRight: Tile, lowerLeft: Tile, lowe
 type AllowedTiles = Map[Tile, Player]
 
 object AllowedTiles:
+  val flipsMap = mutable.Map.empty[Tile, ArrayBuffer[Tile]]
+  private val flips: ArrayBuffer[Tile] = ArrayBuffer.empty
+
   def empty: AllowedTiles = Map.empty[Tile, Player]
 
   def calculate(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
@@ -50,11 +55,12 @@ object AllowedTiles:
       .collect {
         case (tile, pawn) if pawn.player == player =>
           val adjacentOpponents = getAdjacentOpponents(tile, opponentPlayer.get, assignedPawns)
-
           adjacentOpponents.flatMap { opponentTile =>
             calculateNewPosition(tile, opponentTile, player, assignedPawns) match
-              case Some(newTile) if !assignedPawns.contains(newTile) => Some(newTile -> player)
-              case _                                                 => None
+              case Some(newTile) =>
+                flips.clear()
+                Some(newTile -> player)
+              case _ => None
           }
       }
       .flatten
@@ -75,13 +81,21 @@ object AllowedTiles:
   ): Option[Tile] =
     val newRow = opponentTile.row - (playerTile.row - opponentTile.row)
     val newCol = opponentTile.col - (playerTile.col - opponentTile.col)
-    val newTile = Tile(newRow, newCol)
 
     if newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8 then
+      val newTile = Tile(newRow, newCol)
       assignedPawns.get(newTile) match
         case Some(pawn) if pawn.player != player =>
+          flips += opponentTile
           calculateNewPosition(opponentTile, newTile, player, assignedPawns)
         case None =>
+          flips += opponentTile
+          flipsMap.get(newTile) match
+            case Some(existingFlips) =>
+              existingFlips ++= flips
+            case None =>
+              flipsMap += (newTile -> flips.clone())
+
           Some(newTile)
         case _ =>
           None
@@ -90,12 +104,17 @@ object AllowedTiles:
   private def adjacentTiles(tile: Tile): Seq[Tile] =
     val (x, y) = (tile.row, tile.col)
     Seq(
-      Tile(x - 1, y - 1),
-      Tile(x, y - 1),
-      Tile(x + 1, y - 1),
-      Tile(x - 1, y),
-      Tile(x + 1, y),
-      Tile(x - 1, y + 1),
-      Tile(x, y + 1),
-      Tile(x + 1, y + 1)
-    ).filter(t => t.row >= 0 && t.row < 8 && t.col >= 0 && t.col < 8)
+      (x - 1, y - 1),
+      (x, y - 1),
+      (x + 1, y - 1),
+      (x - 1, y),
+      (x + 1, y),
+      (x - 1, y + 1),
+      (x, y + 1),
+      (x + 1, y + 1)
+    ).collect {
+      case (row, col) if row >= 0 && row < 8 && col >= 0 && col < 8 => Tile(row, col)
+    }
+
+  def resetMap(): Unit =
+    flipsMap.clear()

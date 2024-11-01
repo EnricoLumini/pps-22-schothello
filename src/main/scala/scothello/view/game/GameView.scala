@@ -29,6 +29,8 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
   override def parent: Parent = new VBox:
     stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)
 
+    val allowedTilesCircles: ObservableBuffer[Circle] = ObservableBuffer[Circle]()
+
     val headerHBox: HBox = new HBox:
       prefHeight = mainScene.height.value / 8
       alignment = Center
@@ -122,7 +124,15 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
             x = tile.col * width.value
             y = tile.row * height.value
 
-            onMouseClicked = _ => println("Clicked on square: " + tile)
+            onMouseClicked = _ =>
+              state.allowedTiles.get(tile) match
+                case Some(player) =>
+                  allowedTilesCircles.foreach(circle => board.children.remove(circle))
+                  controller.placePawn(tile)
+                  controller.flipPawns(tile)
+                  controller.nextTurn()
+                  controller.calculateAllowedPos()
+                case _ => None
 
           children += square
           squares += square
@@ -157,7 +167,6 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
           }
 
         private def drawAllowedMoves(allowedTiles: AllowedTiles): Unit =
-          children.filter(_.isInstanceOf[Circle]).clear()
           gameBoard.tiles.zipWithIndex.foreach { (tile, i) =>
             allowedTiles.get(tile) match
               case Some(player) =>
@@ -169,7 +178,9 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
                   strokeWidth = 2
                   centerX = square.x.value + square.width.value / 2
                   centerY = square.y.value + square.height.value / 2
+                  mouseTransparent = true
 
+                allowedTilesCircles += pawnCircle
                 children += pawnCircle
               case None => ()
           }
