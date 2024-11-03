@@ -1,11 +1,9 @@
 package scothello.controller.game
 
-import scothello.controller.{BaseController, Controller, EmptyController}
+import scothello.controller.{BaseController, Controller}
 import scothello.view.game.GameView
 import scothello.model.ModelOps.updateState
-import scothello.model.board.{AllowedTiles, Tile}
-import scothello.model.components.AssignedPawns
-import scothello.model.game.Turn
+import scothello.model.board.Tile
 import scothello.model.game.state.ops.GameOps.{nextTurn, placePawn, calculateAllowedPos, flipPawns}
 
 /** Controller for the game page */

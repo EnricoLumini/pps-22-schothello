@@ -3,8 +3,12 @@ package scothello.utils
 import scala.language.implicitConversions
 
 case class Pair[A](_1: A, _2: A):
+
   def map[B](f: A => B): Seq[B] =
     Seq(f(_1), f(_2))
+
+  def find(predicate: A => Boolean): Option[A] =
+    Seq(_1, _2).find(predicate)
 
 object Pair:
 

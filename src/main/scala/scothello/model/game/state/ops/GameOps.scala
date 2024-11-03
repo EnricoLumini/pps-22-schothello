@@ -5,7 +5,7 @@ import scothello.model.components.{AssignedPawns, Pawn}
 import scothello.model.game.{Turn, TurnManager}
 import scothello.model.game.state.GameState
 
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ArrayBuffer
 
 /** Operations on [[GameState]] related to the execution of the game */
 object GameOps:
