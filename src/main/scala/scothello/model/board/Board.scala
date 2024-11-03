@@ -60,8 +60,10 @@ object AllowedTiles:
               case Some(newTile) =>
                 flips.clear()
                 Some(newTile -> player)
-              case _ => None
-          }
+              case _ => 
+                flips.clear()
+                None
+          } 
       }
       .flatten
       .toMap
