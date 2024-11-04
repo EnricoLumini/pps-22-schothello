@@ -21,7 +21,7 @@ class StartOpsTest extends BaseTest with PlayerProvider:
       case Some(s) =>
         s.players shouldBe twoPlayers
         s.turn shouldBe Turn.initial(twoPlayers._1)
-        s.playerScores shouldBe Scores.initialize(twoPlayers)
+        s.playerScores shouldBe Scores.calculateScores(s.assignedPawns)
       case None => fail("Expected a new state")
   }
 

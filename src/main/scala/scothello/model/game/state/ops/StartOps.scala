@@ -16,15 +16,17 @@ object StartOps:
         Player(usernames._1, PlayerColor.Black),
         Player(usernames._2, PlayerColor.White)
       )
+      val initialAssignedPawns: AssignedPawns =
+        AssignedPawns.initial(players, state.board.centralTiles)
 
       TurnManager(players)
 
       Some(
         state.copy(
           players = players,
-          assignedPawns = AssignedPawns.initial(players, state.board.centralTiles),
-          allowedTiles = AllowedTiles.calculate(players._1, AssignedPawns.initial(players, state.board.centralTiles)),
+          assignedPawns = initialAssignedPawns,
+          allowedTiles = AllowedTiles.initial(players._1, initialAssignedPawns),
           turn = TurnManager.initialTurn,
-          playerScores = Scores.initialize(players)
+          playerScores = Scores.calculateScores(initialAssignedPawns)
         )
       )

@@ -1,7 +1,7 @@
 package scothello.model.game.state.ops
 
 import scothello.model.board.{AllowedTiles, Tile}
-import scothello.model.components.{AssignedPawns, Pawn}
+import scothello.model.components.{AssignedPawns, Pawn, Scores}
 import scothello.model.game.{Turn, TurnManager}
 import scothello.model.game.state.GameState
 
@@ -46,6 +46,7 @@ object GameOps:
       AllowedTiles.resetMap()
       Some(
         state.copy(
-          assignedPawns = newAssignedPawns
+          assignedPawns = newAssignedPawns,
+          playerScores = Scores.calculateScores(newAssignedPawns)
         )
       )

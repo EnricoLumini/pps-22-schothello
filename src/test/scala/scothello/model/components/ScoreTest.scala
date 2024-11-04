@@ -1,5 +1,6 @@
 package scothello.model.components
 
+import scothello.model.board.Board
 import scothello.{BaseTest, PlayerProvider}
 
 class ScoreTest extends BaseTest with PlayerProvider:
@@ -9,7 +10,17 @@ class ScoreTest extends BaseTest with PlayerProvider:
     emptyScore shouldBe Map.empty
   }
 
-  it should "create a valid score fro players" in {
-    val validScore = Scores.initialize(twoPlayers)
-    validScore shouldBe Map(twoPlayers._1 -> 0, twoPlayers._2 -> 0)
+  it should "be 2 for each players at game start" in {
+    val board = Board()
+    val initialPawns = AssignedPawns.initial(twoPlayers, board.centralTiles)
+    val validScore = Scores.calculateScores(initialPawns)
+    validScore shouldBe Map(twoPlayers._1 -> 2, twoPlayers._2 -> 2)
+  }
+
+  it should "be correct after a few moves" in {
+    val board = Board()
+    val initialPawns = AssignedPawns.initial(twoPlayers, board.centralTiles)
+    val newPawns = initialPawns + (board.centralTiles.upperLeft -> Pawn(twoPlayers._1))
+    val score = Scores.calculateScores(newPawns)
+    score shouldBe Map(twoPlayers._1 -> 3, twoPlayers._2 -> 1)
   }

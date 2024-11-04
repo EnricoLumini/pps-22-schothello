@@ -12,10 +12,21 @@ trait GameController extends Controller:
   /** Increases the turn */
   def nextTurn(): Unit
 
+  /** Places a pawn on the board
+    *
+    * @param tile
+    *   the tile where the pawn will be placed
+    */
   def placePawn(tile: Tile): Unit
 
+  /** Calculates the allowed positions for the current player */
   def calculateAllowedPos(): Unit
 
+  /** Flips the pawns on the board
+    *
+    * @param tile
+    *   the tile from which the pawns will be flipped
+    */
   def flipPawns(tile: Tile): Unit
 
 object GameController:

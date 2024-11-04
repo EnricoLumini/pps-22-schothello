@@ -48,6 +48,9 @@ object AllowedTiles:
 
   def empty: AllowedTiles = Map.empty[Tile, Player]
 
+  def initial(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
+    calculate(player, assignedPawns)
+
   def calculate(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
     val opponentPlayer = assignedPawns.values.find(_.player != player).map(_.player)
 

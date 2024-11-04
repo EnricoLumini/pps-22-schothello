@@ -1,7 +1,6 @@
 package scothello.model.components
 
 import scothello.model.game.config.Player
-import scothello.utils.Pair
 
 /** A map of players to their scores.
   */
@@ -15,12 +14,14 @@ object Scores:
     */
   def empty: Scores = Map.empty
 
-  /** Creates a new score map with the given players.
+  /** Calculates the scores from the assigned pawns.
     *
-    * @param players
-    *   The players.
+    * @param assignedPawns
+    *   The assigned pawns.
     * @return
-    *   The score map.
+    *   The scores.
     */
-  def initialize(players: Pair[Player]): Scores =
-    players.map(_ -> 0).toMap
+  def calculateScores(assignedPawns: AssignedPawns): Scores =
+    assignedPawns
+      .groupBy(_._2.player)
+      .map { case (player, pawns) => player -> pawns.size }
