@@ -16,7 +16,7 @@ import scothello.controller.game.GameController
 
 object BoardComponent:
 
-  private val heightMargin: Int = 10
+  private val heightMargin: Int = 40
   private val squares: ObservableBuffer[Rectangle] = ObservableBuffer()
   private val allowedTilesCircles: ObservableBuffer[Circle] = ObservableBuffer[Circle]()
 

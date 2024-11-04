@@ -1,10 +1,13 @@
 package scothello.view.game.components
 
+import scalafx.Includes.*
+import scalafx.beans.binding.Bindings
 import scalafx.beans.property.ObjectProperty
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{HBox, VBox}
+import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
 import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
@@ -30,11 +33,18 @@ object PlayerComponent:
 
       children.addAll(leftPlayerHBox, player1Score)
 
-  private def playerIcon(player: Player): Circle = new Circle:
-    radius = 10
+  private def playerIcon(player: Player)(using reactiveState: ObjectProperty[GameState]): Circle = new Circle:
+    id = "playerIcon"
+    radius = 15
     fill = ColorMapper.toFxColor(player.color)
-    stroke = ColorMapper.toFxColor(player.color)
     strokeWidth = 2
+    stroke = if reactiveState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color)
+    Bindings
+      .createObjectBinding(
+        () => if reactiveState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color),
+        reactiveState
+      )
+      .onChange((_, _, newColor) => stroke = newColor)
 
   private def playerLabel(player: Player): Label = new Label:
     id = "playerLabel"
