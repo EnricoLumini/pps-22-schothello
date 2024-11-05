@@ -22,6 +22,7 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
     stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)
 
     val header: HBox = HeaderComponent.headerComponent(using mainScene, reactiveState)
+    val notificationsBar: HBox = NotificationsBarComponent.notificationsBarComponent(using mainScene, reactiveState)
     val board: HBox = BoardComponent.boardComponent(using mainScene, header, reactiveState, clickHandler, controller)
 
-    children.addAll(header, board)
+    children.addAll(header, notificationsBar, board)

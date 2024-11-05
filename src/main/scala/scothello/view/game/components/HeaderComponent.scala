@@ -12,7 +12,7 @@ object HeaderComponent:
 
   def headerComponent(using mainScene: Scene, reactiveState: ObjectProperty[GameState]): HBox =
     new HBox:
-      prefHeight = mainScene.height.value / 8
+      prefHeight <== mainScene.height / 8
       alignment = Center
 
       val players: Pair[Player] = reactiveState.value.players

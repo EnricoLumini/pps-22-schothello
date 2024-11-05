@@ -31,7 +31,7 @@ object BoardComponent:
       alignment = Center
 
       val board: Pane = new Pane:
-        prefHeight <== mainScene.height - header.prefHeight.value - 2 * heightMargin
+        prefHeight <== mainScene.height - (header.prefHeight + mainScene.height / 32) - 2 * heightMargin
         prefWidth <== prefHeight
 
         given board: Pane = this
@@ -47,6 +47,9 @@ object BoardComponent:
         drawAllowedMoves(reactiveState.map(_.allowedTiles).getValue)
         reactiveState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
           drawAllowedMoves(allowedTiles)
+          allowedTiles match
+            case tiles if tiles.isEmpty => gameController.nextTurn()
+            case _                      => None
         }
 
         reactiveState.map(_.turn).onChange { (_, _, _) =>
