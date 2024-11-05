@@ -121,5 +121,8 @@ object AllowedTiles:
       case (row, col) if row >= 0 && row < 8 && col >= 0 && col < 8 => Tile(row, col)
     }
 
+  def checkIfAvailableMoves(allowedTiles: AllowedTiles): Boolean =
+    allowedTiles.isEmpty
+
   def resetMap(): Unit =
     flipsMap.clear()
