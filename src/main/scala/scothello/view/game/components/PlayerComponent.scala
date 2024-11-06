@@ -15,9 +15,12 @@ import scothello.view.utils.ColorMapper
 
 object PlayerComponent:
 
-  def playerComponent(player: Player)(using mainScene: Scene, reactiveState: ObjectProperty[GameState]): VBox =
+  def playerComponent(player: Player)(using
+      displayScene: Scene,
+      reactiveGameState: ObjectProperty[GameState]
+  ): VBox =
     new VBox:
-      prefHeight = mainScene.height.value / 3
+      prefWidth <== displayScene.width / 3
       alignment = Center
 
       val leftPlayerHBox: HBox = new HBox:
@@ -29,20 +32,20 @@ object PlayerComponent:
 
         children.addAll(player1PawnIcon, player1NameLabel)
 
-      val player1Score: Label = playerScore(reactiveState, player)
+      val player1Score: Label = playerScore(player)
 
       children.addAll(leftPlayerHBox, player1Score)
 
-  private def playerIcon(player: Player)(using reactiveState: ObjectProperty[GameState]): Circle = new Circle:
+  private def playerIcon(player: Player)(using reactiveGameState: ObjectProperty[GameState]): Circle = new Circle:
     id = "playerIcon"
     radius = 15
     fill = ColorMapper.toFxColor(player.color)
     strokeWidth = 2
-    stroke = if reactiveState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color)
+    stroke = if reactiveGameState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color)
     Bindings
       .createObjectBinding(
-        () => if reactiveState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color),
-        reactiveState
+        () => if reactiveGameState.value.turn.player == player then Color.Red else ColorMapper.toFxColor(player.color),
+        reactiveGameState
       )
       .onChange((_, _, newColor) => stroke = newColor)
 
@@ -50,6 +53,6 @@ object PlayerComponent:
     id = "playerLabel"
     text = player.name
 
-  private def playerScore(reactiveState: ObjectProperty[GameState], player: Player): Label = new Label:
+  private def playerScore(player: Player)(using reactiveGameState: ObjectProperty[GameState]): Label = new Label:
     id = "scoreLabel"
-    text <== reactiveState.map(_.playerScores.getOrElse(player, 0).toString)
+    text <== reactiveGameState.map(_.playerScores.getOrElse(player, 0).toString)

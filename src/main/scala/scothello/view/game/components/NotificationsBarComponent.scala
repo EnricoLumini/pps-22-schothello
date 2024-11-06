@@ -10,36 +10,42 @@ import scalafx.util.Duration
 import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
 import scalafx.Includes.jfxObservableValue2sfx
-import scalafx.geometry.Insets
 import scothello.model.board.{AllowedTiles, Tile}
 
 object NotificationsBarComponent:
 
-  def notificationsBarComponent(using mainScene: Scene, reactiveState: ObjectProperty[GameState]): HBox =
+  def notificationsBarComponent(notificationsBarHeight: Double)(using
+      displayScene: Scene,
+      reactiveGameState: ObjectProperty[GameState]
+  ): HBox =
     new HBox:
+      prefHeight = notificationsBarHeight
       alignment = Center
-      margin = Insets(10, 0, 10, 0)
 
-      val message: Label = new Label()
+      val message: Label = new Label():
+        prefHeight = notificationsBarHeight / 2
 
-      children.addAll(message)
-
-      reactiveState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
+      reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
         if AllowedTiles.checkIfAvailableMoves(allowedTiles) then showMessage(message)
       }
 
-      def showMessage(message: Label): Unit =
-        message.text = s"No allowed moves, player ${reactiveState.value.turn.player.name} skips turn"
-        message.id = "notificationLabel"
+      children += message
 
-        val slideIn = new TranslateTransition(Duration(500), message):
-          fromX = mainScene.width.value
-          toX = 0
-        val pauseM = new PauseTransition(Duration(4000))
-        val slideOut = new TranslateTransition(Duration(500), message):
-          fromX = 0
-          toX = -mainScene.width.value
+  private def showMessage(message: Label)(using
+      displayScene: Scene,
+      reactiveGameState: ObjectProperty[GameState]
+  ): Unit =
+    message.text = s"No allowed moves, player ${reactiveGameState.value.turn.player.name} skips turn"
+    message.id = "notificationLabel"
 
-        new SequentialTransition:
-          children = Seq(slideIn, pauseM, slideOut)
-        .playFromStart()
+    val slideIn = new TranslateTransition(Duration(500), message):
+      fromX = displayScene.width.value
+      toX = 0
+    val pauseM = new PauseTransition(Duration(3000))
+    val slideOut = new TranslateTransition(Duration(500), message):
+      fromX = 0
+      toX = -displayScene.width.value
+
+    val transition = new SequentialTransition:
+      children = Seq(slideIn, pauseM, slideOut)
+    transition.playFromStart()

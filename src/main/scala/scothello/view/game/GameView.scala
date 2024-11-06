@@ -1,9 +1,11 @@
 package scothello.view.game
 
+import scalafx.beans.property.{DoubleProperty, ObjectProperty}
 import scalafx.scene.{Parent, Scene}
-import scalafx.scene.layout.{HBox, VBox}
+import scalafx.scene.layout.{HBox, Pane, VBox}
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.game.GameController
+import scothello.model.game.state.GameState
 import scothello.view.game.components.*
 
 trait GameView extends View
@@ -16,13 +18,19 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
     extends BaseScalaFXView(mainScene, requirements)
     with GameView:
 
-  given clickHandler: GameViewClickHandler = GameViewClickHandler(controller)
-
   override def parent: Parent = new VBox:
     stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)
 
-    val header: HBox = HeaderComponent.headerComponent(using mainScene, reactiveState)
-    val notificationsBar: HBox = NotificationsBarComponent.notificationsBarComponent(using mainScene, reactiveState)
-    val board: HBox = BoardComponent.boardComponent(using mainScene, header, reactiveState, clickHandler, controller)
+    given displayScene: Scene = mainScene
+    given reactiveGameState: ObjectProperty[GameState] = reactiveState
+    given clickHandler: GameViewClickHandler = GameViewClickHandler(controller)
+    given gameController: GameController = requirements.controller
+
+    val headerHeight: Double = mainScene.height.value / 8
+    val notificationsBarHeight: Double = mainScene.height.value / 24
+
+    val header: HBox = HeaderComponent.headerComponent(headerHeight)
+    val notificationsBar: HBox = NotificationsBarComponent.notificationsBarComponent(notificationsBarHeight)
+    val board: HBox = BoardComponent.boardComponent(headerHeight, notificationsBarHeight)
 
     children.addAll(header, notificationsBar, board)

@@ -12,9 +12,9 @@ import scalafx.util.Duration
 
 object ClockComponent:
 
-  def clockComponent(using mainScene: Scene): VBox =
+  def clockComponent(using displayScene: Scene): VBox =
     new VBox:
-      prefWidth = mainScene.width.value / 3
+      prefWidth = displayScene.width.value / 3
       alignment = Center
 
       val clockLabel: Label = new Label:

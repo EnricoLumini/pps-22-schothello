@@ -1,10 +1,10 @@
 package scothello.view.game.components
 
-import scalafx.beans.property.{DoubleProperty, ObjectProperty}
+import scalafx.beans.property.{DoubleProperty, ObjectProperty, ReadOnlyDoubleProperty}
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
-import scalafx.scene.layout.{HBox, Pane}
+import scalafx.scene.layout.{HBox, Pane, Priority}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.{Circle, Rectangle}
 import scothello.model.game.state.GameState
@@ -12,18 +12,18 @@ import scothello.model.board.{AllowedTiles, Board}
 import scothello.model.components.AssignedPawns
 import scothello.view.utils.ColorMapper
 import scalafx.Includes.jfxObservableValue2sfx
+import scalafx.beans.value.ObservableValue
 import scothello.controller.game.GameController
 
 object BoardComponent:
 
-  private val heightMargin: Int = 40
+  private val boardToWindowMargin: Int = 20
   private val squares: ObservableBuffer[Rectangle] = ObservableBuffer()
   private val allowedTilesCircles: ObservableBuffer[Circle] = ObservableBuffer[Circle]()
 
-  def boardComponent(using
-      mainScene: Scene,
-      header: HBox,
-      reactiveState: ObjectProperty[GameState],
+  def boardComponent(topComponentHeights: Double*)(using
+      displayScene: Scene,
+      reactiveGameState: ObjectProperty[GameState],
       clickHandler: GameViewClickHandler,
       gameController: GameController
   ): HBox =
@@ -31,28 +31,29 @@ object BoardComponent:
       alignment = Center
 
       val board: Pane = new Pane:
-        prefHeight <== mainScene.height - (header.prefHeight + mainScene.height / 32) - 2 * heightMargin
+        alignment = Center
+        prefHeight <== displayScene.height - topComponentHeights.sum - 2 * boardToWindowMargin
         prefWidth <== prefHeight
 
         given board: Pane = this
-        given gameBoard: Board = reactiveState.map(_.board).getValue
+        given gameBoard: Board = reactiveGameState.map(_.board).getValue
 
         drawBoard(prefWidth, prefHeight)
 
-        drawPawns(reactiveState.map(_.assignedPawns).getValue)
-        reactiveState.map(_.assignedPawns).onChange { (_, _, assignedPawn) =>
+        drawPawns(reactiveGameState.map(_.assignedPawns).getValue)
+        reactiveGameState.map(_.assignedPawns).onChange { (_, _, assignedPawn) =>
           drawPawns(assignedPawn)
         }
 
-        drawAllowedMoves(reactiveState.map(_.allowedTiles).getValue)
-        reactiveState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
+        drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue)
+        reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
           drawAllowedMoves(allowedTiles)
           allowedTiles match
             case tiles if tiles.isEmpty => gameController.nextTurn()
             case _                      => None
         }
 
-        reactiveState.map(_.turn).onChange { (_, _, _) =>
+        reactiveGameState.map(_.turn).onChange { (_, _, _) =>
           clearAllowedTilesCircles
           gameController.calculateAllowedPos()
         }
