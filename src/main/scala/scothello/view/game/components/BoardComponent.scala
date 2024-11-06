@@ -47,10 +47,8 @@ object BoardComponent:
 
         drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue)
         reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-          drawAllowedMoves(allowedTiles)
-          allowedTiles match
-            case tiles if tiles.isEmpty => gameController.nextTurn()
-            case _                      => None
+          if AllowedTiles.checkIfAvailableMoves(allowedTiles) then gameController.nextTurn()
+          else drawAllowedMoves(allowedTiles)
         }
 
         reactiveGameState.map(_.turn).onChange { (_, _, _) =>

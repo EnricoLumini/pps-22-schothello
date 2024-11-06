@@ -1,8 +1,8 @@
 package scothello.view.game
 
-import scalafx.beans.property.{DoubleProperty, ObjectProperty}
+import scalafx.beans.property.ObjectProperty
 import scalafx.scene.{Parent, Scene}
-import scalafx.scene.layout.{HBox, Pane, VBox}
+import scalafx.scene.layout.{HBox, VBox}
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.game.GameController
 import scothello.model.game.state.GameState
