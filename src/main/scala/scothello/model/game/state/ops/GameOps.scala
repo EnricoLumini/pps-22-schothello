@@ -50,3 +50,25 @@ object GameOps:
           playerScores = Scores.calculateScores(newAssignedPawns)
         )
       )
+
+    def pauseGame(): Option[GameState] =
+      Some(
+        state.copy(
+          isPaused = true
+        )
+      )
+
+    def resumeGame(): Option[GameState] =
+      Some(
+        state.copy(
+          isPaused = false
+        )
+      )
+
+    def stopGame(): Option[GameState] =
+      // TODO: Find the winner
+      Some(
+        state.copy(
+          isOver = true
+        )
+      )

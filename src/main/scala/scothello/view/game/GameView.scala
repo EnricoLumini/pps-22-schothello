@@ -1,6 +1,7 @@
 package scothello.view.game
 
 import scalafx.beans.property.ObjectProperty
+import scalafx.scene.control.Button
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{HBox, VBox}
 import scothello.view.{BaseScalaFXView, View}
@@ -32,5 +33,6 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
     val header: HBox = HeaderComponent.headerComponent(headerHeight)
     val notificationsBar: HBox = NotificationsBarComponent.notificationsBarComponent(notificationsBarHeight)
     val board: HBox = BoardComponent.boardComponent(headerHeight, notificationsBarHeight)
+    val stopButton: HBox = StopButtonComponent.stopButtonComponent
 
-    children.addAll(header, notificationsBar, board)
+    children.addAll(header, notificationsBar, board, stopButton)
