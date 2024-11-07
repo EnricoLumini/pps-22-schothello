@@ -10,7 +10,7 @@
 </div>
 <div class="main-signature mono-small-block">
  <div class="signature">
-  <span class="modifiers"><span t="k">final case </span></span><span class="kind"><span t="k">class </span></span><a href="GameState.html" t="n" class="documentableName ">GameState</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">players</span>: <a href="../../../utils/Pair.html" t="t">Pair</a>[<a href="../config/Player.html" t="t">Player</a>], <span t="k"></span><span data-unresolved-link="" t="n">board</span>: <a href="../../board/Board.html" t="t">Board</a>, <span t="k"></span><span data-unresolved-link="" t="n">assignedPawns</span>: <a href="../../components.html#AssignedPawns-0" t="t">AssignedPawns</a>, <span t="k"></span><span data-unresolved-link="" t="n">allowedTiles</span>: <a href="../../board.html#AllowedTiles-0" t="t">AllowedTiles</a>, <span t="k"></span><span data-unresolved-link="" t="n">turn</span>: <a href="../Turn.html" t="t">Turn</a>, <span t="k"></span><span data-unresolved-link="" t="n">playerScores</span>: <a href="../../components.html#Scores-0" t="t">Scores</a>, <span t="k"></span><span data-unresolved-link="" t="n">isOver</span>: <span data-unresolved-link="" t="t">Boolean</span>, <span t="k"></span><span data-unresolved-link="" t="n">winner</span>: <span data-unresolved-link="" t="t">Option</span>[<a href="../config/Player.html" t="t">Player</a>])
+  <span class="modifiers"><span t="k">final case </span></span><span class="kind"><span t="k">class </span></span><a href="GameState.html" t="n" class="documentableName ">GameState</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">players</span>: <a href="../../../utils/Pair.html" t="t">Pair</a>[<a href="../config/Player.html" t="t">Player</a>], <span t="k"></span><span data-unresolved-link="" t="n">board</span>: <a href="../../board/Board.html" t="t">Board</a>, <span t="k"></span><span data-unresolved-link="" t="n">assignedPawns</span>: <a href="../../components.html#AssignedPawns-0" t="t">AssignedPawns</a>, <span t="k"></span><span data-unresolved-link="" t="n">allowedTiles</span>: <a href="../../board.html#AllowedTiles-0" t="t">AllowedTiles</a>, <span t="k"></span><span data-unresolved-link="" t="n">turn</span>: <a href="../Turn.html" t="t">Turn</a>, <span t="k"></span><span data-unresolved-link="" t="n">playerScores</span>: <a href="../../components.html#Scores-0" t="t">Scores</a>, <span t="k"></span><span data-unresolved-link="" t="n">isOver</span>: <span data-unresolved-link="" t="t">Boolean</span>, <span t="k"></span><span data-unresolved-link="" t="n">isPaused</span>: <span data-unresolved-link="" t="t">Boolean</span>, <span t="k"></span><span data-unresolved-link="" t="n">winner</span>: <span data-unresolved-link="" t="t">Option</span>[<a href="../config/Player.html" t="t">Player</a>])
  </div>
 </div>
 <div class="cover">
@@ -37,6 +37,12 @@
    </dt>
    <dd class="body-medium">
     <p>Whether the game is over.</p> 
+   </dd>
+   <dt class="body-small">
+    isPaused
+   </dt>
+   <dd class="body-medium">
+    <p>Whether the game is paused.</p> 
    </dd>
    <dt class="body-small">
     playerScores
