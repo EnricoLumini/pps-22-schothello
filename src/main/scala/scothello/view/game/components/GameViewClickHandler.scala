@@ -2,6 +2,7 @@ package scothello.view.game.components
 
 import scothello.controller.game.GameController
 import scothello.model.board.Tile
+import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
 
 trait GameViewClickHandler:
@@ -20,9 +21,8 @@ object GameViewClickHandler:
       def state: GameState = gameController.state
 
       override def onTileClick(tile: Tile): Unit =
-        state.allowedTiles.get(tile) match
-          case Some(player) =>
-            gameController.placePawn(tile)
-            gameController.flipPawns(tile)
-            gameController.nextTurn()
-          case _ => ()
+        if state.allowedTiles.get(state.turn.player).exists(_.contains(tile)) then
+          gameController.placePawn(tile)
+          gameController.flipPawns(tile)
+          gameController.nextTurn()
+        else ()

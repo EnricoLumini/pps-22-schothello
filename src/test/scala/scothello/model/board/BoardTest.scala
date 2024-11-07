@@ -10,14 +10,13 @@ class BoardTest extends BaseTest with BoardTestsRanges with PlayerProvider:
     val assignedPawns = AssignedPawns.initial(twoPlayers, centralTiles)
     val allowedTiles = AllowedTiles.calculate(twoPlayers._1, assignedPawns)
 
-    val map = Map.from(
-      Seq(
-        Tile(2, 3) -> twoPlayers._1,
-        Tile(3, 2) -> twoPlayers._1,
-        Tile(4, 5) -> twoPlayers._1,
-        Tile(5, 4) -> twoPlayers._1
+    val map = Map(
+      twoPlayers._1 -> Set(
+        Tile(2, 3),
+        Tile(3, 2),
+        Tile(4, 5),
+        Tile(5, 4)
       )
     )
-    allowedTiles should have size 4
     allowedTiles shouldBe map
   }

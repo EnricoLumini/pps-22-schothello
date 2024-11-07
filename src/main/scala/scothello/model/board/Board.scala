@@ -3,6 +3,7 @@ package scothello.model.board
 import scothello.model.game.config.Player
 import scothello.model.components.AssignedPawns
 
+import java.security.PrivateKey
 import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
@@ -40,41 +41,48 @@ final case class Board(
   */
 case class CentralTiles(upperLeft: Tile, upperRight: Tile, lowerLeft: Tile, lowerRight: Tile)
 
-type AllowedTiles = Map[Tile, Player]
+type AllowedTiles = Map[Player, Set[Tile]]
 
 object AllowedTiles:
   val flipsMap = mutable.Map.empty[Tile, ArrayBuffer[Tile]]
   private val flips: ArrayBuffer[Tile] = ArrayBuffer.empty
+  private val allowedTiles = mutable.Map.empty[Player, Set[Tile]]
 
-  def empty: AllowedTiles = Map.empty[Tile, Player]
+  def empty: AllowedTiles = Map.empty[Player, Set[Tile]]
 
   def initial(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
     calculate(player, assignedPawns)
 
   def calculate(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
-    val opponentPlayer = assignedPawns.values.find(_.player != player).map(_.player)
+    allowedTiles.update(player, calculatePlayerAllowedTiles(player, assignedPawns).getOrElse(player, Set()))
+    val allowed: AllowedTiles = allowedTiles.toMap
+    allowed
 
+  private def calculatePlayerAllowedTiles(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
     assignedPawns
       .collect {
         case (tile, pawn) if pawn.player == player =>
-          val adjacentOpponents = getAdjacentOpponents(tile, opponentPlayer.get, assignedPawns)
+          val adjacentOpponents = getAdjacentOpponents(tile, player, assignedPawns)
           adjacentOpponents.flatMap { opponentTile =>
             calculateNewPosition(tile, opponentTile, player, assignedPawns) match
               case Some(newTile) =>
                 flips.clear()
-                Some(newTile -> player)
+                Some(player -> newTile)
               case _ =>
                 flips.clear()
                 None
           }
       }
       .flatten
-      .toMap
+      .groupBy(_._1)
+      .map { case (player, tiles) =>
+        player -> tiles.map(_._2).toSet
+      }
 
-  private def getAdjacentOpponents(tile: Tile, opponent: Player, assignedPawns: AssignedPawns): Seq[Tile] =
+  private def getAdjacentOpponents(tile: Tile, player: Player, assignedPawns: AssignedPawns): Seq[Tile] =
     val adjacentPositions = adjacentTiles(tile)
     adjacentPositions.filter { adjTile =>
-      assignedPawns.get(adjTile).exists(_.player == opponent)
+      assignedPawns.get(adjTile).exists(_.player != player)
     }
 
   @tailrec
@@ -121,8 +129,11 @@ object AllowedTiles:
       case (row, col) if row >= 0 && row < 8 && col >= 0 && col < 8 => Tile(row, col)
     }
 
-  def checkIfAvailableMoves(allowedTiles: AllowedTiles): Boolean =
-    allowedTiles.isEmpty
+  def checkIfPlayerAllowedMoves(allowedTiles: AllowedTiles, player: Player): Boolean =
+    allowedTiles.get(player).exists(_.isEmpty)
+
+  def checkIfAllowedMoves(allowedTiles: AllowedTiles): Boolean =
+    allowedTiles.forall { case (_, tiles) => tiles.isEmpty }
 
   def resetMap(): Unit =
     flipsMap.clear()
