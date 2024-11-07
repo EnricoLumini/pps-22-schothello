@@ -30,6 +30,11 @@ class GameStateTest extends BaseTest:
     gameState.playerScores shouldBe Map.empty
   }
 
+  it should "not be paused on creation" in {
+    val gameState = GameState()
+    gameState.isPaused shouldBe false
+  }
+
   it should "not be over on creation" in {
     val gameState = GameState()
     gameState.isOver shouldBe false

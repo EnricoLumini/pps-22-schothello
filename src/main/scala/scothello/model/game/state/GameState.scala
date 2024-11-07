@@ -6,8 +6,6 @@ import scothello.model.game.config.Player
 import scothello.model.components.{AssignedPawns, Scores}
 import scothello.utils.Pair
 
-import scala.annotation.tailrec
-
 /** The state of a game of Scothello.
   * @param players
   *   The players of the game.
@@ -21,6 +19,8 @@ import scala.annotation.tailrec
   *   The scores of the players.
   * @param isOver
   *   Whether the game is over.
+  * @param isPaused
+  *   Whether the game is paused.
   * @param winner
   *   The winner of the game.
   */
@@ -32,6 +32,7 @@ final case class GameState(
     turn: Turn,
     playerScores: Scores,
     isOver: Boolean,
+    isPaused: Boolean,
     winner: Option[Player]
 )
 
@@ -46,5 +47,6 @@ object GameState:
       turn = Turn.empty,
       playerScores = Scores.empty,
       isOver = false,
+      isPaused = false,
       winner = Option.empty
     )

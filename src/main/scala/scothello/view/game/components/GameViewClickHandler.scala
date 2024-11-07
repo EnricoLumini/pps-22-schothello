@@ -12,6 +12,12 @@ trait GameViewClickHandler:
     */
   def onTileClick(tile: Tile): Unit
 
+  def onStopGameButtonClick(): Unit
+
+  def onStopGameConfirmClick(): Unit
+
+  def onStopGameCancelClick(): Unit
+
 object GameViewClickHandler:
 
   def apply(gameController: GameController): GameViewClickHandler =
@@ -26,3 +32,12 @@ object GameViewClickHandler:
             gameController.flipPawns(tile)
             gameController.nextTurn()
           case _ => ()
+
+      override def onStopGameButtonClick(): Unit =
+        gameController.pauseGame()
+
+      override def onStopGameConfirmClick(): Unit =
+        gameController.stopGame()
+
+      override def onStopGameCancelClick(): Unit =
+        gameController.resumeGame()

@@ -4,7 +4,7 @@ import scothello.controller.{BaseController, Controller}
 import scothello.view.game.GameView
 import scothello.model.ModelOps.updateState
 import scothello.model.board.Tile
-import scothello.model.game.state.ops.GameOps.{nextTurn, placePawn, calculateAllowedPos, flipPawns}
+import scothello.model.game.state.ops.GameOps.*
 
 /** Controller for the game page */
 trait GameController extends Controller:
@@ -29,6 +29,15 @@ trait GameController extends Controller:
     */
   def flipPawns(tile: Tile): Unit
 
+  /** Pauses the game */
+  def pauseGame(): Unit
+
+  /** Resume the game */
+  def resumeGame(): Unit
+
+  /** Stops the game */
+  def stopGame(): Unit
+
 object GameController:
 
   def apply(requirements: Controller.Requirements[GameView]): GameController =
@@ -49,3 +58,12 @@ private class GameControllerImpl(requirements: Controller.Requirements[GameView]
 
   override def flipPawns(tile: Tile): Unit =
     this.model.updateState(_.flipPawns(tile))
+
+  override def pauseGame(): Unit =
+    this.model.updateState(_.pauseGame())
+
+  override def resumeGame(): Unit =
+    this.model.updateState(_.resumeGame())
+
+  override def stopGame(): Unit =
+    this.model.updateState(_.stopGame())
