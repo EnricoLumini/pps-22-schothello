@@ -1,7 +1,7 @@
 package scothello.view.game.components
 
 import scothello.controller.game.GameController
-import scothello.model.board.Tile
+import scothello.model.board.{AllowedTiles, Tile}
 import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
 
@@ -27,7 +27,7 @@ object GameViewClickHandler:
       def state: GameState = gameController.state
 
       override def onTileClick(tile: Tile): Unit =
-        if state.allowedTiles.get(state.turn.player).exists(_.contains(tile)) then
+        if AllowedTiles.checkIfTileIsAllowed(state.allowedTiles, state.turn.player, tile) then
           gameController.placePawn(tile)
           gameController.flipPawns(tile)
           gameController.nextTurn()

@@ -13,7 +13,9 @@ import scothello.model.components.AssignedPawns
 import scothello.view.utils.ColorMapper
 import scalafx.Includes.jfxObservableValue2sfx
 import scothello.controller.game.GameController
+import scothello.game.pages.Pages
 import scothello.model.game.config.Player
+import scothello.view.BaseScalaFXView
 
 object BoardComponent:
 
@@ -25,7 +27,8 @@ object BoardComponent:
       displayScene: Scene,
       reactiveGameState: ObjectProperty[GameState],
       clickHandler: GameViewClickHandler,
-      gameController: GameController
+      gameController: GameController,
+      gameView: BaseScalaFXView[GameController]
   ): HBox =
     new HBox:
       alignment = Center
@@ -47,8 +50,8 @@ object BoardComponent:
 
         drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue, reactiveGameState.map(_.turn.player).getValue)
         reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-          if AllowedTiles.checkIfAllowedMoves(allowedTiles) then println("TODO") // todo
-          else if AllowedTiles.checkIfPlayerAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
+          if AllowedTiles.checkIfNoAllowedMoves(allowedTiles) then gameView.navigateTo(Pages.End)
+          else if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
           then gameController.nextTurn()
           else drawAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
         }

@@ -6,6 +6,7 @@ import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{HBox, VBox}
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.game.GameController
+import scothello.game.pages.Pages
 import scothello.model.game.state.GameState
 import scothello.view.game.components.*
 
@@ -18,6 +19,8 @@ object GameView:
 private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requirements[GameController])
     extends BaseScalaFXView(mainScene, requirements)
     with GameView:
+
+  given gameView: BaseScalaFXView[GameController] = this
 
   override def parent: Parent = new VBox:
     stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)

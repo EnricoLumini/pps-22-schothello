@@ -7,6 +7,8 @@ import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control.{Alert, Button, ButtonType}
 import scalafx.scene.layout.HBox
 import scothello.controller.game.GameController
+import scothello.game.pages.Pages
+import scothello.view.BaseScalaFXView
 
 object StopButtonComponent:
 
@@ -16,7 +18,8 @@ object StopButtonComponent:
   def stopButtonComponent(using
       displayScene: Scene,
       gameController: GameController,
-      clickHandler: GameViewClickHandler
+      clickHandler: GameViewClickHandler,
+      gameView: BaseScalaFXView[GameController]
   ): HBox =
     new HBox:
       alignment = BottomRight
@@ -45,7 +48,7 @@ object StopButtonComponent:
           alert.showAndWait() match
             case Some(ButtonType.Yes) =>
               clickHandler.onStopGameConfirmClick()
-            // TODO: Navigate to the end game page
+              gameView.navigateTo(Pages.End)
             case _ =>
               clickHandler.onStopGameCancelClick()
 

@@ -129,11 +129,14 @@ object AllowedTiles:
       case (row, col) if row >= 0 && row < 8 && col >= 0 && col < 8 => Tile(row, col)
     }
 
-  def checkIfPlayerAllowedMoves(allowedTiles: AllowedTiles, player: Player): Boolean =
+  def checkIfPlayerNoAllowedMoves(allowedTiles: AllowedTiles, player: Player): Boolean =
     allowedTiles.get(player).exists(_.isEmpty)
 
-  def checkIfAllowedMoves(allowedTiles: AllowedTiles): Boolean =
+  def checkIfNoAllowedMoves(allowedTiles: AllowedTiles): Boolean =
     allowedTiles.forall { case (_, tiles) => tiles.isEmpty }
+
+  def checkIfTileIsAllowed(allowedTiles: AllowedTiles, player: Player, tile: Tile): Boolean =
+    allowedTiles.get(player).exists(_.contains(tile))
 
   def resetMap(): Unit =
     flipsMap.clear()

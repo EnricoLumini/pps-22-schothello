@@ -26,7 +26,7 @@ object NotificationsBarComponent:
         prefHeight = notificationsBarHeight / 2
 
       reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-        if AllowedTiles.checkIfPlayerAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue) then
+        if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue) then
           showMessage(message)
       }
 
