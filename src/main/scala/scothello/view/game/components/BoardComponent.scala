@@ -4,16 +4,16 @@ import scalafx.beans.property.{DoubleProperty, ObjectProperty, ReadOnlyDoublePro
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
-import scalafx.scene.layout.{HBox, Pane, Priority}
+import scalafx.scene.layout.{HBox, Pane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.{Circle, Rectangle}
 import scothello.model.game.state.GameState
-import scothello.model.board.{AllowedTiles, Board}
+import scothello.model.board.{AllowedTiles, Board, Tile}
 import scothello.model.components.AssignedPawns
 import scothello.view.utils.ColorMapper
 import scalafx.Includes.jfxObservableValue2sfx
-import scalafx.beans.value.ObservableValue
 import scothello.controller.game.GameController
+import scothello.model.game.config.Player
 
 object BoardComponent:
 
@@ -45,10 +45,12 @@ object BoardComponent:
           drawPawns(assignedPawn)
         }
 
-        drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue)
+        drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue, reactiveGameState.map(_.turn.player).getValue)
         reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-          if AllowedTiles.checkIfAvailableMoves(allowedTiles) then gameController.nextTurn()
-          else drawAllowedMoves(allowedTiles)
+          if AllowedTiles.checkIfAllowedMoves(allowedTiles) then println("TODO") // todo
+          else if AllowedTiles.checkIfPlayerAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
+          then gameController.nextTurn()
+          else drawAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
         }
 
         reactiveGameState.map(_.turn).onChange { (_, _, _) =>
@@ -96,21 +98,20 @@ object BoardComponent:
         case None => ()
     }
 
-  private def drawAllowedMoves(allowedTiles: AllowedTiles)(using board: Pane, gameBoard: Board): Unit =
+  private def drawAllowedMoves(allowedTiles: AllowedTiles, player: Player)(using board: Pane, gameBoard: Board): Unit =
     gameBoard.tiles.zipWithIndex.foreach { (tile, i) =>
-      allowedTiles.get(tile) match
-        case Some(player) =>
-          val pawnCircle: Circle = new Circle():
-            val square: Rectangle = squares.get(i)
-            radius <== square.width / 3
-            fill = Color.Transparent
-            stroke = Color.Black
-            strokeWidth = 2
-            centerX = square.x.value + square.width.value / 2
-            centerY = square.y.value + square.height.value / 2
-            mouseTransparent = true
+      if allowedTiles.get(player).exists(_.contains(tile)) then
+        val pawnCircle: Circle = new Circle():
+          val square: Rectangle = squares.get(i)
+          radius <== square.width / 3
+          fill = Color.Transparent
+          stroke = Color.Black
+          strokeWidth = 2
+          centerX = square.x.value + square.width.value / 2
+          centerY = square.y.value + square.height.value / 2
+          mouseTransparent = true
 
-          allowedTilesCircles += pawnCircle
-          board.children += pawnCircle
-        case None => ()
+        allowedTilesCircles += pawnCircle
+        board.children += pawnCircle
+      else ()
     }
