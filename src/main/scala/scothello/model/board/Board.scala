@@ -28,6 +28,9 @@ final case class Board(
     lowerRight = Tile(rows / 2, cols / 2)
   )
 
+  /** The total number of tiles on the board. */
+  val size: Int = rows * cols
+
 /** The central tiles of the board.
   *
   * @param upperLeft

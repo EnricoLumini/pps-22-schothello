@@ -12,6 +12,7 @@ import scothello.controller.end.EndgameController
 import scothello.game.pages.Pages
 import scothello.model.game.config.Player
 import scothello.utils.Pair.oppositeOf
+import scothello.model.components.AssignedPawns.pawnCounts
 
 trait EndgameView extends View
 
@@ -33,7 +34,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     val homeButton: Button = new Button:
       text = "Home"
-      onAction = _ => println("Home")
+      onAction = _ => navigateToHomePage()
 
     val exitButton: Button = new Button:
       text = "Exit"
@@ -43,22 +44,19 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     children.addAll(mainLayout)
 
-    // val label: Label = new Label():
-    //  text <== when(reactiveState.map(_.isOver)) then gameFinished() otherwise gameStopped()
-
-    // children += label
-
   private def gameFinishedLayout(): VBox =
     new VBox:
       alignment = Center
 
       val winner: Player = reactiveState.value.winner.get
+      val loser: Player = reactiveState.value.players.oppositeOf(winner).get
       val winnerLabel: Label = new Label:
         text = winner.name + " is the winner!"
 
+      val scores: Map[Player, Int] = reactiveState.value.assignedPawns.pawnCounts
       val scoresData: ObservableBuffer[(Player, Int)] = ObservableBuffer(
-        (winner, 0),
-        (reactiveState.value.players.oppositeOf(winner).get, 0)
+        (winner, reactiveState.value.board.size - scores(loser)),
+        (loser, scores(loser))
       )
       val scoresTable: TableView[(Player, Int)] = new TableView[(Player, Int)](scoresData):
         val rowHeight = 30
@@ -89,3 +87,6 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
   private def navigateToStartPage(): Unit =
     this.navigateTo(Pages.Start)
+
+  private def navigateToHomePage(): Unit =
+    this.navigateTo(Pages.Home)
