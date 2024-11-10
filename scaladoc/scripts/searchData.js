@@ -88,6 +88,7 @@ pages = [{"l":"index.html#","e":false,"i":"","n":"Scothello","t":"Scothello","d"
 {"l":"scothello/model/board/AllowedTiles$.html#resetMap-94c","e":false,"i":"","n":"resetMap","t":"resetMap(): Unit","d":"scothello.model.board.AllowedTiles","k":"def","x":""},
 {"l":"scothello/model/board/Board.html#","e":false,"i":"","n":"Board","t":"Board(rows: Int, cols: Int) extends TiledBoard","d":"scothello.model.board","k":"class","x":""},
 {"l":"scothello/model/board/Board.html#centralTiles-0","e":false,"i":"","n":"centralTiles","t":"centralTiles: CentralTiles","d":"scothello.model.board.Board","k":"val","x":""},
+{"l":"scothello/model/board/Board.html#size-0","e":false,"i":"","n":"size","t":"size: Int","d":"scothello.model.board.Board","k":"val","x":""},
 {"l":"scothello/model/board/CentralTiles.html#","e":false,"i":"","n":"CentralTiles","t":"CentralTiles(upperLeft: Tile, upperRight: Tile, lowerLeft: Tile, lowerRight: Tile)","d":"scothello.model.board","k":"class","x":""},
 {"l":"scothello/model/board/Tile.html#","e":false,"i":"","n":"Tile","t":"Tile","d":"scothello.model.board","k":"trait","x":""},
 {"l":"scothello/model/board/Tile.html#col-0","e":false,"i":"","n":"col","t":"col: Int","d":"scothello.model.board.Tile","k":"def","x":""},
