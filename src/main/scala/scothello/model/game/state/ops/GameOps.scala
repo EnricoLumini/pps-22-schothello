@@ -2,6 +2,8 @@ package scothello.model.game.state.ops
 
 import scothello.model.board.{AllowedTiles, Tile}
 import scothello.model.components.{AssignedPawns, Pawn, Scores}
+import scothello.model.components.AssignedPawns.pawnCounts
+import scothello.model.game.config.Player
 import scothello.model.game.{Turn, TurnManager}
 import scothello.model.game.state.GameState
 
@@ -65,10 +67,27 @@ object GameOps:
         )
       )
 
+    // TODO: Find if necessary
     def stopGame(): Option[GameState] =
-      // TODO: Find the winner
       Some(
         state.copy(
-          isOver = true
+          isOver = false
         )
       )
+
+    def endGame(): Option[GameState] =
+      val winner = determineWinner(state)
+      Some(
+        state.copy(
+          isOver = true,
+          winner = winner
+        )
+      )
+
+  private def determineWinner(state: GameState): Option[Player] =
+    val pawnCounts: Map[Player, Int] = state.assignedPawns.pawnCounts
+
+    val (leadingPlayer, maxCount) = pawnCounts.maxBy(_._2)
+
+    if pawnCounts.values.count(_ == maxCount) > 1 then None
+    else Some(leadingPlayer)

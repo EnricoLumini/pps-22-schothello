@@ -38,6 +38,9 @@ trait GameController extends Controller:
   /** Stops the game */
   def stopGame(): Unit
 
+  /** Ends the game */
+  def endGame(): Unit
+
 object GameController:
 
   def apply(requirements: Controller.Requirements[GameView]): GameController =
@@ -67,3 +70,6 @@ private class GameControllerImpl(requirements: Controller.Requirements[GameView]
 
   override def stopGame(): Unit =
     this.model.updateState(_.stopGame())
+
+  override def endGame(): Unit =
+    this.model.updateState(_.endGame())

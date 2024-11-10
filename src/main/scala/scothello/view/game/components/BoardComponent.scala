@@ -50,7 +50,9 @@ object BoardComponent:
 
         drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue, reactiveGameState.map(_.turn.player).getValue)
         reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-          if AllowedTiles.checkIfNoAllowedMoves(allowedTiles) then gameView.navigateTo(Pages.End)
+          if AllowedTiles.checkIfNoAllowedMoves(allowedTiles) then
+            gameController.endGame()
+            gameView.navigateTo(Pages.End)
           else if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
           then gameController.nextTurn()
           else drawAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)

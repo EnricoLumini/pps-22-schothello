@@ -26,3 +26,11 @@ object AssignedPawns:
     centralTiles.upperRight -> Pawn(players._1),
     centralTiles.lowerLeft -> Pawn(players._1)
   )
+
+  extension (assignedPawns: AssignedPawns)
+    def pawnCounts: Map[Player, Int] =
+      assignedPawns.values
+        .groupBy(_.player)
+        .view
+        .mapValues(_.size)
+        .toMap
