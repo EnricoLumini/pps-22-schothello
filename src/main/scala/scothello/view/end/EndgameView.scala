@@ -1,12 +1,11 @@
 package scothello.view.end
 
-import scalafx.Includes.when
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos.Center
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.control.{Button, Label, TableColumn, TableView}
-import scalafx.scene.layout.{HBox, VBox}
+import scalafx.scene.layout.VBox
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.end.EndgameController
 import scothello.game.pages.Pages
@@ -30,7 +29,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     val startNewGameButton: Button = new Button:
       text = "New Game"
-      onAction = _ => println("New game") // navigateToStartPage()
+      onAction = _ => navigateToStartPage()
 
     val homeButton: Button = new Button:
       text = "Home"

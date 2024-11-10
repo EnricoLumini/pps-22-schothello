@@ -67,14 +67,6 @@ object GameOps:
         )
       )
 
-    // TODO: Find if necessary
-    def stopGame(): Option[GameState] =
-      Some(
-        state.copy(
-          isOver = false
-        )
-      )
-
     def endGame(): Option[GameState] =
       val winner = determineWinner(state)
       Some(

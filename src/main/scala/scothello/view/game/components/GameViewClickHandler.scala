@@ -15,8 +15,6 @@ trait GameViewClickHandler:
 
   def onStopGameButtonClick(): Unit
 
-  def onStopGameConfirmClick(): Unit
-
   def onStopGameCancelClick(): Unit
 
 object GameViewClickHandler:
@@ -35,9 +33,6 @@ object GameViewClickHandler:
 
       override def onStopGameButtonClick(): Unit =
         gameController.pauseGame()
-
-      override def onStopGameConfirmClick(): Unit =
-        gameController.stopGame()
 
       override def onStopGameCancelClick(): Unit =
         gameController.resumeGame()

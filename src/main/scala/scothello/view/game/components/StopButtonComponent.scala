@@ -47,7 +47,6 @@ object StopButtonComponent:
             buttonTypes = Seq(ButtonType.Yes, ButtonType.No)
           alert.showAndWait() match
             case Some(ButtonType.Yes) =>
-              clickHandler.onStopGameConfirmClick()
               gameView.navigateTo(Pages.End)
             case _ =>
               clickHandler.onStopGameCancelClick()
