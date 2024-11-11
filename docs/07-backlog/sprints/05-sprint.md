@@ -6,15 +6,15 @@ nav_order: 5
 # Sprint 5 [28/10/2024 - 03/11/2024]
 
 | Backlog Item                                                                           | Id  | Task                                              | Volontario | Stima (h) | Effettivo (h) | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
-|:---------------------------------------------------------------------------------------|:---:|:--------------------------------------------------|------------|:---------:|:-------------:|----|----|----|---|----|----|----|
-| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.1 | Modellazione posizionamento pedina in view        | Lumini     |     2     |       2       | 1  | -  | -  | - | -  | -  | -  |
-| Come giocatore, voglio che il turno passi all’altro giocatore per continuare il gioco. | 8.1 | Implementazione gestione cambio turno             | Ercolani   |     8     |       6       | -  | 6  | -  | - | -  | -  | -  |
-| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.2 | Creazione algoritmo posizioni permesse            | Ercolani   |     8     |       8       | -  | -  | 8  | - | -  | -  | -  |
-| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.3 | Implementazione operazioni di gioco in model      | Ercolani   |     2     |       4       | -  | -  | -  | 4 | -  | -  | -  |
-| Come giocatore, voglio che le pedine avversarie catturate diventino del mio colore.    | 7.1 | Creazione algoritmo di cambio colore delle pedine | Ercolani   |     2     |       4       | -  | -  | -  | - | 4  | -  | -  |
-| Come giocatore, voglio che le pedine avversarie catturate diventino del mio colore.    | 7.2 | Riorganizzazione in MVC e inserimento in model    | Team       |     2     |       2       | -  | -  | -  | - | 2  | -  | -  |
-| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.4 | Riorganizzazione struttura MVC                    | Lumini     |     4     |       6       | -  | -  | -  | - | -  | -  | 6  |
-|                                                                                        |     | **TOT**                                           |            |    28     |      32       | -  | 4  | 2  | - | 4  | 1  | -  |
+|:---------------------------------------------------------------------------------------|:---:|:--------------------------------------------------|------------|:---------:|:-------------:|----|----|----|----|----|----|----|
+| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.1 | Modellazione posizionamento pedina in view        | Lumini     |     2     |       2       | 1  | -  | -  | -  | -  | -  | -  |
+| Come giocatore, voglio che il turno passi all’altro giocatore per continuare il gioco. | 8.1 | Implementazione gestione cambio turno             | Ercolani   |     8     |       6       | -  | 6  | -  | -  | -  | -  | -  |
+| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.2 | Creazione algoritmo posizioni permesse            | Ercolani   |     8     |       8       | -  | -  | 8  | -  | -  | -  | -  |
+| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.3 | Implementazione operazioni di gioco in model      | Ercolani   |     2     |       4       | -  | -  | -  | 4  | -  | -  | -  |
+| Come giocatore, voglio che le pedine avversarie catturate diventino del mio colore.    | 7.1 | Creazione algoritmo di cambio colore delle pedine | Ercolani   |     2     |       4       | -  | -  | -  | -  | 4  | -  | -  |
+| Come giocatore, voglio che le pedine avversarie catturate diventino del mio colore.    | 7.2 | Riorganizzazione in MVC e inserimento in model    | Team       |     2     |       2       | -  | -  | -  | -  | 2  | -  | -  |
+| Come giocatore, voglio posizionare una pedina del mio colore in una posizione valida.  | 6.4 | Riorganizzazione struttura MVC                    | Lumini     |     4     |       6       | -  | -  | -  | -  | -  | -  | 6  |
+|                                                                                        |     | **TOT**                                           |            |    28     |      32       | 1  | 6  | 8  | 4  | 6  | -  | 6  |
 
 ## Sprint goal
 

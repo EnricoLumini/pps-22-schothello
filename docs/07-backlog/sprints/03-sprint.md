@@ -5,14 +5,14 @@ nav_order: 3
 ---
 # Sprint 3 [14/10/2024 - 20/10/2024]
 
-| Backlog Item           | Id  | Task                                 | Volontario | Stima (h) | Effettivo (h) | D1  | D2  | D3  | D4 | D5  | D6  |
-|:-----------------------|:---:|:-------------------------------------|------------|:---------:|:-------------:|-----|-----|-----|----|-----|-----|
-| Software architecture  | 3.2 | Implementazione struttura Model      | Lumini     |     2     |       2       | 4   | -   | -   | -  | -   | -   |
-| Software architecture  | 3.3 | Implementazione struttura View       | Lumini     |     2     |       2       | -   | 2   | -   | -  | -   | -   |
-| Software architecture  | 3.4 | Implementazione struttura Controller | Lumini     |     2     |       2       | -   | -   | 2   | -  | -   | -   |
-| Software architecture  | 3.5 | Integrazione MVC con ScalaFX         | Team       |     2     |       2       | -   | -   | -   | 2  | -   | -   |
-| Software architecture  | 3.6 | Perfezionamento struttura MVC        | Team       |     2     |       4       | -   | -   | -   | -  | 2   | 2   |
-|                        |     | **TOT**                              |            |    10     |      14       | -   | -   | -   | -  | -   | -   |
+| Backlog Item           | Id  | Task                                 | Volontario | Stima (h) | Effettivo (h) | D1 | D2 | D3 | D4 | D5 | D6 |
+|:-----------------------|:---:|:-------------------------------------|------------|:---------:|:-------------:|----|----|----|----|----|----|
+| Software architecture  | 3.2 | Implementazione struttura Model      | Lumini     |     2     |       2       | 4  | -  | -  | -  | -  | -  |
+| Software architecture  | 3.3 | Implementazione struttura View       | Lumini     |     2     |       2       | -  | 2  | -  | -  | -  | -  |
+| Software architecture  | 3.4 | Implementazione struttura Controller | Lumini     |     2     |       2       | -  | -  | 2  | -  | -  | -  |
+| Software architecture  | 3.5 | Integrazione MVC con ScalaFX         | Team       |     2     |       2       | -  | -  | -  | 2  | -  | -  |
+| Software architecture  | 3.6 | Perfezionamento struttura MVC        | Team       |     2     |       4       | -  | -  | -  | -  | 2  | 2  |
+|                        |     | **TOT**                              |            |    10     |      14       | 4  | 2  | 2  | 2  | 2  | 2  |
 
 ## Sprint goal
 
