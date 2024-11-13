@@ -28,7 +28,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
     alignment = Center
     stylesheets = List(getClass.getResource("/styles/endgamepage.css").toExternalForm)
 
-    val mainLayout: VBox = if reactiveState.value.isOver then gameOverLayout() else gameStoppedLayout()
+    val mainLayout: VBox = if reactiveState.value.isOver then gameOverLayout(this) else gameStoppedLayout()
 
     val startNewGameButton: Button = new Button:
       text = "New Game"
@@ -46,7 +46,14 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     children.addAll(mainLayout)
 
-  private def gameOverLayout(): VBox =
+  private def gameOverLayout(parent: VBox): VBox =
+    parent.setStyle(
+      """
+        | -fx-background-image: url('/imgs/win-background.png');
+        | -fx-background-size: cover;
+        | -fx-background-position: center center;
+      """.stripMargin
+    )
     new VBox:
       alignment = Center
       spacing = 40
