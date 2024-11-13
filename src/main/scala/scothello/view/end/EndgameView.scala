@@ -2,7 +2,8 @@ package scothello.view.end
 
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 import scalafx.collections.ObservableBuffer
-import scalafx.geometry.Pos.Center
+import scalafx.geometry.Insets
+import scalafx.geometry.Pos.{Center, TopCenter}
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.control.{Button, Label, TableColumn, TableView}
 import scalafx.scene.layout.VBox
@@ -24,8 +25,10 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
     with EndgameView:
 
   override def parent: Parent = new VBox:
+    alignment = Center
+    stylesheets = List(getClass.getResource("/styles/endgamepage.css").toExternalForm)
 
-    val mainLayout: VBox = if reactiveState.value.isOver then gameFinishedLayout() else gameStoppedLayout()
+    val mainLayout: VBox = if reactiveState.value.isOver then gameOverLayout() else gameStoppedLayout()
 
     val startNewGameButton: Button = new Button:
       text = "New Game"
@@ -43,9 +46,10 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     children.addAll(mainLayout)
 
-  private def gameFinishedLayout(): VBox =
+  private def gameOverLayout(): VBox =
     new VBox:
       alignment = Center
+      spacing = 40
 
       val winner: Player = reactiveState.value.winner.get
       val loser: Player = reactiveState.value.players.oppositeOf(winner).get
@@ -58,11 +62,12 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
         (loser, scores(loser))
       )
       val scoresTable: TableView[(Player, Int)] = new TableView[(Player, Int)](scoresData):
-        val rowHeight = 30
-        val headerHeight = 25
+        val cellHeight: Double = 60
 
-        prefWidth = mainScene.width.value * 0.5
-        prefHeight = headerHeight + rowHeight * scoresData.size
+        this.setColumnResizePolicy(TableView.ConstrainedResizePolicy);
+        this.setFixedCellSize(cellHeight)
+        this.setMaxSize(mainScene.height.value * 0.5, cellHeight * 3)
+        prefWidth = 200
         columns ++= List(
           new TableColumn[(Player, Int), String]:
             text = "Player name"
@@ -79,9 +84,11 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
   private def gameStoppedLayout(): VBox =
     new VBox:
+      spacing = 40
       alignment = Center
       children = List(
-        new Label("Game Stopped")
+        new Label("Game was interrupted"):
+          id = "gameInterruptedLabel"
       )
 
   private def navigateToStartPage(): Unit =
