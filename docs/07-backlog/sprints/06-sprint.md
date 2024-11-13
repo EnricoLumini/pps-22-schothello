@@ -3,7 +3,7 @@ title: Sprint 6
 parent: Backlog
 nav_order: 6
 ---
-# Sprint 5 [04/11/2024 - 10/11/2024]
+# Sprint 6 [04/11/2024 - 10/11/2024]
 
 | Backlog Item                                                                                        |  Id  | Task                                                        | Volontario | Stima (h) | Effettivo (h) | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |:----------------------------------------------------------------------------------------------------|:----:|:------------------------------------------------------------|------------|:---------:|:-------------:|----|----|----|----|----|----|----|
@@ -25,7 +25,7 @@ Gli obiettivi di questo Sprint sono stati:
 * Visualizzazione in tempo reale del conteggio delle pedine nere e bianche, in modo che i giocatori possano vedere chi sta vincendo
 * Implementazione avviso per i giocatori quando non hanno mosse valide disponibili, tramite una notifica visiva chiara
 * Implementazione controllo della partita (pausa, ripresa e annullamento)
-* Implemtnazione della logica per identificare quando il gioco è terminato e notificare il vincitore tramite una pagina finale
+* Implementazione della logica per identificare quando il gioco è terminato e notificare il vincitore tramite una pagina finale
 
 ## Deadline
 
@@ -39,4 +39,4 @@ Il tempo totale impiegato è stato superiore rispetto alla stima iniziale.
 
 ## Sprint retrospective
 Il team ha completato con successo tutte le attività prefissate.
-Il tema ha collaborato in perfetta sincronia stabilendo un'ottima suddivisione dei compiti.
+Il team ha collaborato in perfetta sincronia stabilendo un'ottima suddivisione dei compiti.
