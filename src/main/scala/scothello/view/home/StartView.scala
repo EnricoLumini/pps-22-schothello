@@ -59,7 +59,7 @@ private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirem
           markFieldInvalid(player2Field)
           validInput = false
 
-        if player1Name == player2Name then
+        if player1Name == player2Name && (player1Name.nonEmpty && player2Name.nonEmpty) then
           markFieldInvalid(player1Field)
           markFieldInvalid(player2Field)
           validInput = false
