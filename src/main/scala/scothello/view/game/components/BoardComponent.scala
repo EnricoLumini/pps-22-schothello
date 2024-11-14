@@ -16,6 +16,7 @@ import scothello.controller.game.GameController
 import scothello.game.pages.Pages
 import scothello.model.game.config.Player
 import scothello.view.BaseScalaFXView
+import scalafx.Includes.jfxNode2sfx
 
 object BoardComponent:
 
@@ -93,8 +94,13 @@ object BoardComponent:
     gameBoard.tiles.zipWithIndex.foreach { (tile, i) =>
       assignedPawn.get(tile) match
         case Some(pawn) =>
+          val square: Rectangle = squares.get(i)
+          val circleId = square.x.value + "," + square.y.value
+
+          board.children.find(_.id.value == circleId).foreach(board.children -= _)
+
           val pawnCircle: Circle = new Circle():
-            val square: Rectangle = squares.get(i)
+            id = circleId
             radius <== square.width / 3
             fill = ColorMapper.toFxColor(pawn.player.color)
             centerX = square.x.value + square.width.value / 2
