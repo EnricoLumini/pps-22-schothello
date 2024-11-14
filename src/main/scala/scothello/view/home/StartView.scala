@@ -57,6 +57,17 @@ private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirem
           markFieldInvalid(player2Field)
           validInput = false
 
+        if player1Name == player2Name then
+          markFieldInvalid(player1Field)
+          markFieldInvalid(player2Field)
+          validInput = false
+          val errorMessage = new Label("Names must be different")
+          errorMessage.setStyle(
+            "-fx-text-fill: red;" +
+              "-fx-font-size: 15"
+          )
+          children += errorMessage
+
         if validInput then
           controller.startGame((player1Name, player2Name))
           navigateToGamePage()
