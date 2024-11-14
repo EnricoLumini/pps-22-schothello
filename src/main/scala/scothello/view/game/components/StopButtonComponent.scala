@@ -28,6 +28,8 @@ object StopButtonComponent:
         style = s"""
           -fx-background-image: url('/imgs/stop-button.png');
           -fx-background-radius: ${buttonRadius}px;
+          -fx-background-repeat: no-repeat;
+          -fx-background-position: center;
           -fx-background-size: contain;
           -fx-background-color: transparent;
           -fx-border-color: transparent;
