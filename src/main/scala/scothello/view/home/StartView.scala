@@ -16,13 +16,13 @@ object StartView:
     BaseScalaFXStartView(scene, requirements)
 
 /** Represents the home view.
-  * @param scene
+  * @param mainScene
   *   The parent pane.
   * @param requirements
   *   The requirements of the view.
   */
-private class BaseScalaFXStartView(scene: Scene, requirements: View.Requirements[StartController])
-    extends BaseScalaFXView(scene, requirements)
+private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirements[StartController])
+    extends BaseScalaFXView(mainScene, requirements)
     with StartView:
 
   override def parent: Parent = new VBox:

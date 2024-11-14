@@ -1,5 +1,6 @@
 package scothello.view.end
 
+import javafx.scene.text.TextAlignment
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Insets
@@ -7,6 +8,8 @@ import scalafx.geometry.Pos.{Center, TopCenter}
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.control.{Button, Label, TableColumn, TableView}
 import scalafx.scene.layout.VBox
+import scalafx.scene.paint.Color
+import scalafx.scene.text.{Text, TextFlow}
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.end.EndgameController
 import scothello.game.pages.Pages
@@ -40,7 +43,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
     val exitButton: Button = new Button:
       text = "Exit"
-      onAction = _ => println("Exit")
+      onAction = _ => System.exit(0)
 
     mainLayout.children.addAll(startNewGameButton, homeButton, exitButton)
 
@@ -60,8 +63,15 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
 
       val winner: Player = reactiveState.value.winner.get
       val loser: Player = reactiveState.value.players.oppositeOf(winner).get
-      val winnerLabel: Label = new Label:
-        text = winner.name + " is the winner!"
+      val winnerLabel: TextFlow = new TextFlow:
+        children = Seq(
+          new Text(winner.name + " "):
+            fill = Color.Red
+          ,
+          new Text("is the winner!"):
+            fill = Color.White
+        )
+      winnerLabel.setTextAlignment(TextAlignment.CENTER)
 
       val scores: Map[Player, Int] = reactiveState.value.assignedPawns.pawnCounts
       val scoresData: ObservableBuffer[(Player, Int)] = ObservableBuffer(

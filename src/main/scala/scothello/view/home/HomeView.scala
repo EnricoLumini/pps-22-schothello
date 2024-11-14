@@ -1,5 +1,6 @@
 package scothello.view.home
 
+import scalafx.geometry.Insets
 import scalafx.geometry.Pos.{Center, TopCenter}
 import scalafx.scene.{Node, Parent, Scene}
 import scalafx.scene.control.Button
@@ -16,17 +17,16 @@ object HomeView:
     BaseScalaFXHomeView(scene, requirements)
 
 /** Represents the home view.
-  * @param scene
+  * @param mainScene
   *   The parent pane.
   * @param requirements
   *   The requirements of the view.
   */
-private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[HomeController])
-    extends BaseScalaFXView(scene, requirements)
+private class BaseScalaFXHomeView(mainScene: Scene, requirements: View.Requirements[HomeController])
+    extends BaseScalaFXView(mainScene, requirements)
     with HomeView:
 
   override def parent: Parent = new VBox:
-    spacing = 170
     stylesheets = List(getClass.getResource("/styles/homepage.css").toExternalForm)
 
     val logo: ImageView = new ImageView(
@@ -35,13 +35,19 @@ private class BaseScalaFXHomeView(scene: Scene, requirements: View.Requirements[
       preserveRatio = true
       alignment = TopCenter
 
-    val button: Button = new Button("Start"):
-      id = "startButton"
-      text = "Start"
+    val startButton: Button = new Button("START"):
+      margin = Insets(mainScene.height.value * 0.15, 0, 10, 0)
       alignment = Center
       onAction = _ => navigateToStart()
 
-    children += logo += button
+    val creditsButton: Button = new Button("CREDITS"):
+      alignment = Center
+      onAction = _ => navigateToCredits()
+
+    children.addAll(logo, startButton, creditsButton)
 
   private def navigateToStart(): Unit =
     this.navigateTo(Pages.Start)
+
+  private def navigateToCredits(): Unit =
+    this.navigateTo(Pages.Credits)
