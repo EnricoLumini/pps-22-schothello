@@ -47,7 +47,7 @@ private class BaseScalaFXCreditsView(mainScene: Scene, requirements: View.Requir
     val creditsText: TextFlow = new TextFlow:
       children = Seq(
         logo,
-        new Text("\n\n\n Desgined, Developed and Published by: \n\n\n"):
+        new Text("\n\n\n Designed, Developed and Published by: \n\n\n"):
           fill = Color.Red
         ,
         new Text("Enrico Lumini \n"):
