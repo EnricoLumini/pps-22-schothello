@@ -8,6 +8,7 @@ import scothello.controller.home.StartController
 import scothello.game.pages.Pages
 import scothello.utils.Pair
 import scothello.view.{BaseScalaFXView, View}
+import scalafx.Includes.jfxNode2sfx
 
 trait StartView extends View
 
@@ -45,6 +46,7 @@ private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirem
       text = "Start"
       alignment = Center
       onAction = _ =>
+        removeById("error-message")
         val player1Name = player1Field.text.value.trim
         val player2Name = player2Field.text.value.trim
 
@@ -61,7 +63,9 @@ private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirem
           markFieldInvalid(player1Field)
           markFieldInvalid(player2Field)
           validInput = false
-          val errorMessage = new Label("Names must be different")
+
+          val errorMessage = new Label("Names must be different"):
+            id = "error-message"
           errorMessage.setStyle(
             "-fx-text-fill: red;" +
               "-fx-font-size: 15"
@@ -87,6 +91,9 @@ private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirem
 
     addTextFieldListener(player1Field)
     addTextFieldListener(player2Field)
+
+    private def removeById(nodeId: String): Unit =
+      children.find(_.id.value == nodeId).foreach(children -= _)
 
   private def navigateToGamePage(): Unit =
     this.navigateTo(Pages.Game)
