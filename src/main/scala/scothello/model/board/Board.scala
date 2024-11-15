@@ -54,6 +54,8 @@ object AllowedTiles:
   def empty: AllowedTiles = Map.empty[Player, Set[Tile]]
 
   def initial(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
+    this.resetMap()
+    this.allowedTiles.clear()
     calculate(player, assignedPawns)
 
   def calculate(player: Player, assignedPawns: AssignedPawns): AllowedTiles =

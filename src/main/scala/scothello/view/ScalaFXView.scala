@@ -46,7 +46,9 @@ abstract class BaseScalaFXView[C <: Controller](
 
   private val _reactiveState: ObjectProperty[GameState] = ObjectProperty(controller.state)
 
-  override def reactiveState: ObjectProperty[GameState] = _reactiveState
+  override def reactiveState: ObjectProperty[GameState] =
+    _reactiveState.set(controller.state)
+    _reactiveState
 
   override def updateState(state: GameState): Unit =
     super.updateState(state)

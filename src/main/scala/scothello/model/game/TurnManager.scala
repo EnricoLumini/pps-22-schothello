@@ -17,6 +17,8 @@ object TurnManager:
     initialTurnPlayer = playerIterator.next()
 
   def initialTurn: Turn =
+    //fixme aggiunto per riazzerare il turno
+    currentTurnNumber = 1
     Turn.ValidTurn(1, initialTurnPlayer)
 
   def nextTurn: Turn =
