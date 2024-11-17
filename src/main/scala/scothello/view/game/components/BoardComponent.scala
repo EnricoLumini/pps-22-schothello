@@ -1,6 +1,6 @@
 package scothello.view.game.components
 
-import scalafx.beans.property.{DoubleProperty, ObjectProperty, ReadOnlyDoubleProperty}
+import scalafx.beans.property.DoubleProperty
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
@@ -8,14 +8,14 @@ import scalafx.scene.layout.{HBox, Pane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.{Circle, Rectangle}
 import scothello.model.game.state.GameState
-import scothello.model.board.{AllowedTiles, Board, Tile}
+import scothello.model.board.{AllowedTiles, Board}
 import scothello.model.components.AssignedPawns
 import scothello.view.utils.ColorMapper
-import scalafx.Includes.jfxObservableValue2sfx
 import scothello.controller.game.GameController
 import scothello.game.pages.Pages
 import scothello.model.game.config.Player
 import scothello.view.BaseScalaFXView
+import scothello.view.utils.ResettableObjectProperty
 import scalafx.Includes.jfxNode2sfx
 
 object BoardComponent:
@@ -24,9 +24,8 @@ object BoardComponent:
   private val squares: ObservableBuffer[Rectangle] = ObservableBuffer()
   private val allowedTilesCircles: ObservableBuffer[Circle] = ObservableBuffer[Circle]()
 
-  def boardComponent(topComponentHeights: Double*)(using
+  def boardComponent(reactiveGameState: ResettableObjectProperty[GameState], topComponentHeights: Double*)(using
       displayScene: Scene,
-      reactiveGameState: ObjectProperty[GameState],
       clickHandler: GameViewClickHandler,
       gameController: GameController,
       gameView: BaseScalaFXView[GameController]
@@ -40,23 +39,25 @@ object BoardComponent:
         prefWidth <== prefHeight
 
         given board: Pane = this
-        given gameBoard: Board = reactiveGameState.map(_.board).getValue
+        given gameBoard: Board = reactiveGameState.value.board
 
         drawBoard(prefWidth, prefHeight)
 
-        drawPawns(reactiveGameState.map(_.assignedPawns).getValue)
+        drawPawns(reactiveGameState.value.assignedPawns)
+
         reactiveGameState.map(_.assignedPawns).onChange { (_, _, assignedPawn) =>
           drawPawns(assignedPawn)
         }
 
-        drawAllowedMoves(reactiveGameState.map(_.allowedTiles).getValue, reactiveGameState.map(_.turn.player).getValue)
+        drawAllowedMoves(reactiveGameState.value.allowedTiles, reactiveGameState.value.turn.player)
         reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
           if AllowedTiles.checkIfNoAllowedMoves(allowedTiles) then
+            reactiveGameState.removeListeners()
             gameController.endGame()
             gameView.navigateTo(Pages.End)
-          else if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
+          else if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.value.turn.player)
           then gameController.nextTurn()
-          else drawAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue)
+          else drawAllowedMoves(allowedTiles, reactiveGameState.value.turn.player)
         }
 
         reactiveGameState.map(_.turn).onChange { (_, _, _) =>

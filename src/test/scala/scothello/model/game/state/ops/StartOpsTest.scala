@@ -14,8 +14,7 @@ class StartOpsTest extends BaseTest with PlayerProvider:
   val playerNames: Pair[String] = Pair.fromSeq(twoPlayers.map(_.name))
 
   "A state with Start Ops" should "start the game" in {
-    val state = GameState()
-    val newState = state.startGame(playerNames)
+    val newState = startGame(playerNames)
     newState should not be None
     newState match
       case Some(s) =>
@@ -26,8 +25,7 @@ class StartOpsTest extends BaseTest with PlayerProvider:
   }
 
   it should "assign black color to first player and white to second" in {
-    val state = GameState()
-    val newState = state.startGame(playerNames)
+    val newState = startGame(playerNames)
     newState should not be None
     newState match
       case Some(s) =>

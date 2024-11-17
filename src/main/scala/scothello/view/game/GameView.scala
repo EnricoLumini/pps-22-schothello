@@ -9,6 +9,7 @@ import scothello.controller.game.GameController
 import scothello.game.pages.Pages
 import scothello.model.game.state.GameState
 import scothello.view.game.components.*
+import scothello.view.utils.ResettableObjectProperty
 
 trait GameView extends View
 
@@ -26,16 +27,19 @@ private class BaseScalaFXGameView(mainScene: Scene, requirements: View.Requireme
     stylesheets = List(getClass.getResource("/styles/gamepage.css").toExternalForm)
 
     given displayScene: Scene = mainScene
-    given reactiveGameState: ObjectProperty[GameState] = reactiveState
     given clickHandler: GameViewClickHandler = GameViewClickHandler(controller)
     given gameController: GameController = requirements.controller
 
     val headerHeight: Double = mainScene.height.value / 8
     val notificationsBarHeight: Double = mainScene.height.value / 24
 
-    val header: HBox = HeaderComponent.headerComponent(headerHeight)
-    val notificationsBar: HBox = NotificationsBarComponent.notificationsBarComponent(notificationsBarHeight)
-    val board: HBox = BoardComponent.boardComponent(headerHeight, notificationsBarHeight)
-    val stopButton: HBox = StopButtonComponent.stopButtonComponent
+    val header: HBox =
+      HeaderComponent.headerComponent(reactiveState, headerHeight)
+    val notificationsBar: HBox =
+      NotificationsBarComponent.notificationsBarComponent(reactiveState, notificationsBarHeight)
+    val board: HBox =
+      BoardComponent.boardComponent(reactiveState, headerHeight, notificationsBarHeight)
+    val stopButton: HBox =
+      StopButtonComponent.stopButtonComponent(reactiveState)
 
     children.addAll(header, notificationsBar, board, stopButton)

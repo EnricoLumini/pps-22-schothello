@@ -1,22 +1,19 @@
 package scothello.view.game.components
 
 import scalafx.animation.{PauseTransition, SequentialTransition, TranslateTransition}
-import scalafx.beans.property.ObjectProperty
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
 import scalafx.scene.control.Label
 import scalafx.scene.layout.HBox
 import scalafx.util.Duration
-import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
-import scalafx.Includes.jfxObservableValue2sfx
-import scothello.model.board.{AllowedTiles, Tile}
+import scothello.model.board.AllowedTiles
+import scothello.view.utils.ResettableObjectProperty
 
 object NotificationsBarComponent:
 
-  def notificationsBarComponent(notificationsBarHeight: Double)(using
-      displayScene: Scene,
-      reactiveGameState: ObjectProperty[GameState]
+  def notificationsBarComponent(reactiveGameState: ResettableObjectProperty[GameState], notificationsBarHeight: Double)(
+      using displayScene: Scene
   ): HBox =
     new HBox:
       prefHeight = notificationsBarHeight
@@ -26,15 +23,14 @@ object NotificationsBarComponent:
         prefHeight = notificationsBarHeight / 2
 
       reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-        if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.map(_.turn.player).getValue) then
-          showMessage(message)
+        if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.value.turn.player) then
+          showMessage(reactiveGameState, message)
       }
 
       children += message
 
-  private def showMessage(message: Label)(using
-      displayScene: Scene,
-      reactiveGameState: ObjectProperty[GameState]
+  private def showMessage(reactiveGameState: ResettableObjectProperty[GameState], message: Label)(using
+      displayScene: Scene
   ): Unit =
     message.text = s"No allowed moves, player ${reactiveGameState.value.turn.player.name} skips turn"
     message.id = "notificationLabel"

@@ -1,10 +1,10 @@
 package scothello.view
 
-import scalafx.beans.property.ObjectProperty
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.Pane
 import scothello.controller.Controller
 import scothello.model.game.state.GameState
+import scothello.view.utils.ResettableObjectProperty
 
 /** Represents a ScalaFX view.
   * @param scene
@@ -16,7 +16,7 @@ trait ScalaFXView(
 ) extends View:
 
   /** The reactive state of the game. */
-  def reactiveState: ObjectProperty[GameState]
+  def reactiveState: ResettableObjectProperty[GameState]
 
   /** The parent pane. */
   def parent: Parent
@@ -44,9 +44,9 @@ abstract class BaseScalaFXView[C <: Controller](
 ) extends BaseView[C](requirements)
     with ScalaFXView(scene):
 
-  private val _reactiveState: ObjectProperty[GameState] = ObjectProperty(controller.state)
+  private val _reactiveState: ResettableObjectProperty[GameState] = ResettableObjectProperty(controller.state)
 
-  override def reactiveState: ObjectProperty[GameState] =
+  override def reactiveState: ResettableObjectProperty[GameState] =
     _reactiveState.set(controller.state)
     _reactiveState
 

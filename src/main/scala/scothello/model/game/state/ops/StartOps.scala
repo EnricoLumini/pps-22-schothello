@@ -10,23 +10,23 @@ import scothello.utils.Pair
 /** Operations on [[GameState]] related to the start of the game */
 object StartOps:
 
-  extension (state: GameState)
-    def startGame(usernames: Pair[String]): Option[GameState] =
-      val players: Pair[Player] = Pair(
-        Player(usernames._1, PlayerColor.Black),
-        Player(usernames._2, PlayerColor.White)
-      )
-      val initialAssignedPawns: AssignedPawns =
-        AssignedPawns.initial(players, state.board.centralTiles)
+  def startGame(usernames: Pair[String]): Option[GameState] =
+    val state = GameState()
+    val players: Pair[Player] = Pair(
+      Player(usernames._1, PlayerColor.Black),
+      Player(usernames._2, PlayerColor.White)
+    )
+    val initialAssignedPawns: AssignedPawns =
+      AssignedPawns.initial(players, state.board.centralTiles)
 
-      TurnManager(players)
+    TurnManager(players)
 
-      Some(
-        state.copy(
-          players = players,
-          assignedPawns = initialAssignedPawns,
-          allowedTiles = AllowedTiles.initial(players._1, initialAssignedPawns),
-          turn = TurnManager.initialTurn,
-          playerScores = Scores.calculateScores(initialAssignedPawns)
-        )
+    Some(
+      state.copy(
+        players = players,
+        assignedPawns = initialAssignedPawns,
+        allowedTiles = AllowedTiles.initial(players._1, initialAssignedPawns),
+        turn = TurnManager.initialTurn,
+        playerScores = Scores.calculateScores(initialAssignedPawns)
       )
+    )

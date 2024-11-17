@@ -8,14 +8,16 @@ import scalafx.scene.control.{Alert, Button, ButtonType}
 import scalafx.scene.layout.HBox
 import scothello.controller.game.GameController
 import scothello.game.pages.Pages
+import scothello.model.game.state.GameState
 import scothello.view.BaseScalaFXView
+import scothello.view.utils.ResettableObjectProperty
 
 object StopButtonComponent:
 
   private val buttonRadius: Int = 20
   private val paddingSize: Int = 10
 
-  def stopButtonComponent(using
+  def stopButtonComponent(reactiveGameState: ResettableObjectProperty[GameState])(using
       displayScene: Scene,
       gameController: GameController,
       clickHandler: GameViewClickHandler,
@@ -49,6 +51,7 @@ object StopButtonComponent:
             buttonTypes = Seq(ButtonType.Yes, ButtonType.No)
           alert.showAndWait() match
             case Some(ButtonType.Yes) =>
+              reactiveGameState.removeListeners()
               gameView.navigateTo(Pages.End)
             case _ =>
               clickHandler.onStopGameCancelClick()

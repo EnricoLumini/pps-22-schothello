@@ -3,21 +3,22 @@ package scothello.view.game.components
 import javafx.application.Platform
 import scalafx.animation.PauseTransition
 import scalafx.beans.property
-import scalafx.beans.property.{ObjectProperty, StringProperty}
+import scalafx.beans.property.StringProperty
 import scalafx.geometry.Pos.Center
 import scalafx.scene.Scene
 import scalafx.scene.control.Label
 import scalafx.scene.layout.VBox
 import scalafx.util.Duration
 import scothello.model.game.state.GameState
-import scalafx.Includes.jfxObservableValue2sfx
+import scothello.view.utils.ResettableObjectProperty
 
 object ClockComponent:
 
-  def clockComponent(using displayScene: Scene, reactiveGameState: ObjectProperty[GameState]): VBox =
+  def clockComponent(reactiveGameState: ResettableObjectProperty[GameState])(using displayScene: Scene): VBox =
     new VBox:
       prefWidth = displayScene.width.value / 3
       alignment = Center
+      Clock.start()
 
       val clockLabel: Label = new Label:
         id = "clockLabel"
@@ -46,7 +47,10 @@ object Clock:
     curTime.value = formatTime(secondsElapsed)
     timer.playFromStart()
 
-  timer.play()
+  def start(): Unit =
+    secondsElapsed = 0
+    curTime.value = formatTime(secondsElapsed)
+    timer.play()
 
   def pause(): Unit =
     timer.stop()
