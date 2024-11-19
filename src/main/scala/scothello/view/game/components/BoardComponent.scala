@@ -50,19 +50,19 @@ object BoardComponent:
         }
 
         drawAllowedMoves(reactiveGameState.value.allowedTiles, reactiveGameState.value.turn.player)
-        reactiveGameState.map(_.allowedTiles).onChange { (_, _, allowedTiles) =>
-          if AllowedTiles.checkIfNoAllowedMoves(allowedTiles) then
-            reactiveGameState.removeListeners()
-            gameController.endGame()
-            gameView.navigateTo(Pages.End)
-          else if AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, reactiveGameState.value.turn.player)
-          then gameController.nextTurn()
-          else drawAllowedMoves(allowedTiles, reactiveGameState.value.turn.player)
-        }
 
         reactiveGameState.map(_.turn).onChange { (_, _, _) =>
           clearAllowedTilesCircles
           gameController.calculateAllowedPos()
+
+          if AllowedTiles.checkIfNoAllowedMoves(reactiveGameState.value.allowedTiles) then
+            reactiveGameState.removeListeners()
+            gameController.endGame()
+            gameView.navigateTo(Pages.End)
+          else if AllowedTiles
+              .checkIfPlayerNoAllowedMoves(reactiveGameState.value.allowedTiles, reactiveGameState.value.turn.player)
+          then gameController.nextTurn()
+          else drawAllowedMoves(reactiveGameState.value.allowedTiles, reactiveGameState.value.turn.player)
         }
 
       children += board

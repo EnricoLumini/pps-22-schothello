@@ -50,33 +50,57 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
     children.addAll(mainLayout)
 
   private def gameOverLayout(parent: VBox): VBox =
-    parent.setStyle(
-      """
-        | -fx-background-image: url('/imgs/win-background.png');
-        | -fx-background-size: cover;
-        | -fx-background-position: center center;
+    var firstPlayer: Player = null
+    var label: TextFlow = null
+
+    println(reactiveState.value.winner)
+    reactiveState.value.winner match
+      case Some(winner) =>
+        parent.setStyle(
+          """
+            | -fx-background-image: url('/imgs/win-background.png');
+            | -fx-background-size: cover;
+            | -fx-background-position: center center;
       """.stripMargin
-    )
+        )
+        firstPlayer = winner
+
+        label = new TextFlow:
+          children = Seq(
+            new Text(firstPlayer.name + " "):
+              fill = Color.Red
+            ,
+            new Text("is the winner!"):
+              fill = Color.White
+          )
+
+      case None =>
+        firstPlayer = reactiveState.value.players._1
+        label = new TextFlow:
+          children = Seq(
+            new Text("The game ends in a draw!"):
+              fill = Color.White
+          )
+
     new VBox:
       alignment = Center
       spacing = 40
 
-      val winner: Player = reactiveState.value.winner.get
-      val loser: Player = reactiveState.value.players.oppositeOf(winner).get
-      val winnerLabel: TextFlow = new TextFlow:
-        children = Seq(
-          new Text(winner.name + " "):
-            fill = Color.Red
-          ,
-          new Text("is the winner!"):
-            fill = Color.White
-        )
-      winnerLabel.setTextAlignment(TextAlignment.CENTER)
+      val secondPlayer: Player = reactiveState.value.players.oppositeOf(firstPlayer).get
+      label.setTextAlignment(TextAlignment.CENTER)
 
       val scores: Map[Player, Int] = reactiveState.value.assignedPawns.pawnCounts
+
+      var secondPlayerScore: Int = 0
+
+      scores.get(secondPlayer) match
+        case Some(value) =>
+          secondPlayerScore = value
+        case None => ()
+
       val scoresData: ObservableBuffer[(Player, Int)] = ObservableBuffer(
-        (winner, reactiveState.value.board.size - scores(loser)),
-        (loser, scores(loser))
+        (firstPlayer, reactiveState.value.board.size - secondPlayerScore),
+        (secondPlayer, secondPlayerScore)
       )
       val scoresTable: TableView[(Player, Int)] = new TableView[(Player, Int)](scoresData):
         val cellHeight: Double = 60
@@ -97,7 +121,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
             sortable = false
         )
 
-      children.addAll(winnerLabel, scoresTable)
+      children.addAll(label, scoresTable)
 
   private def gameStoppedLayout(): VBox =
     new VBox:
