@@ -5,15 +5,15 @@ nav_order: 4
 ---
 # Sprint 4 [21/10/2024 - 27/10/2024]
 
-| Backlog Item                                                                            | Id  | Task                                | Volontario | Stima (h) | Effettivo (h) | D1  | D2  | D3  | D4 | D5  | D6  |
-|:----------------------------------------------------------------------------------------|:---:|:------------------------------------|------------|:---------:|:-------------:|-----|-----|-----|----|-----|-----|
-| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.1 | Creazione pagina menù principale    | Lumini     |     2     |       2       | -   | 2   | -   | -  | -   | -   |
-| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.2 | Creazione pagina di inizio partita  | Ercolani   |     2     |       2       | -   | 2   | -   | -  | -   | -   |
-| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.3 | Creazione pagina di gioco           | Lumini     |     2     |       2       | -   | -   | 2   | -  | -   | -   |
-| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.1 | Model tavola e pedine               | Lumini     |     2     |       2       | -   | -   | -   | -  | 2   | -   |
-| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.2 | Mostrare graficamente la tavola     | Team       |     4     |       2       | -   | -   | -   | -  | 2   | -   |
-| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.3 | Mostrare le pedine iniziali         | Lumini     |     1     |       1       | -   | -   | -   | -  | -   | 1   |
-|                                                                                         |     | **TOT**                             |            |    13     |      11       | -   | 4   | 2   | -  | 4   | 1   |
+| Backlog Item                                                                            | Id  | Task                                | Volontario | Stima (h) | Effettivo (h) | D1  | D2  | D3 | D4 | D5  | D6  |
+|:----------------------------------------------------------------------------------------|:---:|:------------------------------------|------------|:---------:|:-------------:|-----|-----|----|----|-----|-----|
+| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.1 | Creazione pagina menù principale    | Lumini     |     2     |       2       | -   | 2   | -  | -  | -   | -   |
+| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.2 | Creazione pagina di inizio partita  | Ercolani   |     2     |       2       | -   | 2   | -  | -  | -   | -   |
+| Menù principale dell’applicazione e inizio di una nuova partita                         | 4.3 | Creazione pagina di gioco           | Lumini     |     4     |       4       | -   | -   | 4  | -  | -   | -   |
+| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.1 | Model tavola e pedine               | Lumini     |     1     |       2       | -   | -   | -  | -  | 2   | -   |
+| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.2 | Mostrare graficamente la tavola     | Team       |     4     |       2       | -   | -   | -  | -  | 2   | -   |
+| Come giocatore, voglio vedere la tavola di gioco per conoscere la situazione corrente.  | 5.3 | Mostrare le pedine iniziali         | Lumini     |     1     |       1       | -   | -   | -  | -  | -   | 1   |
+|                                                                                         |     | **TOT**                             |            |    14     |      13       | -   | 4   | 4  | -  | 4   | 1   |
 
 ## Sprint goal
 
