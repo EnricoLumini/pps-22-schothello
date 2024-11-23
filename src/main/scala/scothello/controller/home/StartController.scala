@@ -4,12 +4,15 @@ import scothello.controller.{BaseController, Controller}
 import scothello.utils.Pair
 import scothello.view.home.StartView
 import scothello.model.game.state.ops.StartOps
-import scothello.model.ModelOps.updateState
 
 /** Controller for the home page */
 trait StartController extends Controller:
 
-  /** Starts the game */
+  /** Starts the game
+    *
+    * @param usernames
+    *   the usernames of the players
+    */
   def startGame(usernames: Pair[String]): Unit
 
 object StartController:
@@ -22,4 +25,4 @@ private class StartControllerImpl(requirements: Controller.Requirements[StartVie
     with StartController:
 
   override def startGame(usernames: Pair[String]): Unit =
-    this.model.updateState(_ => StartOps.startGame(usernames))
+    this.model.update(_ => StartOps.startGame(usernames))

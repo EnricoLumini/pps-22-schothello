@@ -7,11 +7,20 @@ import scalafx.scene.layout.Pane
 import scothello.game.ScothelloGame
 import scothello.game.pages.Pages
 
+/** The main entry point for the application.
+  */
 object ScothelloGameManager:
 
+  /** Starts the game.
+    */
   def startGame(): Unit =
     ScothelloFXApp.main(Array.empty)
 
+  /** Navigates to the specified page.
+    *
+    * @param page
+    *   The page to navigate to.
+    */
   def navigateTo(page: Pages): Unit =
     ScothelloFXApp.navigateTo(page)
 

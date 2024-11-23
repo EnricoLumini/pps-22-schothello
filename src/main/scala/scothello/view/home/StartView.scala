@@ -10,18 +10,14 @@ import scothello.utils.Pair
 import scothello.view.{BaseScalaFXView, View}
 import scalafx.Includes.jfxNode2sfx
 
+/** Represents the start view.
+  */
 trait StartView extends View
 
 object StartView:
   def apply(scene: Scene, requirements: View.Requirements[StartController]): StartView =
     BaseScalaFXStartView(scene, requirements)
 
-/** Represents the home view.
-  * @param mainScene
-  *   The parent pane.
-  * @param requirements
-  *   The requirements of the view.
-  */
 private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirements[StartController])
     extends BaseScalaFXView(mainScene, requirements)
     with StartView:

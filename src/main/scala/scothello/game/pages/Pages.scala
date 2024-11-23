@@ -11,6 +11,8 @@ import scothello.view.home.{HomeView, StartView, CreditsView}
 
 given rootScene: Scene = ScothelloFXApp.rootScene
 
+/** Enum for the different pages of the game
+  */
 enum Pages(val pageFactory: PageFactory[?, ?]):
   case Home extends Pages(ScalaFXPageFactory(HomeView.apply, HomeController.apply))
   case Start extends Pages(ScalaFXPageFactory(StartView.apply, StartController.apply))

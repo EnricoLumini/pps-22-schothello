@@ -16,21 +16,15 @@ class StartOpsTest extends BaseTest with PlayerProvider:
   "A state with Start Ops" should "start the game" in {
     val newState = startGame(playerNames)
     newState should not be None
-    newState match
-      case Some(s) =>
-        s.players shouldBe twoPlayers
-        s.turn shouldBe Turn.initial(twoPlayers._1)
-        s.playerScores shouldBe Scores.calculateScores(s.assignedPawns)
-      case None => fail("Expected a new state")
+    newState.players shouldBe twoPlayers
+    newState.turn shouldBe Turn.initial(twoPlayers._1)
+    newState.playerScores shouldBe Scores.calculateScores(newState.assignedPawns)
   }
 
   it should "assign black color to first player and white to second" in {
     val newState = startGame(playerNames)
     newState should not be None
-    newState match
-      case Some(s) =>
-        s.players shouldBe twoPlayers
-        s.players._1.color shouldBe PlayerColor.Black
-        s.players._2.color shouldBe PlayerColor.White
-      case None => fail("Expected a new state")
+    newState.players shouldBe twoPlayers
+    newState.players._1.color shouldBe PlayerColor.Black
+    newState.players._2.color shouldBe PlayerColor.White
   }

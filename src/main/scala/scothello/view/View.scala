@@ -17,11 +17,8 @@ trait View:
     */
   def show(): Unit
 
-  /** Hides the view.
-    */
-  def hide(): Unit
-
   /** Updates the state of the view.
+    *
     * @param state
     *   The new state of the game.
     */
@@ -47,6 +44,7 @@ trait NavigatorView extends View:
   def navigateTo(page: Pages): Unit = ScothelloGameManager.navigateTo(page)
 
 /** Represents a base view.
+  *
   * @param requirements
   *   The requirements of the view.
   * @tparam C

@@ -3,8 +3,7 @@ package scothello.view.end
 import javafx.scene.text.TextAlignment
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 import scalafx.collections.ObservableBuffer
-import scalafx.geometry.Insets
-import scalafx.geometry.Pos.{Center, TopCenter}
+import scalafx.geometry.Pos.Center
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.control.{Button, Label, TableColumn, TableView}
 import scalafx.scene.layout.VBox
@@ -17,6 +16,8 @@ import scothello.model.game.config.Player
 import scothello.utils.Pair.oppositeOf
 import scothello.model.components.AssignedPawns.pawnCounts
 
+/** The view for the endgame page.
+  */
 trait EndgameView extends View
 
 object EndgameView:
@@ -53,7 +54,6 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
     var firstPlayer: Player = null
     var label: TextFlow = null
 
-    println(reactiveState.value.winner)
     reactiveState.value.winner match
       case Some(winner) =>
         parent.setStyle(
@@ -61,7 +61,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
             | -fx-background-image: url('/imgs/win-background.png');
             | -fx-background-size: cover;
             | -fx-background-position: center center;
-      """.stripMargin
+          """.stripMargin
         )
         firstPlayer = winner
 

@@ -5,6 +5,7 @@ import scothello.controller.Controller
 import scothello.view.{ScalaFXView, View}
 
 /** A factory for creating a page with a controller and a view.
+  *
   * @tparam C
   *   The type of the controller.
   * @tparam V

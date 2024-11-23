@@ -13,29 +13,47 @@ import scala.collection.mutable.ArrayBuffer
 object GameOps:
 
   extension (state: GameState)
-    def nextTurn(): Option[GameState] =
-      Some(
-        state.copy(
-          turn = TurnManager.nextTurn
-        )
+    /** Advance the game to the next turn
+      *
+      * @return
+      *   the updated game state
+      */
+    def nextTurn(): GameState =
+      state.copy(
+        turn = TurnManager.nextTurn
       )
 
-    def placePawn(tile: Tile): Option[GameState] =
+    /** Place a pawn on the board
+      *
+      * @param tile
+      *   the tile to place the pawn on
+      * @return
+      *   the updated game state
+      */
+    def placePawn(tile: Tile): GameState =
       val assignedPawns = state.assignedPawns + (tile -> Pawn(state.turn.player))
-      Some(
-        state.copy(
-          assignedPawns = assignedPawns
-        )
+      state.copy(
+        assignedPawns = assignedPawns
       )
 
-    def calculateAllowedPos(): Option[GameState] =
-      Some(
-        state.copy(
-          allowedTiles = AllowedTiles.calculate(state.turn.player, state.assignedPawns)
-        )
+    /** Calculate the allowed positions for the current player
+      *
+      * @return
+      *   the updated game state
+      */
+    def calculateAllowedPos(): GameState =
+      state.copy(
+        allowedTiles = AllowedTiles.calculate(state.turn.player, state.assignedPawns)
       )
 
-    def flipPawns(tile: Tile): Option[GameState] =
+    /** Flip the pawns on the board
+      *
+      * @param tile
+      *   the tile to flip the pawns from
+      * @return
+      *   the updated game state
+      */
+    def flipPawns(tile: Tile): GameState =
       val array = AllowedTiles.flipsMap.getOrElse(tile, ArrayBuffer.empty[Tile])
 
       val newAssignedPawns: AssignedPawns = state.assignedPawns.collect {
@@ -46,36 +64,50 @@ object GameOps:
       }
 
       AllowedTiles.resetMap()
-      Some(
-        state.copy(
-          assignedPawns = newAssignedPawns,
-          playerScores = Scores.calculateScores(newAssignedPawns)
-        )
+      state.copy(
+        assignedPawns = newAssignedPawns,
+        playerScores = Scores.calculateScores(newAssignedPawns)
       )
 
-    def pauseGame(): Option[GameState] =
-      Some(
-        state.copy(
-          isPaused = true
-        )
+    /** Pause the game
+      *
+      * @return
+      *   the updated game state
+      */
+    def pauseGame(): GameState =
+      state.copy(
+        isPaused = true
       )
 
-    def resumeGame(): Option[GameState] =
-      Some(
-        state.copy(
-          isPaused = false
-        )
+    /** Resume the game
+      *
+      * @return
+      *   the updated game state
+      */
+    def resumeGame(): GameState =
+      state.copy(
+        isPaused = false
       )
 
-    def endGame(): Option[GameState] =
+    /** End the game
+      *
+      * @return
+      *   the updated game state
+      */
+    def endGame(): GameState =
       val winner = determineWinner(state)
-      Some(
-        state.copy(
-          isOver = true,
-          winner = winner
-        )
+      state.copy(
+        isOver = true,
+        winner = winner
       )
 
+  /** Determine the winner of the game
+    *
+    * @param state
+    *   the game state
+    * @return
+    *   the winner of the game
+    */
   private def determineWinner(state: GameState): Option[Player] =
     val pawnCounts: Map[Player, Int] = state.assignedPawns.pawnCounts
 

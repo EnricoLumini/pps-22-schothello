@@ -24,6 +24,7 @@ object Controller:
     def controller: C
 
 /** Represents a reactive model wrapper.
+  *
   * @param view
   *   The view.
   * @param model
@@ -37,6 +38,7 @@ class ReactiveModelWrapper(view: => View, model: Model) extends Model:
     view.updateState(internalModel.state)
 
 /** Represents a base controller.
+  *
   * @param requirements
   *   The requirements of the controller.
   * @tparam V
@@ -52,6 +54,7 @@ abstract class BaseController[V <: View](
     new ReactiveModelWrapper(view, requirements.model)
 
 /** Represents an empty controller.
+  *
   * @param requirements
   *   The requirements of the controller.
   * @tparam V

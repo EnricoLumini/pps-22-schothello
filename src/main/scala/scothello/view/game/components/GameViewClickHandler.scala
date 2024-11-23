@@ -2,19 +2,25 @@ package scothello.view.game.components
 
 import scothello.controller.game.GameController
 import scothello.model.board.{AllowedTiles, Tile}
-import scothello.model.game.config.Player
 import scothello.model.game.state.GameState
 
+/** Handles the click on the game view
+  */
 trait GameViewClickHandler:
 
   /** Handles the click on a tile
+    *
     * @param tile
     *   the tile clicked
     */
   def onTileClick(tile: Tile): Unit
 
+  /** Handles the click on the stop game button
+    */
   def onStopGameButtonClick(): Unit
 
+  /** Handles the click on the stop game cancel button
+    */
   def onStopGameCancelClick(): Unit
 
 object GameViewClickHandler:

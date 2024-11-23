@@ -7,12 +7,14 @@ import scothello.model.game.config.Player
 sealed trait Turn:
 
   /** The turn number.
+    *
     * @return
     *   The turn number.
     */
   def number: Int
 
   /** The player taking the turn.
+    *
     * @return
     *   The player taking the turn.
     */
@@ -47,7 +49,7 @@ object Turn:
   def empty: Turn = EmptyTurn
 
   sealed trait Empty extends Turn:
-    def number: Int = 0 // Placeholder value, as no turn has occurred
+    def number: Int = 0
     def player: Player = Player.empty
 
   final case class ValidTurn(number: Int, player: Player) extends Turn:

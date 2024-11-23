@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleObjectProperty
 import scalafx.beans.value.ObservableValue
 import scalafx.event.subscriptions.Subscription
 
+/** A resettable object property that allows to remove all listeners
+  */
 class ResettableObjectProperty[T](initialValue: T) extends ObjectProperty[T](new SimpleObjectProperty[T](initialValue)):
 
   private var subscriptions: List[Subscription] = List.empty
@@ -26,6 +28,8 @@ class ResettableObjectProperty[T](initialValue: T) extends ObjectProperty[T](new
 
     mappedProperty
 
+  /** Removes all listeners
+    */
   def removeListeners(): Unit =
     subscriptions.foreach { subscription =>
       subscription.cancel()

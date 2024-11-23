@@ -10,18 +10,14 @@ import scothello.controller.home.HomeController
 import scothello.game.pages.Pages
 import scothello.view.{BaseScalaFXView, View}
 
+/** Represents the home view.
+  */
 trait HomeView extends View
 
 object HomeView:
   def apply(scene: Scene, requirements: View.Requirements[HomeController]): HomeView =
     BaseScalaFXHomeView(scene, requirements)
 
-/** Represents the home view.
-  * @param mainScene
-  *   The parent pane.
-  * @param requirements
-  *   The requirements of the view.
-  */
 private class BaseScalaFXHomeView(mainScene: Scene, requirements: View.Requirements[HomeController])
     extends BaseScalaFXView(mainScene, requirements)
     with HomeView:

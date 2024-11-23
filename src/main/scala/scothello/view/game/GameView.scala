@@ -1,16 +1,13 @@
 package scothello.view.game
 
-import scalafx.beans.property.ObjectProperty
-import scalafx.scene.control.Button
 import scalafx.scene.{Parent, Scene}
 import scalafx.scene.layout.{HBox, VBox}
 import scothello.view.{BaseScalaFXView, View}
 import scothello.controller.game.GameController
-import scothello.game.pages.Pages
-import scothello.model.game.state.GameState
-import scothello.view.game.components.*
-import scothello.view.utils.ResettableObjectProperty
 
+import scothello.view.game.components.*
+
+/** The view of the game page */
 trait GameView extends View
 
 object GameView:

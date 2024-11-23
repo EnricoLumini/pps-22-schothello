@@ -2,14 +2,15 @@ package scothello.controller.game
 
 import scothello.controller.{BaseController, Controller}
 import scothello.view.game.GameView
-import scothello.model.ModelOps.updateState
 import scothello.model.board.Tile
 import scothello.model.game.state.ops.GameOps.*
 
-/** Controller for the game page */
+/** Controller for the game page
+  */
 trait GameController extends Controller:
 
-  /** Increases the turn */
+  /** Increases the turn
+    */
   def nextTurn(): Unit
 
   /** Places a pawn on the board
@@ -19,7 +20,8 @@ trait GameController extends Controller:
     */
   def placePawn(tile: Tile): Unit
 
-  /** Calculates the allowed positions for the current player */
+  /** Calculates the allowed positions for the current player
+    */
   def calculateAllowedPos(): Unit
 
   /** Flips the pawns on the board
@@ -29,13 +31,16 @@ trait GameController extends Controller:
     */
   def flipPawns(tile: Tile): Unit
 
-  /** Pauses the game */
+  /** Pauses the game
+    */
   def pauseGame(): Unit
 
-  /** Resume the game */
+  /** Resume the game
+    */
   def resumeGame(): Unit
 
-  /** Ends the game */
+  /** Ends the game
+    */
   def endGame(): Unit
 
 object GameController:
@@ -48,22 +53,22 @@ private class GameControllerImpl(requirements: Controller.Requirements[GameView]
     with GameController:
 
   override def nextTurn(): Unit =
-    this.model.updateState(_.nextTurn())
+    this.model.update(_.nextTurn())
 
   override def placePawn(tile: Tile): Unit =
-    this.model.updateState(_.placePawn(tile))
+    this.model.update(_.placePawn(tile))
 
   override def calculateAllowedPos(): Unit =
-    this.model.updateState(_.calculateAllowedPos())
+    this.model.update(_.calculateAllowedPos())
 
   override def flipPawns(tile: Tile): Unit =
-    this.model.updateState(_.flipPawns(tile))
+    this.model.update(_.flipPawns(tile))
 
   override def pauseGame(): Unit =
-    this.model.updateState(_.pauseGame())
+    this.model.update(_.pauseGame())
 
   override def resumeGame(): Unit =
-    this.model.updateState(_.resumeGame())
+    this.model.update(_.resumeGame())
 
   override def endGame(): Unit =
-    this.model.updateState(_.endGame())
+    this.model.update(_.endGame())

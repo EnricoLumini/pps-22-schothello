@@ -7,12 +7,15 @@ import scothello.model.components.{AssignedPawns, Scores}
 import scothello.utils.Pair
 
 /** The state of a game of Scothello.
+  *
   * @param players
   *   The players of the game.
   * @param board
   *   The board of the game.
   * @param assignedPawns
   *   The pawns assigned to the tiles.
+  * @param allowedTiles
+  *   The tiles allowed to be played.
   * @param turn
   *   The current turn.
   * @param playerScores
@@ -38,6 +41,11 @@ final case class GameState(
 
 object GameState:
 
+  /** Creates a new game state.
+    *
+    * @return
+    *   A new game state.
+    */
   def apply(): GameState =
     GameState(
       players = (Player.empty, Player.empty),
