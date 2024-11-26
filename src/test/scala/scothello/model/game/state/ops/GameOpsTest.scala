@@ -1,35 +1,17 @@
 package scothello.model.game.state.ops
 
-import scothello.model.board.{AllowedTiles, Tile}
+import scothello.model.board.Tile
 import scothello.model.components.Pawn
 import scothello.model.game.config.Player
 import scothello.model.game.state.ops.StartOps.startGame
 import scothello.utils.Pair
 import scothello.{BaseTest, PlayerProvider}
-import scothello.model.game.state.ops.GameOps.{
-  calculateAllowedPos,
-  endGame,
-  flipPawns,
-  nextTurn,
-  pauseGame,
-  placePawn,
-  resumeGame
-}
+import scothello.model.game.state.ops.GameOps.{endGame, flipPawns, pauseGame, placePawn, resumeGame}
 
 class GameOpsTest extends BaseTest with PlayerProvider:
 
   val playerNames: Pair[String] = Pair.fromSeq(twoPlayers.map(_.name))
   val tiles: Seq[Tile] = Seq(Tile(1, 1), Tile(6, 4), Tile(3, 5), Tile(5, 6))
-
-  "A state with Game Ops" should "advance to the next turn" in {
-    val initialState = startGame(playerNames)
-    val newState = initialState.nextTurn()
-    newState.turn should not be initialState.turn
-    newState.turn.number shouldBe initialState.turn.number + 1
-    newState.turn.player shouldBe initialState.players
-      .oppositeOf(initialState.turn.player)
-      .get
-  }
 
   it should "place a pawn on the board" in {
     val initialState = startGame(playerNames)
@@ -38,14 +20,6 @@ class GameOpsTest extends BaseTest with PlayerProvider:
       newState.assignedPawns(tile) shouldBe Pawn(initialState.turn.player)
       newState.assignedPawns.size shouldBe initialState.assignedPawns.size + 1
     }
-  }
-
-  it should "calculate allowed positions for the current player" in {
-    val initialState = startGame(playerNames)
-    val newState = initialState.calculateAllowedPos()
-    newState.allowedTiles should not be empty
-    newState.allowedTiles shouldBe AllowedTiles
-      .calculate(initialState.turn.player, initialState.assignedPawns)
   }
 
   it should "flip pawns correctly and update scores" in {

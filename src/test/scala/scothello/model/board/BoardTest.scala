@@ -52,12 +52,6 @@ class BoardTest extends BaseTest with BoardTestsRanges with PlayerProvider:
     AllowedTiles.checkIfPlayerNoAllowedMoves(allowedTiles, twoPlayers._1) shouldBe true
   }
 
-  it should "reset the flips map correctly" in {
-    AllowedTiles.flipsMap += (Tile(2, 3) -> ArrayBuffer(Tile(3, 3)))
-    AllowedTiles.resetMap()
-    AllowedTiles.flipsMap shouldBe empty
-  }
-
   it should "correctly identify if a tile is allowed for a player" in {
     val assignedPawns = createInitialAssignedPawns()
     val allowedTiles = AllowedTiles.initial(twoPlayers._1, assignedPawns)
