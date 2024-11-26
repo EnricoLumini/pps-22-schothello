@@ -12,6 +12,7 @@ object TurnManager:
   private var initialTurnPlayer: Player = Player.empty
 
   def apply(players: Pair[Player]): Unit =
+    currentTurnNumber = 1
     playerIterator = LazyList.continually(Seq(players._1, players._2)).flatten.iterator
     initialTurnPlayer = playerIterator.next()
 
