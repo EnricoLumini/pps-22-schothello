@@ -3,8 +3,6 @@ package scothello.model.board
 import scothello.{BaseTest, PlayerProvider}
 import scothello.model.components.{AssignedPawns, Pawn}
 
-import scala.collection.mutable.ArrayBuffer
-
 class BoardTest extends BaseTest with BoardTestsRanges with PlayerProvider:
 
   def createInitialAssignedPawns(): AssignedPawns =
