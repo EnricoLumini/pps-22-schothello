@@ -1,7 +1,6 @@
 ---
 title: Design di dettaglio
 nav_order: 5
-toc: true
 ---
 
 # Design di dettaglio
@@ -33,6 +32,15 @@ Il Model consiste nello stato dell'applicazione, che viene modificato tramite l'
 Lo stato che viene esposto è quindi sempre un oggetto immutabile, permettendone la condivisione tra le varie componenti dell'applicazione.
 
 ### Controller
+L'elemento del controller è costituito dai singoli package che gesticono ciascuna delle pagine che vengono 
+visualizzate durante l'esecuzione del gioco, nello specifico:
+* `home`: contiene i controller per la pagina iniziale, dei crediti e di inizio gioco.
+* `game`: contiene il controller che gestisce le operazioni riguardanti l'esecuzione di una partita, dall'inizio
+alla fine.
+* `end`: contiene il controller per la pagina finale, a partita finita.
+
+L'aggiornamento dello stato della view avviene automaticamente grazie a `ReactiveModelWrapper`, che funge da
+intermediario avvolgendo il model e notificando la view ogni volta che lo stato subisce una modifica.
 
 ### View
 
