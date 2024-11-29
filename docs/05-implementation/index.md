@@ -161,7 +161,6 @@ core del gioco _Othello_. Le operazioni che il gioco deve gestire sono:
 * Calcolo delle mosse disponibili per il player che detiene il turno
 * Posizionamento di una pedina
 * Flip delle pedine "catturate"
-* Gestione fine/pausa/ripresa partita
 
 Tale operazioni sono state implementate all'interno di `GameOps`. Ciascuna di essa viene chiamata attraverso
 `GameController`.
@@ -312,4 +311,190 @@ _given instances_:
 
     children.addAll(header, notificationsBar, board, stopButton)
 ```
+
 ## Enrico Lumini
+Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti parti:
+
+* Creazione dell'architettura MVC
+* Modellazione dello stato della partita e implementazione di parte dei componenti relativi a quest'ultimo:
+  * Player
+  * Board
+  * AssignedPawns
+  * Turn
+  * Scores
+* Creazione della pagina di gioco
+* Implementazione del timer
+* Implementazione conteggio del punteggio
+* Implementazione azioni di pausa/ripristino e fine partita
+* Gestione delle CI per testing e deploy della documentazione
+
+
+Per quanto riguarda invece le parti per le quali il mio contributo è stato parziale e/o complementare,
+figurano le seguenti parti:
+
+### MVC
+L'architettura MVC è inspirata al Cake Pattern, si può notare infatti come ognuno dei tre componenti abbia ad esempio il concetto di dipendenza, gestite tramite un Mixin che trasforma i requirements in proprietà del componente.
+
+#### Controller
+Il Controller ha come dipendenze sia il Model che la View, in modo da poterli utilizzare all'interno del controller stesso.
+```scala
+trait Controller:
+  def state: GameState
+
+object Controller:
+  trait Requirements[V <: View] extends Model.Provider with View.Provider[V]
+
+  trait Dependencies[V <: View](requirements: Requirements[V]) extends Controller:
+    protected def view: V = requirements.view
+    protected def model: Model = requirements.model
+
+  trait Provider[C <: Controller]:
+    def controller: C
+```
+Per gestire gli update della view in maniera automatica è presente un `ReactiveModelWrapper` che incapsula il vero Model e si occupa di aggiornare la View ogni volta che lo stato del model cambia.
+```scala
+class ReactiveModelWrapper(view: => View, model: Model) extends Model:
+  private val internalModel = model
+  override def state: GameState = internalModel.state
+  override def update(u: GameState => GameState): Unit =
+    internalModel.update(u)
+    view.updateState(internalModel.state)
+```
+Questo permette la creazione di un controller Base che supporta automaticamente l'aggiornamento della rispettiva View.
+```scala
+abstract class BaseController[V <: View](
+    requirements: Controller.Requirements[V]
+) extends Controller
+    with Controller.Dependencies(requirements):
+
+  override def state: GameState = model.state
+  override val model: Model =
+    new ReactiveModelWrapper(view, requirements.model)
+```
+
+#### View
+Anche il concetto di View è strutturato seguendo la stessa logica del Controller, infatti anch'essa presenta le sue dipendenze, che in questo caso consistono solamente nel Controller.
+```scala
+trait View:
+  // stuff
+
+object View:
+  trait Requirements[C <: Controller] extends Controller.Provider[C]
+  
+  trait Dependencies[C <: Controller](requirements: Requirements[C]) extends View:
+    protected def controller: C = requirements.controller
+  
+  trait Provider[V <: View]:
+    def view: V
+```
+Per supportare la navigabilità tra le varie View, è presente un Mixin denominato `NavigatorView` che estende `View` aggiungendo il metodo `navigateTo`, il quale permette di navigare a una determinata pagina.
+```scala
+trait NavigatorView extends View:
+  def navigateTo(page: Pages): Unit = ScothelloGameManager.navigateTo(page)
+```
+Per supportare inoltre l'integrazione dell'architettura con ScalaFX, è presente un ulteriore Mixin, `ScalaFXView`, che aggiunge la proprietà `parent` che costituisce il nodo radice della View e che verrà poi implementato dalle view concrete.
+Questo componente inoltre si occupa di esporre lo stato reattivo in modo da poter essere sfruttato dagli elementi grafici poiché mantenuto sempre sincronizzato.
+```scala
+trait ScalaFXView(
+    val scene: Scene
+) extends View:
+
+  def reactiveState: ResettableObjectProperty[GameState]
+
+  def parent: Parent
+
+  override def show(): Unit =
+    scene.root = parent
+```
+La reattività viene implementata utilizzando la proprietà `ObjectProperty` di ScalaFX, che permette di osservare i cambiamenti di un valore generico e di reagire a essi in maniera automatica.
+In particolare viene incapsulato lo stato del gioco all'interno di una `ObjectProperty` in modo che ogni volta che quest'ultimo cambia, la View venga aggiornata automaticamente.
+```scala
+abstract class BaseScalaFXView[C <: Controller](
+    scene: Scene,
+    requirements: View.Requirements[C]
+) extends BaseView[C](requirements)
+    with ScalaFXView(scene):
+
+  private val _reactiveState: ResettableObjectProperty[GameState] = ResettableObjectProperty(controller.state)
+
+  // stuff
+
+  override def updateState(state: GameState): Unit =
+    super.updateState(state)
+    _reactiveState() = state
+```
+Per risolvere alcuni problemi legati alla gestione dei listener al momento della creazione di una nuova partita, è stata creata la classe `ResettableObjectProperty`, estensione della classe `ObjectProperty`, che permette di eliminare tutti i listener registrati sullo stato reattivo.
+```scala
+class ResettableObjectProperty[T](initialValue: T) extends ObjectProperty[T](new SimpleObjectProperty[T](initialValue)):
+
+  private var subscriptions: List[Subscription] = List.empty
+  private var derivedProperties: List[ResettableObjectProperty[_]] = List.empty
+
+  override def onChange[J1 >: T](op: (ObservableValue[T, T], J1, J1) => Unit): Subscription =
+    // save onChange subscription inside subscriptions
+
+  def map[R](f: T => R): ResettableObjectProperty[R] =
+    // save map derived property inside derivedProperties
+
+  /** Removes all listeners
+    */
+  def removeListeners(): Unit =
+    subscriptions.foreach { subscription =>
+      subscription.cancel()
+    }
+    derivedProperties.foreach(_.removeListeners())
+    subscriptions = List.empty
+```
+#### Game page
+La costruzione dei vari componenti viene effettuata all'interno della `GamePage` che è il componente che si occupa di istanziare la view e iul rispettivo controller passandogli le dipendenze necessarie.
+```scala
+trait GamePage[C <: Controller, V <: View](
+  override val model: Model,
+  val pageFactory: PageFactory[C, V]
+) extends Model.Requirements
+    with View.Requirements[C]
+    with Controller.Requirements[V]:
+  override lazy val view: V = pageFactory.viewFactory(this)
+  override lazy val controller: C = pageFactory.controllerFactory(this)
+```
+Quest'ultimo infatti al suo interno contiene tutte le dipendenze richieste da tutti i componenti e sfrutta questa proprietà per fare un'inizializzazione semplice e pulita.
+
+### Modellazione dei componenti della partita
+Per modellare lo stato della partita, come prima cosa, sono state individuate e definite le sue componenti principali, ovvero il `Player`, la `Board`, le `AssignedPawn`, le `AllowedTiles`, il `Turn` e gli `Scores`.
+L'implementazione delle `AllowedTiles` è stata fatta da [Francesco Ercolani](#francesco-ercolani), in quanto componente essenziale per l'implementazione del suo algoritmo per la gestione della logica di gioco.
+Le componenti `AssignedPawn`, `AllowedTiles` e `Scores` sono state implementate sfruttando i **type alias**, in modo da rendere il codice più leggibile.
+Di seguito sono riportati due esempi di definizione di **type alias**:
+* `AssignedPawns`
+```scala
+type AssignedPawns = Map[Tile, Pawn]
+
+object AssignedPawns:
+  // companion object with utility methods
+```
+* `Scores`
+```scala
+type Scores = Map[Player, Int]
+
+object Scores:
+  // companion object with utility methods
+```
+
+### Modellazione dello stato della partita
+In concomitanza della definizione delle componenti sopra citate, è stata modellata anche l'entità principale dello stato della partita, ovvero il `GameState`.
+Quest'ultimo contiene tutte le informazioni necessario per poter catturare i vari snapshot dello stato complessivo della partita durante il suo svolgimento.
+```scala
+final case class GameState(
+    players: Pair[Player],
+    board: Board,
+    assignedPawns: AssignedPawns,
+    allowedTiles: AllowedTiles,
+    turn: Turn,
+    playerScores: Scores,
+    isOver: Boolean,
+    isPaused: Boolean,
+    winner: Option[Player]
+)
+```
+La class `Pair` è stata definita all'interno del package `util` e rappresenta una coppia di elementi, in questo caso due `Player`.
+
+## Pair programming
