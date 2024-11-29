@@ -14,7 +14,6 @@ import scothello.controller.end.EndgameController
 import scothello.game.pages.Pages
 import scothello.model.game.config.Player
 import scothello.utils.Pair.oppositeOf
-import scothello.model.components.AssignedPawns.pawnCounts
 
 /** The view for the endgame page.
   */
@@ -89,7 +88,7 @@ private class BaseScalaFXEndgameView(mainScene: Scene, requirements: View.Requir
       val secondPlayer: Player = reactiveState.value.players.oppositeOf(firstPlayer).get
       label.setTextAlignment(TextAlignment.CENTER)
 
-      val scores: Map[Player, Int] = reactiveState.value.assignedPawns.pawnCounts
+      val scores: Map[Player, Int] = reactiveState.value.playerScores
 
       var secondPlayerScore: Int = 0
 

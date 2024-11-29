@@ -2,7 +2,6 @@ package scothello.model.game.state.ops
 
 import scothello.model.board.{AllowedTiles, Tile}
 import scothello.model.components.{AssignedPawns, Pawn, Scores}
-import scothello.model.components.AssignedPawns.pawnCounts
 import scothello.model.game.config.Player
 import scothello.model.game.{Turn, TurnManager}
 import scothello.model.game.state.GameState
@@ -109,9 +108,6 @@ object GameOps:
     *   the winner of the game
     */
   private def determineWinner(state: GameState): Option[Player] =
-    val pawnCounts: Map[Player, Int] = state.assignedPawns.pawnCounts
-
-    val (leadingPlayer, maxCount) = pawnCounts.maxBy(_._2)
-
-    if pawnCounts.values.count(_ == maxCount) > 1 then None
+    val (leadingPlayer, maxCount) = state.playerScores.maxBy(_._2)
+    if state.playerScores.values.count(_ == maxCount) > 1 then None
     else Some(leadingPlayer)
