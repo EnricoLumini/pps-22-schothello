@@ -85,7 +85,11 @@ class GameOpsTest extends BaseTest with PlayerProvider:
       Tile(5, 3) -> Pawn(whitePlayer),
       Tile(5, 5) -> Pawn(whitePlayer)
     )
-    val state = initialState.copy(assignedPawns = pawns)
+    val scores = Map(
+      blackPlayer -> 4,
+      whitePlayer -> 10
+    )
+    val state = initialState.copy(assignedPawns = pawns, playerScores = scores)
     val newState = state.endGame()
     newState.winner shouldBe Some(whitePlayer)
   }
