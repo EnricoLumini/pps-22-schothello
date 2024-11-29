@@ -465,19 +465,19 @@ L'implementazione delle `AllowedTiles` è stata fatta da [Francesco Ercolani](#f
 Le componenti `AssignedPawn`, `AllowedTiles` e `Scores` sono state implementate sfruttando i **type alias**, in modo da rendere il codice più leggibile.
 Di seguito sono riportati due esempi di definizione di **type alias**:
 * `AssignedPawns`
-```scala
-type AssignedPawns = Map[Tile, Pawn]
-
-object AssignedPawns:
-  // companion object with utility methods
-```
+  ```scala
+  type AssignedPawns = Map[Tile, Pawn]
+  
+  object AssignedPawns:
+    // companion object with utility methods
+  ```
 * `Scores`
-```scala
-type Scores = Map[Player, Int]
-
-object Scores:
-  // companion object with utility methods
-```
+  ```scala
+  type Scores = Map[Player, Int]
+  
+  object Scores:
+    // companion object with utility methods
+  ```
 
 ### Modellazione dello stato della partita
 In concomitanza della definizione delle componenti sopra citate, è stata modellata anche l'entità principale dello stato della partita, ovvero il `GameState`.
