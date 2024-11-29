@@ -7,6 +7,9 @@ import scothello.utils.Pair
 /** A pawn in a game of Scothello.
   */
 trait Pawn:
+
+  /** The player that owns the pawn.
+    */
   def player: Player
 
 object Pawn:
@@ -20,6 +23,15 @@ type AssignedPawns = Map[Tile, Pawn]
 object AssignedPawns:
   def empty: AssignedPawns = Map.empty[Tile, Pawn]
 
+  /** Initializes the assigned pawns.
+    *
+    * @param players
+    *   The players.
+    * @param centralTiles
+    *   The central tiles.
+    * @return
+    *   The assigned pawns.
+    */
   def initial(players: Pair[Player], centralTiles: CentralTiles): AssignedPawns = Map(
     centralTiles.upperLeft -> Pawn(players._2),
     centralTiles.lowerRight -> Pawn(players._2),
@@ -28,6 +40,11 @@ object AssignedPawns:
   )
 
   extension (assignedPawns: AssignedPawns)
+    /** Returns the number of pawns for each player.
+      *
+      * @return
+      *   The number of pawns for each player.
+      */
     def pawnCounts: Map[Player, Int] =
       assignedPawns.values
         .groupBy(_.player)

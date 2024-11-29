@@ -16,10 +16,14 @@ object TurnManager:
     playerIterator = LazyList.continually(Seq(players._1, players._2)).flatten.iterator
     initialTurnPlayer = playerIterator.next()
 
+  /** The initial turn.
+    */
   def initialTurn: Turn =
     currentTurnNumber = 1
     Turn.ValidTurn(1, initialTurnPlayer)
 
+  /** The next turn.
+    */
   def nextTurn: Turn =
     currentTurnNumber += 1
     Turn.ValidTurn(currentTurnNumber, playerIterator.next())

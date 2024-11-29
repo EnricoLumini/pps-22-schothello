@@ -3,22 +3,13 @@ package scothello.model.board
 import scothello.model.game.config.Player
 import scothello.model.components.AssignedPawns
 
-import java.security.PrivateKey
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ArrayBuffer
 
 /** A board for Schothello.
-  *
-  * @param rows
-  *   The number of rows in the board.
-  * @param cols
-  *   The number of columns in the board.
   */
-final case class Board(
-    override val rows: Int = 8,
-    override val cols: Int = 8
-) extends TiledBoard(rows, cols):
+final case class Board() extends TiledBoard(8, 8):
 
   /** The central tiles of the board. */
   val centralTiles: CentralTiles = CentralTiles(
@@ -51,13 +42,32 @@ object AllowedTiles:
   private val flips: ArrayBuffer[Tile] = ArrayBuffer.empty
   private val allowedTiles = mutable.Map.empty[Player, Set[Tile]]
 
+  /** Returns an empty AllowedTiles. */
   def empty: AllowedTiles = Map.empty[Player, Set[Tile]]
 
+  /** Initializes the AllowedTiles for a player.
+    *
+    * @param player
+    *   The player.
+    * @param assignedPawns
+    *   The assigned pawns.
+    * @return
+    *   The AllowedTiles.
+    */
   def initial(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
     this.resetMap()
     this.allowedTiles.clear()
     calculate(player, assignedPawns)
 
+  /** Calculates the AllowedTiles for a player.
+    *
+    * @param player
+    *   The player.
+    * @param assignedPawns
+    *   The assigned pawns.
+    * @return
+    *   The AllowedTiles.
+    */
   def calculate(player: Player, assignedPawns: AssignedPawns): AllowedTiles =
     allowedTiles.update(player, calculatePlayerAllowedTiles(player, assignedPawns).getOrElse(player, Set()))
     val allowed: AllowedTiles = allowedTiles.toMap
@@ -84,12 +94,36 @@ object AllowedTiles:
         player -> tiles.map(_._2).toSet
       }
 
+  /** Retrieves the adjacent tiles containing pawns belonging to the opponent of the specified player.
+    *
+    * @param tile
+    *   the reference tile from which to find adjacent opponent pawns
+    * @param player
+    *   the player whose opponent's pawns are being searched
+    * @param assignedPawns
+    *   the current map of tiles and their assigned pawns
+    * @return
+    *   a sequence of adjacent tiles occupied by opponent pawns
+    */
   private def getAdjacentOpponents(tile: Tile, player: Player, assignedPawns: AssignedPawns): Seq[Tile] =
     val adjacentPositions = adjacentTiles(tile)
     adjacentPositions.filter { adjTile =>
       assignedPawns.get(adjTile).exists(_.player != player)
     }
 
+  /** Calculates the new position of a pawn.
+    *
+    * @param playerTile
+    *   The player tile.
+    * @param opponentTile
+    *   The opponent tile.
+    * @param player
+    *   The player.
+    * @param assignedPawns
+    *   The assigned pawns.
+    * @return
+    *   The new position of the pawn.
+    */
   @tailrec
   private def calculateNewPosition(
       playerTile: Tile,
@@ -119,6 +153,13 @@ object AllowedTiles:
           None
     else None
 
+  /** Retrieves the adjacent tiles of a given tile.
+    *
+    * @param tile
+    *   the reference tile from which to find adjacent tiles
+    * @return
+    *   a sequence of adjacent tiles
+    */
   private def adjacentTiles(tile: Tile): Seq[Tile] =
     val (x, y) = (tile.row, tile.col)
     Seq(
@@ -134,14 +175,42 @@ object AllowedTiles:
       case (row, col) if row >= 0 && row < 8 && col >= 0 && col < 8 => Tile(row, col)
     }
 
+  /** Checks if a player has no allowed moves.
+    *
+    * @param allowedTiles
+    *   The allowed tiles.
+    * @param player
+    *   The player.
+    * @return
+    *   True if the player has no allowed moves, false otherwise.
+    */
   def checkIfPlayerNoAllowedMoves(allowedTiles: AllowedTiles, player: Player): Boolean =
     allowedTiles.get(player).exists(_.isEmpty)
 
+  /** Checks if there are no allowed moves.
+    *
+    * @param allowedTiles
+    *   The allowed tiles.
+    * @return
+    *   True if there are no allowed moves, false otherwise.
+    */
   def checkIfNoAllowedMoves(allowedTiles: AllowedTiles): Boolean =
     allowedTiles.forall { case (_, tiles) => tiles.isEmpty }
 
+  /** Checks if a tile is allowed.
+    *
+    * @param allowedTiles
+    *   The allowed tiles.
+    * @param player
+    *   The player.
+    * @param tile
+    *   The tile.
+    * @return
+    *   True if the tile is allowed, false otherwise.
+    */
   def checkIfTileIsAllowed(allowedTiles: AllowedTiles, player: Player, tile: Tile): Boolean =
     allowedTiles.get(player).exists(_.contains(tile))
 
+  /** Resets the flips map. */
   def resetMap(): Unit =
     flipsMap.clear()
