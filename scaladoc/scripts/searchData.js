@@ -89,7 +89,7 @@ pages = [{"l":"index.html#","e":false,"i":"","n":"Scothello","t":"Scothello","d"
 {"l":"scothello/model/board/AllowedTiles$.html#flipsMap-0","e":false,"i":"","n":"flipsMap","t":"flipsMap: Map[Tile, ArrayBuffer[Tile]]","d":"scothello.model.board.AllowedTiles","k":"val","x":""},
 {"l":"scothello/model/board/AllowedTiles$.html#initial-fffffbf7","e":false,"i":"","n":"initial","t":"initial(player: Player, assignedPawns: AssignedPawns): AllowedTiles","d":"scothello.model.board.AllowedTiles","k":"def","x":""},
 {"l":"scothello/model/board/AllowedTiles$.html#resetMap-94c","e":false,"i":"","n":"resetMap","t":"resetMap(): Unit","d":"scothello.model.board.AllowedTiles","k":"def","x":""},
-{"l":"scothello/model/board/Board.html#","e":false,"i":"","n":"Board","t":"Board(rows: Int, cols: Int) extends TiledBoard","d":"scothello.model.board","k":"class","x":""},
+{"l":"scothello/model/board/Board.html#","e":false,"i":"","n":"Board","t":"Board() extends TiledBoard","d":"scothello.model.board","k":"class","x":""},
 {"l":"scothello/model/board/Board.html#centralTiles-0","e":false,"i":"","n":"centralTiles","t":"centralTiles: CentralTiles","d":"scothello.model.board.Board","k":"val","x":""},
 {"l":"scothello/model/board/Board.html#size-0","e":false,"i":"","n":"size","t":"size: Int","d":"scothello.model.board.Board","k":"val","x":""},
 {"l":"scothello/model/board/CentralTiles.html#","e":false,"i":"","n":"CentralTiles","t":"CentralTiles(upperLeft: Tile, upperRight: Tile, lowerLeft: Tile, lowerRight: Tile)","d":"scothello.model.board","k":"class","x":""},
