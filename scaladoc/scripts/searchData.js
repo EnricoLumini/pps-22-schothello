@@ -108,7 +108,6 @@ pages = [{"l":"index.html#","e":false,"i":"","n":"Scothello","t":"Scothello","d"
 {"l":"scothello/model/components/AssignedPawns$.html#","e":false,"i":"","n":"AssignedPawns","t":"AssignedPawns","d":"scothello.model.components","k":"object","x":""},
 {"l":"scothello/model/components/AssignedPawns$.html#empty-0","e":false,"i":"","n":"empty","t":"empty: AssignedPawns","d":"scothello.model.components.AssignedPawns","k":"def","x":""},
 {"l":"scothello/model/components/AssignedPawns$.html#initial-4be","e":false,"i":"","n":"initial","t":"initial(players: Pair[Player], centralTiles: CentralTiles): AssignedPawns","d":"scothello.model.components.AssignedPawns","k":"def","x":""},
-{"l":"scothello/model/components/AssignedPawns$.html#pawnCounts-50","e":false,"i":"extension (assignedPawns: AssignedPawns)","n":"pawnCounts","t":"pawnCounts: Map[Player, Int]","d":"scothello.model.components.AssignedPawns","k":"def","x":""},
 {"l":"scothello/model/components/Pawn.html#","e":false,"i":"","n":"Pawn","t":"Pawn","d":"scothello.model.components","k":"trait","x":""},
 {"l":"scothello/model/components/Pawn.html#player-0","e":false,"i":"","n":"player","t":"player: Player","d":"scothello.model.components.Pawn","k":"def","x":""},
 {"l":"scothello/model/components/Pawn$.html#","e":false,"i":"","n":"Pawn","t":"Pawn","d":"scothello.model.components","k":"object","x":""},
