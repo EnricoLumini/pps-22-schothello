@@ -31,6 +31,14 @@ collaborativo e produttivo.
 
 
 ## Enrico Lumini 
+Il progetto è stato molto interessante e mi ha permesso di approfondire le mie conoscenze di Scala e della programmazione funzionale.
+Tuttavia, il tempo a mia disposizione è stato limitato, in quanto ho dovuto bilanciare lo sviluppo del progetto con gli impegni lavorativi. 
+Questo ha inevitabilmente ridotto la possibilità di approfondire alcune implementazioni che avrebbero potuto beneficiare di un approccio più strutturato e dell'uso di elementi più avanzati di Scala.
+
+Nonostante queste difficoltà, sono estremamente soddisfatto del risultato ottenuto. 
+Il progetto finale non solo ha raggiunto gli obiettivi prefissati, ma mi ha anche permesso di affrontare aspetti complementari alla programmazione, ampliando le mie competenze.
+
+Un ringraziamento particolare va al mio collega, che mi ha supportato nei momenti in cui gli impegni lavorativi mi impedivano di dedicarmi pienamente al progetto, dimostrando grande collaborazione e disponibilità.
 
 ## Sviluppi futuri
 Essendo il gioco _Othello_ caratterizzato da regole ben definite e immutabili, gli sviluppi futuri non possono riguardare 
