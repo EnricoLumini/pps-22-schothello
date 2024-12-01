@@ -28,13 +28,6 @@ Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti p
   * sistema di notifica
   * fine partita
 
-Per quanto riguarda invece le parti per le quali il mio contributo è stato parziale e/o complementare,
-figurano le seguenti parti:
- 
-* Setup iniziale della repository
-* Integrazione MVC con ScalaFX
-* Situazioni di refactor
-
 ### Realizzazione aspetti di graphic user interface
 
 Per sfruttare appieno l'elasticità di ScalaFX e per rendere lo stile generale del gioco uniforme, mantenendo
@@ -166,35 +159,7 @@ Tale operazioni sono state implementate all'interno di `GameOps`. Ciascuna di es
 `GameController`.
 
 Un'operazione ritorna un `GameState`, ciò significa che il model prende uno stato e ritorna una stato,
-aggiornandolo così di conseguenza. 
-
-Vediamo come esempio l'operazione `calculateAllowedPos` che si occupa del calcolo delle posizioni all'interno
-della board nelle quali un player può piazzare una pedina del suo colore:
-
-```scala
-def calculateAllowedPos(): GameState =
-  state.copy(
-    allowedTiles = AllowedTiles.calculate(state.turn.player, state.assignedPawns)
-  )
-```
-
-Tale funzione ritorna uno stato con `allowedTiles` aggiornato attraverso la funzione `calculate` dell'object 
-`AllowedTiles`. La calculate prende in ingresso il player che detiene il turno e la situazione delle pedine
-attuale sulla board (`assignedPawns`), applicando l'algoritmo di calcolo delle posizioni nelle quali è 
-possibile piazzare pedina.
-
-Il GameState ritornato viene quindi passato alla funzione `update` di `model`
-
-```scala
-override def calculateAllowedPos(): Unit =
-  this.model.update(_.calculateAllowedPos())
-```
-
-Vediamo nel dettaglio `update`:
-
-```scala
-override def update(u: GameState => GameState): Unit = _state = u(_state)
-```
+aggiornandolo così di conseguenza.
 
 Di seguito darò una breve descrizione dell'algoritmo che ho pensato e reputato essere il più efficace per
 la nostra struttura applicativa. Prendiamo come esempio una griglia 4x4 per semplicità e la seguente 
