@@ -16,160 +16,25 @@ nav_order: 6
 ## Francesco Ercolani
 Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti parti:
 
-* Realizzazione aspetti di graphic user interface:
-  * organizzazione in fogli di stile della view
-  * scelta e uniformazione aspetti di stile/design generale delle pagine
-  * creazione pagina di inizio partita1
-  * creazione pagina crediti
+* Creazione e implementazione algoritmo posizioni permesse e flip pedine
+* Gestione del turno di gioco
+* Creazione pagina di inizio partita
+* Creazione pagina crediti
+* Implementazione gestione mosse non disponibili
+* Organizzazione in fogli di stile della view
+* Scelta e uniformazione aspetti di stile/design generale delle pagine
 
-* Implementazione della logica di gioco:
-  * gestione turno
-  * algoritmo posizioni permesse e flip pedine
-  * sistema di notifica
-  * fine partita
-
-### Realizzazione aspetti di graphic user interface
-
-Per sfruttare appieno l'elasticità di ScalaFX e per rendere lo stile generale del gioco uniforme, mantenendo
-quindi colori, forme e dimensioni degli elementi comuni alle varie pagine, ho optato per l'utilizzo dei fogli 
-di stile.
-
-All'interno del package `resources` troviamo:
-* `imgs`: contenente le immagini di background delle singole pagine e i loghi utilizzati
-* `styles`: contente i file css 
-
-Il meccanismo utilizzato per avere uno stile uniforme per elementi come i bottoni o i text field
-mantenendo la possibilità di modificare determinate caratteristiche specifiche in contesti separati dalle 
-pagine, consiste nella creazione di un file css `rootstyle.css` che detta le caratteristiche generali, e una serie 
-di css (uno per pagina) che descrivono gli elementi di stile più specifici.
-
-L'object `ScothelloFXApp` è l'entry point dell'applicazione grafica in quanto estende `JFXApp3`. 
-Al suo interno avviene la creazione dello `Stage` primario che contiene la `rootScene`.
-È proprio a quest'ultima  che viene assegnato il css di definizione dello stile generale. Di seguito 
-vediamo come:
-
-```scala
-lazy val rootScene: Scene = new Scene:
-  root = new Pane()
-  stylesheets = List(getClass.getResource("/styles/rootstyle.css").toExternalForm)
-
-override def start(): Unit =
-  stage = new JFXApp3.PrimaryStage:
-    title = "Scothello"
-    scene = rootScene
-    width = 1000
-    height = 1000
-    resizable = false
-  postInitAction()
-```
-
-Seguendo quindi questo meccanismo di assegnazione dei fogli di stile alle varie schermate è stato mio compito 
-quello di far sì che gli elementi fossero predisposti in modo coerente e adottassero uno stile adatto
-al contesto dell'applicazione.
-
-Mi sono occupato della creazione della pagina di crediti `CreditsView`, nella quale attraverso una transizione di scorrimento testo 
-dal basso verso l'alto si mostrano i componenti del team, e della pagina di inizio partita `StartView` nella quale vengono
-inseriti i nickname dei due partecipanti e alla pressione del tasto _start_ viene iniziata la partita.
-Vediamo quest'ultimo passaggio per chiarire il meccanismo:
-```scala
-trait StartView extends View
-
-object StartView:
-  def apply(scene: Scene, requirements: View.Requirements[StartController]): StartView =
-    BaseScalaFXStartView(scene, requirements)
-
-private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirements[StartController])
-    extends BaseScalaFXView(mainScene, requirements)
-    with StartView:
-
-  override def parent: Parent = new VBox:
-    spacing = 30
-    alignment = Center
-    stylesheets = List(getClass.getResource("/styles/startpage.css").toExternalForm)
-    
-            ...
-
-    if validInput then
-            controller.startGame((player1Name, player2Name))
-    navigateToGamePage()
-            ...
-
-```
-
-Così come tutte le altre pagine, quest'ultima è associata al rispettivo controller, e grazie al meccanismo
-ispirato al cake pattern è possibile chiamare l'operazione `startgame` su controller.
-Quest'ultima aggiorna il model assegnando i nickname ai player come valori dello stato:
-
-```scala
-/** Controller for the home page */
-trait StartController extends Controller:
-
-  /** Starts the game
-    *
-    * @param usernames
-    *   the usernames of the players
-    */
-  def startGame(usernames: Pair[String]): Unit
-
-object StartController:
-
-  def apply(requirements: Controller.Requirements[StartView]): StartController =
-    StartControllerImpl(requirements)
-
-private class StartControllerImpl(requirements: Controller.Requirements[StartView])
-    extends BaseController(requirements)
-    with StartController:
-
-  override def startGame(usernames: Pair[String]): Unit =
-    this.model.update(_ => StartOps.startGame(usernames))
-```
-
-Vediamo l'implementazione dell'operazione in `StartOps`
-```scala
-def startGame(usernames: Pair[String]): GameState =
-  val state = GameState()
-  val players: Pair[Player] = Pair(
-    Player(usernames._1, PlayerColor.Black),
-    Player(usernames._2, PlayerColor.White)
-  )
-  val initialAssignedPawns: AssignedPawns =
-    AssignedPawns.initial(players, state.board.centralTiles)
-
-  TurnManager(players)
-
-  state.copy(
-    players = players,
-    assignedPawns = initialAssignedPawns,
-    allowedTiles = AllowedTiles.initial(players._1, initialAssignedPawns),
-    turn = TurnManager.initialTurn,
-    playerScores = Scores.calculateScores(initialAssignedPawns)
-  )
-```
-
-### Implementazione della logica di gioco
-
-Il contributo maggiore che ho portato al progetto è stato quello riguardante lo sviluppo delle funzionalità
-core del gioco _Othello_. Le operazioni che il gioco deve gestire sono:
-* Gestione del turno
-* Calcolo delle mosse disponibili per il player che detiene il turno
-* Posizionamento di una pedina
-* Flip delle pedine "catturate"
-
-Tale operazioni sono state implementate all'interno di `GameOps`. Ciascuna di essa viene chiamata attraverso
-`GameController`.
-
-Un'operazione ritorna un `GameState`, ciò significa che il model prende uno stato e ritorna una stato,
-aggiornandolo così di conseguenza.
+### Algoritmo posizioni permesse
 
 Di seguito darò una breve descrizione dell'algoritmo che ho pensato e reputato essere il più efficace per
 la nostra struttura applicativa. Prendiamo come esempio una griglia 4x4 per semplicità e la seguente 
 situazione di gioco (a destra):
 
+![Schema algoritmo 1](../img/05-implementation/algorithm-scheme1.png)
+
 L'algoritmo prende in esame le pedine del player che detiene il turno (in questo caso il nero) e per ognuna di
 essa controlla le pedine avversarie adiacenti. Per ogni pedina avversaria adiacente viene calcolata quella
 che ho rinominato come "new position", ovvero il risultato del seguente calcolo:
-
-![Schema algoritmo 1](../img/05-implementation/algorithm-scheme1.png)
 
 ```scala
 val newRow = opponentTile.row - (playerTile.row - opponentTile.row)
@@ -225,25 +90,92 @@ Vediamo il codice della funzione *tail recursive*:
           None
     else None
 ```
+### Algoritmo flip pedine
 
-L'algoritmo sfrutta inoltre questo processing per memorizzare tutte le posizioni delle pedine che subiranno
-il flip nel caso in cui verrà scelta quella specifica posizione permessa.
-
-Tutte le operazioni di gioco sono state testate, in particolare all'interno di `BoardTest` ho voluto simulare
-l'esecuzione di una partita controllando step per step che venisse tutto eseguito correttamente. Vediamo un
-esempio:
+L'algoritmo sfrutta inoltre questo processing per memorizzare tutte le posizioni delle pedine, all'interno
+della struttura `flipsMap`, che subiranno  il flip nel caso in cui verrà scelta quella specifica posizione permessa.
 
 ```scala
-it should "calculate allowed tiles after a move is made" in {
-  val assignedPawns = createInitialAssignedPawns() + (Tile(2, 3) -> Pawn(twoPlayers._1))
-  val allowedTiles = AllowedTiles.calculate(twoPlayers._2, assignedPawns)
-  val expectedTiles = Set(
-    Tile(1, 3),
-    Tile(2, 4),
-    Tile(3, 5),
-    Tile(4, 2),
-    Tile(5, 3)
+def flipPawns(tile: Tile): GameState =
+  val array = AllowedTiles.flipsMap.getOrElse(tile, ArrayBuffer.empty[Tile])
+
+  val newAssignedPawns: AssignedPawns = state.assignedPawns.collect {
+    case (t, pawn) if array.contains(t) =>
+      t -> Pawn(state.turn.player)
+    case (t, pawn) =>
+      t -> pawn
+  }
+
+  AllowedTiles.resetMap()
+  state.copy(
+    assignedPawns = newAssignedPawns,
+    playerScores = Scores.calculateScores(newAssignedPawns)
   )
+```
+
+Viene creata una nuova mappa delle pedine `newAssignedPawns` applicando un pattern-matching per aggiornare solo quelle coinvolte, 
+lasciando intatte le altre. Infine, aggiorna lo stato di gioco ritornando un nuovo `GameState` con le pedine aggiornate e 
+i punteggi ricalcolati.
+
+### Realizzazione aspetti di graphic user interface
+
+Per sfruttare appieno l'elasticità di ScalaFX e per rendere lo stile generale del gioco uniforme, mantenendo
+quindi colori, forme e dimensioni degli elementi comuni alle varie pagine, ho optato per l'utilizzo dei fogli
+di stile.
+
+All'interno del package `resources` troviamo:
+* `imgs`: contenente le immagini di background delle singole pagine e i loghi utilizzati
+* `styles`: contente i file css
+
+Il meccanismo utilizzato per avere uno stile uniforme per elementi come i bottoni o i text field
+mantenendo la possibilità di modificare determinate caratteristiche specifiche in contesti separati dalle
+pagine, consiste nella creazione di un file css `rootstyle.css` che detta le caratteristiche generali, e una serie
+di css (uno per pagina) che descrivono gli elementi di stile più specifici.
+
+L'object `ScothelloFXApp` è l'entry point dell'applicazione grafica in quanto estende `JFXApp3`.
+Al suo interno avviene la creazione dello `Stage` primario che contiene la `rootScene`.
+È proprio a quest'ultima  che viene assegnato il css di definizione dello stile generale. Di seguito
+vediamo come:
+
+```scala
+lazy val rootScene: Scene = new Scene:
+  root = new Pane()
+  stylesheets = List(getClass.getResource("/styles/rootstyle.css").toExternalForm)
+
+override def start(): Unit =
+  stage = new JFXApp3.PrimaryStage:
+    title = "Scothello"
+    scene = rootScene
+    width = 1000
+    height = 1000
+    resizable = false
+  postInitAction()
+```
+
+Seguendo quindi questo meccanismo di assegnazione dei fogli di stile alle varie schermate è stato mio compito
+quello di far sì che gli elementi fossero predisposti in modo coerente e adottassero uno stile adatto
+al contesto dell'applicazione.
+
+Mi sono occupato della creazione della pagina di crediti `CreditsView`, nella quale attraverso una transizione di scorrimento testo
+dal basso verso l'alto si mostrano i componenti del team, e della pagina di inizio partita `StartView` nella quale vengono
+inseriti i nickname dei due partecipanti e alla pressione del tasto _start_ viene iniziata la partita.
+```scala
+trait StartView extends View
+
+object StartView:
+  def apply(scene: Scene, requirements: View.Requirements[StartController]): StartView =
+    BaseScalaFXStartView(scene, requirements)
+
+private class BaseScalaFXStartView(mainScene: Scene, requirements: View.Requirements[StartController])
+    extends BaseScalaFXView(mainScene, requirements)
+    with StartView:
+
+  override def parent: Parent = new VBox:
+    spacing = 30
+    alignment = Center
+    stylesheets = List(getClass.getResource("/styles/startpage.css").toExternalForm)
+    
+    // stuff
 ```
 
 ### Contributo parziale e/o complementare
@@ -276,6 +208,7 @@ _given instances_:
 
     children.addAll(header, notificationsBar, board, stopButton)
 ```
+
 
 ## Enrico Lumini
 Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti parti:
@@ -406,7 +339,7 @@ class ResettableObjectProperty[T](initialValue: T) extends ObjectProperty[T](new
     subscriptions = List.empty
 ```
 #### Game page
-La costruzione dei vari componenti viene effettuata all'interno della `GamePage` che è il componente che si occupa di istanziare la view e iul rispettivo controller passandogli le dipendenze necessarie.
+La costruzione dei vari componenti viene effettuata all'interno della `GamePage` che è il componente che si occupa di istanziare la view e il rispettivo controller passandogli le dipendenze necessarie.
 ```scala
 trait GamePage[C <: Controller, V <: View](
   override val model: Model,
@@ -455,7 +388,7 @@ final case class GameState(
     winner: Option[Player]
 )
 ```
-La class `Pair` è stata definita all'interno del package `util` e rappresenta una coppia di elementi, in questo caso due `Player`.
+La class `Pair` è stata definita all'interno del package `utils` e rappresenta una coppia di elementi, in questo caso due `Player`.
 
 ### Calcolo del punteggio e definizione del vincitore
 Il calcolo del punteggio è stato implementato all'interno della classe `Scores` grazie alla funzione `calculateScores` che prende in input le `AssignedPawns` e restituisce i punteggi dei due giocatori.

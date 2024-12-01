@@ -48,7 +48,7 @@ La struttura del Controller è ispirata al _Cake Pattern_, al fine di rendere la
 Nella View vengono sfruttati i Mixin, in particolare per supportare la navigabilità tra le varie pagine di gioco e per l'integrazione di ScalaFX.
 Il Mixin `ScalaFXView` si occupa di gestire la funzionalità di _show_, mentre il Mixin `NavigatorView` si occupa di gestire la navigazione tra le varie pagine di gioco.
 
-Inoltre la `ScalaFXView` espone anche uno stato reattivo che può essere utilizzato nelle varie View e tenuto sempre aggiornato a ogni modifica propaga dal Controller.
+Inoltre la `ScalaFXView` espone anche uno stato reattivo che può essere utilizzato nelle varie View e tenuto sempre aggiornato a ogni modifica propagata dal Controller.
 Questo rende semplice lo sviluppo delle views, in quanto tutto quello che viene mostrato graficamente è dipendente dallo stato reattivo e viene aggiornato automaticamente.
 
 ### Game
@@ -56,7 +56,7 @@ Questo rende semplice lo sviluppo delle views, in quanto tutto quello che viene 
 Per completare la gestione di MVC è presente il componente `GamePage`, ovvero l'istanza di una pagina di gioco che consiste nella referenza del Model, del Controller e della View.
 Questo componente serve per costruire insieme le tre componenti del pattern MVC e collegarle tra loro.
 
-`Pages` è un'enum che rappresenta le pagine del gioco, ciascuna associata a una `PageFactory` per creare la vista e il controller corrispondenti.
+`Pages` è un enum che rappresenta le pagine del gioco, ciascuna associata a una `PageFactory` per creare la vista e il controller corrispondenti.
 Il componente responsabile della gestione di queste pagine è `ScothelloGame` che gestisce il mapping delle `Pages` all'istanza di `GamePage` corrispondente.
 
 ## Stato della partita
