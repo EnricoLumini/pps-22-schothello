@@ -19,7 +19,7 @@ Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti p
 * Realizzazione aspetti di graphic user interface:
   * organizzazione in fogli di stile della view
   * scelta e uniformazione aspetti di stile/design generale delle pagine
-  * creazione pagina di inizio partita
+  * creazione pagina di inizio partita1
   * creazione pagina crediti
 
 * Implementazione della logica di gioco:
@@ -291,11 +291,6 @@ Il mio contributo nello sviluppo del progetto _Scothello_ riguarda le seguenti p
 * Implementazione del timer
 * Implementazione conteggio del punteggio
 * Implementazione azioni di pausa/ripristino e fine partita
-* Gestione delle CI per testing e deploy della documentazione
-
-
-Per quanto riguarda invece le parti per le quali il mio contributo è stato parziale e/o complementare,
-figurano le seguenti parti:
 
 ### MVC
 L'architettura MVC è inspirata al Cake Pattern, si può notare infatti come ognuno dei tre componenti abbia ad esempio il concetto di dipendenza, gestite tramite un Mixin che trasforma i requirements in proprietà del componente.
@@ -462,4 +457,29 @@ final case class GameState(
 ```
 La class `Pair` è stata definita all'interno del package `util` e rappresenta una coppia di elementi, in questo caso due `Player`.
 
+### Calcolo del punteggio e definizione del vincitore
+Il calcolo del punteggio è stato implementato all'interno della classe `Scores` grazie alla funzione `calculateScores` che prende in input le `AssignedPawns` e restituisce i punteggi dei due giocatori.
+```scala
+def calculateScores(assignedPawns: AssignedPawns): Scores =
+    assignedPawns
+      .groupBy(_._2.player)
+      .map { case (player, pawns) => player -> pawns.size }
+```
+La funzione implementata utilizza un approccio funzionale per calcolare i punteggi, sfruttando il metodo `groupBy` di Scala per raggruppare le pedine assegnate per giocatore e il metodo `map` per calcolare il punteggio di ciascun giocatore.
+Tale funzione viene richiamata dopo ogni flip delle pedine conseguente al posizionamento di una pedina da parte di un giocatore, in modo da aggiornare i punteggi di quest'ultimi in maniera consistente.
+Al momento della fine della partita, il vincitore viene calcolato in base ai punteggi dei due giocatori.
+```scala
+ private def determineWinner(state: GameState): Option[Player] =
+    val (leadingPlayer, maxCount) = state.playerScores.maxBy(_._2)
+    if state.playerScores.values.count(_ == maxCount) > 1 then None
+    else Some(leadingPlayer)
+```
+La funzione `determineWinner` individua il giocatore con il punteggio più alto tramite il metodo `maxBy` e verifica se il punteggio massimo è condiviso da più giocatori.
+Restituisce `None` in caso di pareggio o il giocatore vincente in caso contrario. 
+
 ## Pair programming
+Nel corso del progetto, il pair programming si è rivelato un metodo estremamente efficace per migliorare la qualità del lavoro e garantire una collaborazione continua tra i membri del team. 
+Questo approccio ci ha permesso di condividere conoscenze e affrontare insieme le sfide più complesse. 
+In particolare, abbiamo applicato il pair programming per definire e configurare le pipeline di Continuous Integration, assicurando l'esecuzione automatica dei test e il deployment della documentazione in modo affidabile ed efficiente. 
+Inoltre, abbiamo collaborato per integrare l'architettura MVC con ScalaFX, garantendo una separazione ben strutturata delle responsabilità tra Model, View e Controller. 
+Infine, questa metodologia ci ha supportato anche durante le sessioni di refactoring, consentendoci di migliorare il codice esistente in termini di leggibilità, manutenibilità e coerenza.
